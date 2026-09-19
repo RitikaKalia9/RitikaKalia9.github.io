@@ -31,12 +31,15 @@
 
 html { scroll-behavior: smooth; }
 
+/* FIX: overflow-x:hidden on <body> silently turns it into a scroll container
+   and kills position:sticky for every descendant. `clip` does not. */
+html, body { overflow-x: clip; }
+
 body {
   font-family: 'Inter', sans-serif;
   background: #04020a;
   color: var(--text);
   line-height: 1.7;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   position: relative;
   min-height: 100vh;
@@ -323,6 +326,7 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   border: 1px solid var(--border);
   border-radius: var(--radius); overflow: hidden;
   font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+  position: relative;
 }
 .terminal-header {
   display: flex; align-items: center; gap: 0.5rem;
@@ -352,6 +356,7 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   border: 1px solid var(--border);
   border-radius: var(--radius); padding: 1.5rem;
   transition: all 0.4s ease;
+  position: relative; /* FIX: containing block for the spotlight */
 }
 .stack-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .stack-head {
@@ -372,11 +377,30 @@ section { padding: 120px 0; position: relative; z-index: 5; }
 .stack-tag:hover { background: rgba(167, 139, 250, 0.15); border-color: var(--accent); }
 
 /* ============================================================
-   PROJECTS
+   PROJECTS  — FIXED
    ============================================================ */
-.projects-list { display: flex; flex-direction: column; gap: 2rem; padding-bottom: 20vh; }
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 20vh;
+  /* FIX: removed `perspective` — it double-stacked with the per-card
+     perspective() inside the transform and warped the sticky cards. */
+}
+
 .project-item {
-  position: sticky; top: 100px;
+  /* ---- sticky stack ---- */
+  position: sticky;
+  /* FIX: staggered offsets so the stack is actually visible instead of
+     all six cards piling on the exact same pixel. */
+  top: calc(100px + var(--i, 0) * 16px);
+  /* FIX: stacking order is decided by DOM order, never by :hover.
+     This is what stopped the flicker/jump loop. */
+  z-index: calc(1 + var(--i, 0));
+
+  --mx: 50%;
+  --my: 50%;
+
   background: linear-gradient(145deg, rgba(15, 10, 31, 0.9) 0%, rgba(12, 8, 25, 0.94) 100%);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
@@ -385,9 +409,36 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 2.5rem; align-items: center;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  transition: border-color 0.4s;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  /* FIX: no transform. Ever. A transform on a sticky element is what made
+     the cards detach, skew, and pop over their neighbours. */
+  transform: none;
 }
-.project-item:hover { border-color: var(--border-hover); }
+
+.project-item:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(167,139,250,0.08);
+}
+
+/* FIX: reveal for project cards is opacity-only, so it never fights the
+   sticky positioning and keeps the hover transitions alive. */
+.project-item.reveal {
+  opacity: 0;
+  transform: none;
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+.project-item.reveal.active { opacity: 1; transform: none; }
+
+/* Spotlight only — no tilt, no z-index swap */
+.project-item .card-spotlight {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.project-item:hover .card-spotlight { opacity: 1; }
+
 .project-num {
   font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
   color: var(--accent2); letter-spacing: 2px; margin-bottom: 0.8rem;
@@ -556,12 +607,9 @@ footer .heart { color: var(--accent); }
 /* ============================================================
    CARD FX — 3D tilt, spotlight, staggered reveal, count-ups
    ============================================================ */
-.bento-grid,
-.stack-grid,
-.pub-grid,
-.projects-list {
-  perspective: 1400px;
-}
+/* FIX: removed the shared `perspective` on the grids — each card now
+   carries its own perspective() inside the transform, and doubling the
+   two was warping the cards. */
 
 .card-fx {
   isolation: isolate;
@@ -608,7 +656,7 @@ footer .heart { color: var(--accent); }
   opacity: 0;
   transition: opacity 0.35s ease;
   background: radial-gradient(
-    circle 340px at var(--mx) var(--my),
+    circle 340px at var(--mx, 50%) var(--my, 50%),
     rgba(167, 139, 250, 0.22),
     rgba(34, 211, 238, 0.08) 40%,
     transparent 72%
@@ -725,7 +773,13 @@ footer .heart { color: var(--accent); }
   .profile-photo { width: 200px; height: 200px; }
   .bento-grid { grid-template-columns: repeat(2, 1fr); }
   .bento-item.span-3, .bento-item.span-4 { grid-column: span 2; }
-  .project-item { position: relative; top: 0; grid-template-columns: 1fr; padding: 1.5rem; }
+  /* Sticky stack is disabled on narrow screens — no offsets needed. */
+  .project-item {
+    position: relative;
+    top: 0;
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
   .projects-list { padding-bottom: 0; }
 }
 @media (max-width: 768px) {
@@ -2376,7 +2430,8 @@ footer .heart { color: var(--accent); }
 
 /* ============================================================
    CARD ANIMATION ENGINE
-   - 3D tilt + spotlight
+   - 3D tilt + spotlight (small/medium cards only)
+   - Spotlight-only for the sticky project cards
    - Staggered grid reveals
    - Number count-up
    ============================================================ */
@@ -2384,38 +2439,43 @@ footer .heart { color: var(--accent); }
   const isTouch = 'ontouchstart' in window;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Stagger ---------- */
-  document.querySelectorAll('.bento-grid, .stack-grid, .pub-grid, .contact-socials')
+  /* ---------- Stagger / index every card grid ---------- */
+  document
+    .querySelectorAll('.bento-grid, .stack-grid, .pub-grid, .projects-list, .contact-socials')
     .forEach(grid => {
       Array.from(grid.children).forEach((child, i) => {
         child.style.setProperty('--i', i);
       });
     });
 
-  /* ---------- 3D tilt + spotlight ---------- */
+  /* ---------- Spotlight helper ---------- */
+  function addSpotlight(card) {
+    if (card.querySelector(':scope > .card-spotlight')) return;
+    const sp = document.createElement('div');
+    sp.className = 'card-spotlight';
+    sp.setAttribute('aria-hidden', 'true');
+    card.insertBefore(sp, card.firstChild);
+  }
+
   if (!isTouch && !reduced) {
-    const SELECTOR = '.bento-item, .project-item, .stack-card, .pub-card, .quote-strip, .terminal';
 
-    document.querySelectorAll(SELECTOR).forEach(card => {
-      card.classList.add('card-fx');
+    /* ===== 1. Small / medium cards → 3D tilt + spotlight ===== */
+    const TILT_SELECTOR = '.bento-item, .stack-card, .pub-card, .quote-strip, .terminal';
 
-      if (!card.querySelector(':scope > .card-spotlight')) {
-        const sp = document.createElement('div');
-        sp.className = 'card-spotlight';
-        sp.setAttribute('aria-hidden', 'true');
-        card.insertBefore(sp, card.firstChild);
+    document.querySelectorAll(TILT_SELECTOR).forEach(card => {
+      if (getComputedStyle(card).position === 'static') {
+        card.style.position = 'relative';
       }
+      card.classList.add('card-fx');
+      addSpotlight(card);
 
-      const isLarge = card.classList.contains('project-item') ||
-                      card.classList.contains('quote-strip') ||
+      const isLarge = card.classList.contains('quote-strip') ||
                       card.classList.contains('terminal');
       const TILT = isLarge ? 2.2 : 5.5;
 
       let raf = 0;
-      let targetRX = 0, targetRY = 0;
-      let currRX = 0, currRY = 0;
-      let targetMX = 50, targetMY = 50;
-      let currMX = 50, currMY = 50;
+      let targetRX = 0, targetRY = 0, currRX = 0, currRY = 0;
+      let targetMX = 50, targetMY = 50, currMX = 50, currMY = 50;
       let hovering = false;
 
       function loop() {
@@ -2435,11 +2495,7 @@ footer .heart { color: var(--accent); }
           Math.abs(targetMX - currMX) < 0.05 &&
           Math.abs(targetMY - currMY) < 0.05;
 
-        if (hovering || !settled) {
-          raf = requestAnimationFrame(loop);
-        } else {
-          raf = 0;
-        }
+        raf = (hovering || !settled) ? requestAnimationFrame(loop) : 0;
       }
 
       card.addEventListener('mouseenter', () => {
@@ -2452,24 +2508,33 @@ footer .heart { color: var(--accent); }
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width;
         const py = (e.clientY - r.top) / r.height;
-
         targetRY = (px - 0.5) * 2 * TILT;
         targetRX = (0.5 - py) * 2 * TILT;
         targetMX = px * 100;
         targetMY = py * 100;
-
         if (!raf) raf = requestAnimationFrame(loop);
-      });
+      }, { passive: true });
 
       card.addEventListener('mouseleave', () => {
         hovering = false;
         card.classList.remove('card-active');
-        targetRX = 0;
-        targetRY = 0;
-        targetMX = 50;
-        targetMY = 50;
+        targetRX = targetRY = 0;
+        targetMX = targetMY = 50;
         if (!raf) raf = requestAnimationFrame(loop);
       });
+    });
+
+    /* ===== 2. Sticky project cards → spotlight ONLY =====
+       No transform and no z-index change: both fight with
+       position:sticky and made the stacked cards flicker, jump
+       and pop over their neighbours. */
+    document.querySelectorAll('.project-item').forEach(card => {
+      addSpotlight(card);
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(2) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(2) + '%');
+      }, { passive: true });
     });
   }
 
