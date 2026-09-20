@@ -31,8 +31,6 @@
 
 html { scroll-behavior: smooth; }
 
-/* FIX: overflow-x:hidden on <body> silently turns it into a scroll container
-   and kills position:sticky for every descendant. `clip` does not. */
 html, body { overflow-x: clip; }
 
 body {
@@ -356,7 +354,7 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   border: 1px solid var(--border);
   border-radius: var(--radius); padding: 1.5rem;
   transition: all 0.4s ease;
-  position: relative; /* FIX: containing block for the spotlight */
+  position: relative;
 }
 .stack-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
 .stack-head {
@@ -377,25 +375,18 @@ section { padding: 120px 0; position: relative; z-index: 5; }
 .stack-tag:hover { background: rgba(167, 139, 250, 0.15); border-color: var(--accent); }
 
 /* ============================================================
-   PROJECTS  — FIXED
+   PROJECTS
    ============================================================ */
 .projects-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   padding-bottom: 20vh;
-  /* FIX: removed `perspective` — it double-stacked with the per-card
-     perspective() inside the transform and warped the sticky cards. */
 }
 
 .project-item {
-  /* ---- sticky stack ---- */
   position: sticky;
-  /* FIX: staggered offsets so the stack is actually visible instead of
-     all six cards piling on the exact same pixel. */
   top: calc(100px + var(--i, 0) * 16px);
-  /* FIX: stacking order is decided by DOM order, never by :hover.
-     This is what stopped the flicker/jump loop. */
   z-index: calc(1 + var(--i, 0));
 
   --mx: 50%;
@@ -410,8 +401,6 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   gap: 2.5rem; align-items: center;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  /* FIX: no transform. Ever. A transform on a sticky element is what made
-     the cards detach, skew, and pop over their neighbours. */
   transform: none;
 }
 
@@ -420,8 +409,6 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(167,139,250,0.08);
 }
 
-/* FIX: reveal for project cards is opacity-only, so it never fights the
-   sticky positioning and keeps the hover transitions alive. */
 .project-item.reveal {
   opacity: 0;
   transform: none;
@@ -432,7 +419,6 @@ section { padding: 120px 0; position: relative; z-index: 5; }
 }
 .project-item.reveal.active { opacity: 1; transform: none; }
 
-/* Spotlight only — no tilt, no z-index swap */
 .project-item .card-spotlight {
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -456,7 +442,7 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
 }
 .project-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.75; margin-bottom: 1.4rem; }
-.project-links { display: flex; gap: 1.2rem; }
+.project-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
 .project-links a {
   color: var(--accent); text-decoration: none;
   font-size: 0.85rem; font-weight: 600;
@@ -539,7 +525,7 @@ section { padding: 120px 0; position: relative; z-index: 5; }
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 .contact-email:hover { background: rgba(34,211,238,0.08); border-color: var(--accent2); box-shadow: 0 0 30px var(--accent2-glow); }
-.contact-socials { display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem; }
+.contact-socials { display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap; }
 .contact-socials a {
   width: 48px; height: 48px; border-radius: 50%;
   border: 1px solid var(--border); display: flex;
@@ -605,12 +591,8 @@ footer .heart { color: var(--accent); }
 }
 
 /* ============================================================
-   CARD FX — 3D tilt, spotlight, staggered reveal, count-ups
+   CARD FX
    ============================================================ */
-/* FIX: removed the shared `perspective` on the grids — each card now
-   carries its own perspective() inside the transform, and doubling the
-   two was warping the cards. */
-
 .card-fx {
   isolation: isolate;
   transform-style: preserve-3d;
@@ -773,7 +755,6 @@ footer .heart { color: var(--accent); }
   .profile-photo { width: 200px; height: 200px; }
   .bento-grid { grid-template-columns: repeat(2, 1fr); }
   .bento-item.span-3, .bento-item.span-4 { grid-column: span 2; }
-  /* Sticky stack is disabled on narrow screens — no offsets needed. */
   .project-item {
     position: relative;
     top: 0;
@@ -852,6 +833,7 @@ footer .heart { color: var(--accent); }
       <div class="hero-socials">
         <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
         <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i class="fas fa-code"></i></a>
         <a href="mailto:ritikakalia19@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
       </div>
     </div>
@@ -1106,11 +1088,18 @@ footer .heart { color: var(--accent); }
         <div class="pub-year">IEEE ICIR · 2026</div>
         <div class="pub-title">Real-Time Privacy Guardianship in XR Metaverses via AI-Driven Behavioral Analytics</div>
         <div class="pub-venue">Published and presented as an e-Poster at IEEE ICIR 2026, University of Pisa, Italy. Pipeline achieved 92% accuracy and 0.976 ROC-AUC.</div>
+        <div class="project-links" style="margin-top: 1rem;">
+          <a href="https://ieeexplore.ieee.org/document/11628368" target="_blank" rel="noopener">IEEE Xplore <i class="fas fa-arrow-right"></i></a>
+          <a href="https://github.com/RitikaKalia9/Real_Time_Privacy_Guardianship_in_XR_Metaverses_via_AI_Driven_Behavioral_Analytics-" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+        </div>
       </div>
       <div class="pub-card reveal reveal-d1">
         <div class="pub-year">Insights2Techinfo · 2025</div>
         <div class="pub-title">Memory in Conversational AI Agents: The Backbone of Long-Term Intelligence</div>
         <div class="pub-venue">Published in Insights2Techinfo. Explores how long-term memory shapes coherent, useful conversational agents.</div>
+        <div class="project-links" style="margin-top: 1rem;">
+          <a href="https://insights2techinfo.com/memory-in-conversational-ai-agents-the-backbone-of-long-term-intelligence/" target="_blank" rel="noopener">Read publication <i class="fas fa-arrow-right"></i></a>
+        </div>
       </div>
     </div>
   </div>
@@ -1172,6 +1161,7 @@ footer .heart { color: var(--accent); }
     <div class="contact-socials reveal">
       <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
       <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i class="fas fa-code"></i></a>
       <a href="resume.pdf" download aria-label="Resume"><i class="fas fa-file-pdf"></i></a>
     </div>
   </div>
@@ -1904,7 +1894,6 @@ footer .heart { color: var(--accent); }
   moon.position.set(760, 120, 0);
   moonPivot.add(moon);
 
-  // Compute world ring plane uniforms
   scene.updateMatrixWorld(true);
   const ggQuat = new THREE.Quaternion();
   gasGiant.getWorldQuaternion(ggQuat);
@@ -2365,6 +2354,7 @@ footer .heart { color: var(--accent); }
     { icon: '◆', label: 'Contact',    href: '#contact' },
     { icon: '⌘', label: 'GitHub — RitikaKalia9', href: 'https://github.com/RitikaKalia9', ext: true },
     { icon: '⌘', label: 'LinkedIn',   href: 'https://www.linkedin.com/in/ritika-kalia-809984330/', ext: true },
+    { icon: '◆', label: 'LeetCode — RitikaKalia9', href: 'https://leetcode.com/u/RitikaKalia9/', ext: true },
     { icon: '↧', label: 'Download Resume', href: 'resume.pdf', ext: true },
     { icon: '✉', label: 'Email — ritikakalia19@gmail.com', href: 'mailto:ritikakalia19@gmail.com', ext: true }
   ];
@@ -2430,16 +2420,11 @@ footer .heart { color: var(--accent); }
 
 /* ============================================================
    CARD ANIMATION ENGINE
-   - 3D tilt + spotlight (small/medium cards only)
-   - Spotlight-only for the sticky project cards
-   - Staggered grid reveals
-   - Number count-up
    ============================================================ */
 (function () {
   const isTouch = 'ontouchstart' in window;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Stagger / index every card grid ---------- */
   document
     .querySelectorAll('.bento-grid, .stack-grid, .pub-grid, .projects-list, .contact-socials')
     .forEach(grid => {
@@ -2448,7 +2433,6 @@ footer .heart { color: var(--accent); }
       });
     });
 
-  /* ---------- Spotlight helper ---------- */
   function addSpotlight(card) {
     if (card.querySelector(':scope > .card-spotlight')) return;
     const sp = document.createElement('div');
@@ -2458,8 +2442,6 @@ footer .heart { color: var(--accent); }
   }
 
   if (!isTouch && !reduced) {
-
-    /* ===== 1. Small / medium cards → 3D tilt + spotlight ===== */
     const TILT_SELECTOR = '.bento-item, .stack-card, .pub-card, .quote-strip, .terminal';
 
     document.querySelectorAll(TILT_SELECTOR).forEach(card => {
@@ -2524,10 +2506,6 @@ footer .heart { color: var(--accent); }
       });
     });
 
-    /* ===== 2. Sticky project cards → spotlight ONLY =====
-       No transform and no z-index change: both fight with
-       position:sticky and made the stacked cards flicker, jump
-       and pop over their neighbours. */
     document.querySelectorAll('.project-item').forEach(card => {
       addSpotlight(card);
       card.addEventListener('mousemove', (e) => {
@@ -2538,7 +2516,6 @@ footer .heart { color: var(--accent); }
     });
   }
 
-  /* ---------- Bento number count-up ---------- */
   function animateNumber(el) {
     const target   = parseFloat(el.dataset.target);
     const decimals = parseInt(el.dataset.decimals, 10);
@@ -2582,7 +2559,6 @@ footer .heart { color: var(--accent); }
     numObserver.observe(el);
   });
 
-  /* ---------- Project card in-view emphasis ---------- */
   const activeObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add('in-view');
