@@ -2050,6 +2050,216 @@ footer .heart { color: var(--accent3); }
   const dust = new THREE.Points(dustGeo, dustMat);
   scene.add(dust);
 
+  /* ============================================================
+     SPIRAL GALAXY — a real 3D object in the universe
+     Needs in scope: THREE, scene, DPR, isMobile, NOISE_GLSL
+     ============================================================ */
+  const galaxy = (function () {
+    const R        = 3100;                 // galaxy radius (world units)
+    const ARM_B    = 2.1;                  // spiral tightness
+    const ARM_R0   = 0.05;
+    const SPIN     = 0.006;                // rad / second (very slow)
+
+    const root = new THREE.Group();
+    root.position.set(1150, 140, -5900);
+    root.rotation.set(0.74, 0, -0.42, 'ZXY');   // tilted disc, like a real galaxy seen at an angle
+    scene.add(root);
+
+    /* ---------- 1. diffuse arms + dust + glowing core (analytic shader) ---------- */
+    const hazeMat = new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 }, uIntensity: { value: 1.0 } },
+      vertexShader: `
+        varying vec2 vUv;
+        void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+      `,
+      fragmentShader: NOISE_GLSL + `
+        uniform float uTime;
+        uniform float uIntensity;
+        varying vec2 vUv;
+        const float B  = ${ARM_B.toFixed(3)};
+        const float R0 = ${ARM_R0.toFixed(3)};
+
+        void main(){
+          vec2 p = (vUv - 0.5) * 2.0;
+          float r = length(p);
+          if (r > 1.0) discard;
+
+          float th  = atan(p.y, p.x);
+          float rot = uTime * ${SPIN.toFixed(4)} * (1.4 - 0.5 * r);
+          float c = cos(rot), s = sin(rot);
+          vec2 pr = vec2(c * p.x + s * p.y, -s * p.x + c * p.y);     // noise rides with the arms
+
+          float ph  = th - rot - B * log(max(r, 0.001) / R0);
+          float arm = pow(0.5 + 0.5 * cos(2.0 * ph), 1.5);
+
+          float n  = fbm(vec3(pr * 4.2, 1.7));
+          float n2 = fbm(vec3(pr * 9.0, 5.3));
+          float clump = smoothstep(-0.25, 0.75, n * 0.8 + n2 * 0.5);
+
+          float fall = exp(-r * 2.7);
+          float edge = 1.0 - smoothstep(0.72, 1.0, r);
+          float disk = (0.10 + arm * 0.95) * (0.45 + clump * 0.85) * fall * edge;
+
+          vec3 armCol   = mix(vec3(0.30, 0.24, 0.80), vec3(0.58, 0.34, 0.92), clamp(n * 0.7 + 0.5, 0.0, 1.0));
+          vec3 pinkTint = vec3(0.95, 0.40, 0.72) * smoothstep(0.35, 0.85, n2 * 0.8 + 0.4) * arm * smoothstep(0.2, 0.6, r) * 0.55;
+          vec3 col = armCol * disk * 1.25 + pinkTint * disk * 1.3;
+
+          // dusty lanes lightly pull the glow down between clumps
+          col *= 0.75 + 0.25 * smoothstep(-0.4, 0.5, n2);
+
+          // bulge + nucleus
+          float bulge   = exp(-r * 8.5);
+          float nucleus = exp(-r * 38.0);
+          col += vec3(1.00, 0.80, 0.48) * bulge   * 0.26;
+          col += vec3(1.00, 0.93, 0.78) * nucleus * 0.42;
+
+          gl_FragColor = vec4(col * uIntensity, 1.0);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      side: THREE.DoubleSide
+    });
+
+    const hazePlane = new THREE.Mesh(new THREE.PlaneGeometry(R * 2, R * 2, 1, 1), hazeMat);
+    hazePlane.rotation.x = -Math.PI / 2;           // lie in the disc plane
+    hazePlane.renderOrder = -60;
+    root.add(hazePlane);
+
+    /* ---------- 2. individual stars: arms, bulge, halo, pink HII clusters ---------- */
+    const NARM   = isMobile ? 9000 : 22000;
+    const NBULGE = isMobile ? 2400 : 5200;
+    const NHALO  = isMobile ? 500  : 1400;
+    const NHII   = isMobile ? 90   : 230;
+    const N      = NARM + NBULGE + NHALO + NHII;
+
+    const aR     = new Float32Array(N);
+    const aTheta = new Float32Array(N);
+    const aY     = new Float32Array(N);
+    const aColor = new Float32Array(N * 3);
+    const aSize  = new Float32Array(N);
+    const aTw    = new Float32Array(N * 2);
+    const pos    = new Float32Array(N * 3);          // unused by shader, keeps geometry valid
+
+    const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+    const pick  = (arr) => arr[(Math.random() * arr.length) | 0];
+
+    const armPal  = [[0.91,0.90,0.96],[0.77,0.71,0.99],[0.80,0.88,1.00],[0.65,0.95,0.99],[1.00,0.91,0.71],[0.98,0.66,0.83]];
+    const coreP   = [[1.00,0.91,0.71],[1.00,0.85,0.54],[1.00,0.95,0.82],[1.00,0.78,0.45]];
+    const haloP   = [[0.80,0.85,1.00],[0.95,0.92,0.85],[1.00,0.88,0.72]];
+    const hiiP    = [[0.98,0.66,0.83],[0.91,0.47,0.98],[0.99,0.55,0.75]];
+
+    let k = 0;
+    function put(r, theta, y, col, size, taper) {
+      aR[k] = r; aTheta[k] = theta; aY[k] = y;
+      aColor[k * 3]     = col[0] * taper;
+      aColor[k * 3 + 1] = col[1] * taper;
+      aColor[k * 3 + 2] = col[2] * taper;
+      aSize[k]   = size;
+      aTw[k * 2] = 0.4 + Math.random() * 2.6;
+      aTw[k * 2 + 1] = Math.random() * 6.2831853;
+      k++;
+    }
+
+    // spiral arm stars (two arms, tightening toward the core, scatter grows outward)
+    for (let i = 0; i < NARM; i++) {
+      const r = ARM_R0 + (1 - ARM_R0) * Math.pow(Math.random(), 1.08);
+      const arm = Math.random() < 0.5 ? 0 : Math.PI;
+      const spread = 0.20 + 0.50 * r;
+      const th = arm + ARM_B * Math.log(r / ARM_R0) + gauss() * spread;
+      const y  = gauss() * 0.018 * (1.2 - r) * R;
+      const taper = 1 - Math.min(1, Math.max(0, (r - 0.62) / 0.38)) * 0.85;
+      const big = Math.random() < 0.035;
+      put(r, th, y, pick(armPal), big ? 22 + Math.random() * 16 : 5 + Math.random() * 9, taper);
+    }
+    // central bulge: dense warm ellipsoid
+    for (let i = 0; i < NBULGE; i++) {
+      const r  = Math.min(0.30, Math.abs(gauss()) * 0.20 + Math.random() * 0.04);
+      const th = Math.random() * 6.2831853;
+      const y  = gauss() * 0.09 * (1 - r * 1.8) * R * 0.45;
+      put(r, th, y, pick(coreP), 5 + Math.random() * 9, 1.0 - r * 0.9);
+    }
+    // faint, thick halo
+    for (let i = 0; i < NHALO; i++) {
+      const r  = 0.1 + Math.random() * 0.95;
+      const th = Math.random() * 6.2831853;
+      const y  = gauss() * 0.16 * R;
+      put(r, th, y, pick(haloP), 4 + Math.random() * 6, 0.45);
+    }
+    // pink star-forming knots sitting on the arms
+    for (let i = 0; i < NHII; i++) {
+      const r   = 0.22 + Math.random() * 0.62;
+      const arm = Math.random() < 0.5 ? 0 : Math.PI;
+      const th  = arm + ARM_B * Math.log(r / ARM_R0) + gauss() * (0.06 + 0.12 * r);
+      put(r, th, gauss() * 0.01 * R, pick(hiiP), 20 + Math.random() * 24, 1.0 - Math.max(0, r - 0.6));
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('aR',     new THREE.BufferAttribute(aR, 1));
+    geo.setAttribute('aTheta', new THREE.BufferAttribute(aTheta, 1));
+    geo.setAttribute('aY',     new THREE.BufferAttribute(aY, 1));
+    geo.setAttribute('aColor', new THREE.BufferAttribute(aColor, 3));
+    geo.setAttribute('aSize',  new THREE.BufferAttribute(aSize, 1));
+    geo.setAttribute('aTw',    new THREE.BufferAttribute(aTw, 2));
+
+    const starMat = new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 }, uPixelRatio: { value: DPR }, uOpacity: { value: 1.0 } },
+      vertexShader: `
+        uniform float uTime;
+        uniform float uPixelRatio;
+        uniform float uOpacity;
+        attribute float aR;
+        attribute float aTheta;
+        attribute float aY;
+        attribute vec3  aColor;
+        attribute float aSize;
+        attribute vec2  aTw;
+        varying vec3  vColor;
+        varying float vAlpha;
+        void main(){
+          float ang = aTheta + uTime * ${SPIN.toFixed(4)} * (1.4 - 0.5 * aR);
+          vec3 p = vec3(cos(ang) * aR * ${R.toFixed(1)}, aY, -sin(ang) * aR * ${R.toFixed(1)});
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          float dist = max(-mv.z, 1.0);
+
+          float tw = sin(uTime * aTw.x + aTw.y) * 0.5 + 0.5;
+          vAlpha = (0.36 + tw * 0.32) * uOpacity;
+          vColor = aColor;
+
+          gl_PointSize = clamp(aSize * uPixelRatio * (900.0 / dist) * (0.8 + tw * 0.35), 0.8, 16.0);
+          gl_Position  = projectionMatrix * mv;
+        }
+      `,
+      fragmentShader: `
+        varying vec3  vColor;
+        varying float vAlpha;
+        void main(){
+          float d = length(gl_PointCoord - 0.5) * 2.0;
+          if (d > 1.0) discard;
+          float core = pow(1.0 - d, 2.2);
+          gl_FragColor = vec4(vColor + vec3(core * 0.25), core * vAlpha);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    const stars = new THREE.Points(geo, starMat);
+    stars.frustumCulled = false;
+    stars.renderOrder = -59;
+    root.add(stars);
+
+    return {
+      update(t) {
+        hazeMat.uniforms.uTime.value = t;
+        starMat.uniforms.uTime.value = t;
+      }
+    };
+  })();
+
   function makeMeteorTexture() {
     const c = document.createElement('canvas');
     c.width = 128; c.height = 512;
@@ -2331,6 +2541,8 @@ footer .heart { color: var(--accent3); }
     skyMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
     starMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
     planetMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
+
+    galaxy.update(t);
 
     smoothX += (mouseX - smoothX) * 0.045;
     smoothY += (mouseY - smoothY) * 0.045;
