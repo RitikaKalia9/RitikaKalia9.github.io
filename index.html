@@ -1,2904 +1,716 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ritika Kalia · AI/ML Engineer · Building intelligent solutions for a smarter tomorrow</title>
-<meta name="description" content="Portfolio of Ritika Kalia — AI/ML Engineer, Researcher, Full-Stack Developer from Chandigarh, India.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg: #06040d;
-  --bg-2: #0b0716;
-  --card: #0f0a1f;
-  --accent: #d1a3ff;
-  --accent-strong: #9333ea;
-  --accent-glow: rgba(209, 163, 255, 0.35);
-  --accent2: #22d3ee;
-  --accent2-glow: rgba(34, 211, 238, 0.3);
-  --accent3: #f0a080;
-  --accent3-glow: rgba(240, 160, 128, 0.4);
-  --text: #ece6f5;
-  --text-muted: #9a8fb0;
-  --border: rgba(209, 163, 255, 0.14);
-  --border-hover: rgba(209, 163, 255, 0.45);
-  --radius: 14px;
-  --radius-lg: 22px;
-}
-
-html { scroll-behavior: smooth; }
-
-html, body { overflow-x: clip; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: #04020a;
-  color: var(--text);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  position: relative;
-  min-height: 100vh;
-}
-
-/* ============================================================
-   WEBGL UNIVERSE
-   ============================================================ */
-#webgl {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 85% 70% at 50% 45%, transparent 35%, rgba(4, 2, 10, 0.5) 78%, rgba(4, 2, 10, 0.85) 100%);
-}
-
-body::after {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 2;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: overlay;
-  animation: grainShift 0.6s steps(3) infinite;
-}
-@keyframes grainShift {
-  0%   { transform: translate(0, 0); }
-  33%  { transform: translate(-3px, 2px); }
-  66%  { transform: translate(2px, -3px); }
-  100% { transform: translate(0, 0); }
-}
-
-/* ============================================================
-   CURSOR
-   ============================================================ */
-.cursor, .cursor-dot { position: fixed; pointer-events: none; z-index: 9999; }
-.cursor {
-  width: 22px; height: 22px; border: 1.5px solid var(--accent);
-  border-radius: 50%; transition: transform 0.15s, background 0.15s, border-color 0.15s;
-  mix-blend-mode: difference;
-}
-.cursor.hover { transform: scale(2.4); background: var(--accent); border-color: transparent; }
-.cursor-dot { width: 4px; height: 4px; background: var(--accent3); border-radius: 50%; }
-@media (max-width: 768px) { .cursor, .cursor-dot { display: none; } }
-
-.container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 5; }
-
-/* ============================================================
-   NAV
-   ============================================================ */
-nav {
-  position: fixed; top: 0; width: 100%; z-index: 1000;
-  padding: 1.2rem 0; transition: all 0.4s ease;
-}
-nav.scrolled {
-  background: rgba(6, 4, 13, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0.8rem 0;
-}
-.nav-inner { display: flex; justify-content: space-between; align-items: center; }
-.logo {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700; font-size: 1.25rem; color: #fff;
-  text-decoration: none; letter-spacing: -0.5px;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.logo-mark {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent3); box-shadow: 0 0 12px var(--accent3-glow);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{ opacity:1;} 50%{ opacity:0.4; } }
-.logo span { background: linear-gradient(135deg, var(--accent), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-.nav-links a {
-  color: var(--text-muted); text-decoration: none;
-  font-size: 0.85rem; font-weight: 500; transition: color 0.3s;
-  letter-spacing: 0.2px;
-}
-.nav-links a:hover { color: #fff; }
-.nav-cta {
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent3));
-  color: #fff !important; padding: 0.5rem 1.2rem; border-radius: 50px;
-  font-weight: 600; transition: box-shadow 0.3s !important;
-}
-.nav-cta:hover { box-shadow: 0 0 25px var(--accent3-glow); }
-.menu-btn { display: none; background: none; border: none; color: #fff; font-size: 1.4rem; cursor: pointer; }
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; position: relative; z-index: 5; }
-.hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem; align-items: center; }
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  background: rgba(209, 163, 255, 0.08);
-  border: 1px solid rgba(209, 163, 255, 0.22);
-  padding: 0.4rem 1rem; border-radius: 50px;
-  font-size: 0.78rem; color: var(--accent);
-  font-weight: 500; margin-bottom: 1.5rem;
-  font-family: 'JetBrains Mono', monospace;
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.hero-badge .dot { width: 6px; height: 6px; background: var(--accent3); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px var(--accent3-glow); }
-
-.hero h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 700; line-height: 1.05;
-  letter-spacing: -1.5px; margin-bottom: 1.2rem;
-}
-.hero h1 .name {
-  background: linear-gradient(135deg, #e8c8ff 0%, #d1a3ff 40%, #f0a080 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  font-style: italic;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  padding-right: 4px;
-}
-.hero h1 .hero-tagline {
-  display: block;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.44em;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  color: var(--text-muted);
-  margin-top: 0.7rem;
-  line-height: 1.3;
-}
-.hero h1 .hero-tagline em {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 500;
-  color: var(--accent3);
-  font-size: 1.18em;
-  padding-right: 2px;
-}
-
-.hero-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.6rem;
-  display: flex; align-items: center; gap: 0.5rem;
-}
-.hero-tag .prompt { color: var(--accent2); }
-.hero-tag .typed { color: var(--text); }
-.hero-tag .caret { background: var(--accent2); width: 8px; height: 1.1em; display: inline-block; animation: blink 1s step-end infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-
-.hero-desc { color: var(--text-muted); font-size: 1.02rem; max-width: 520px; margin-bottom: 2rem; line-height: 1.8; }
-
-.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-.btn {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  padding: 0.85rem 1.7rem; border-radius: 50px;
-  font-weight: 600; font-size: 0.9rem; text-decoration: none;
-  transition: all 0.3s ease; cursor: pointer; border: none;
-  font-family: inherit; letter-spacing: 0.2px;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent3));
-  color: #fff; position: relative; overflow: hidden;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px var(--accent3-glow); }
-.btn-ghost { background: rgba(255,255,255,0.03); color: var(--text); border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-.btn-ghost:hover { border-color: var(--accent); background: rgba(209,163,255,0.06); }
-
-.hero-socials { display: flex; gap: 1.5rem; }
-.hero-socials a { color: var(--text-muted); font-size: 1.2rem; transition: all 0.3s; }
-.hero-socials a:hover { color: var(--accent3); transform: translateY(-3px); }
-
-.hero-visual { display: flex; justify-content: center; align-items: center; }
-.orbit { position: relative; width: 360px; height: 360px; display: flex; align-items: center; justify-content: center; }
-.orbit::before, .orbit::after {
-  content: ''; position: absolute; border-radius: 50%;
-  border: 1px dashed rgba(209, 163, 255, 0.22);
-}
-.orbit::before { inset: 0; animation: spin 40s linear infinite; }
-.orbit::after { inset: 40px; border-style: solid; border-color: rgba(34, 211, 238, 0.1); animation: spin 30s linear infinite reverse; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.orbit-dot {
-  position: absolute; width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent); box-shadow: 0 0 15px var(--accent-glow);
-  top: 50%; left: 0; margin-top: -4px;
-  animation: orbit 12s linear infinite;
-}
-.orbit-dot.cyan { background: var(--accent3); box-shadow: 0 0 15px var(--accent3-glow); animation-duration: 16s; animation-direction: reverse; }
-@keyframes orbit { to { transform: rotate(360deg) translateX(180px) rotate(-360deg); } }
-
-.profile-photo {
-  width: 260px; height: 260px; border-radius: 50%;
-  overflow: hidden; position: relative;
-  border: 2px solid rgba(209, 163, 255, 0.32);
-  box-shadow: 0 0 60px rgba(209, 163, 255, 0.25), inset 0 0 40px rgba(240, 160, 128, 0.08);
-  background: var(--card);
-}
-.profile-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.profile-photo .fallback {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: 'Space Grotesk', sans-serif; font-size: 3rem; font-weight: 700;
-  background: radial-gradient(circle at 35% 30%, #2a1a4d, #0f0a1f 70%);
-  color: var(--accent); letter-spacing: -2px;
-}
-
-/* ============================================================
-   SECTIONS
-   ============================================================ */
-section { padding: 120px 0; position: relative; z-index: 5; }
-
-.section-label {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
-  color: var(--accent3); letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem;
-}
-.section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent3); }
-
-.section-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(1.9rem, 3.6vw, 2.6rem);
-  font-weight: 700; letter-spacing: -1px;
-  margin-bottom: 1rem; line-height: 1.15;
-}
-.section-title em { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--accent); font-weight: 500; }
-.section-desc { color: var(--text-muted); max-width: 600px; margin-bottom: 3rem; font-size: 1rem; }
-
-.quote-strip {
-  margin: 3rem 0; padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(209,163,255,0.06), rgba(240,160,128,0.04));
-  border-left: 3px solid var(--accent3);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  position: relative;
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-.quote-strip::before {
-  content: '"'; position: absolute; top: 0.5rem; left: 1rem;
-  font-family: 'Cormorant Garamond', serif; font-size: 5rem; line-height: 1;
-  color: var(--accent3); opacity: 0.28;
-}
-.quote-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem; font-weight: 500; font-style: italic;
-  color: var(--text); margin-bottom: 0.8rem; padding-left: 2.5rem; line-height: 1.4;
-}
-.quote-author {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
-  color: var(--text-muted); padding-left: 2.5rem;
-}
-
-/* ============================================================
-   BENTO
-   ============================================================ */
-.bento-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(120px, auto); gap: 1rem;
-}
-.bento-item {
-  background: rgba(15, 10, 31, 0.72);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.5rem;
-  transition: all 0.4s ease; position: relative; overflow: hidden;
-}
-.bento-item::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent3), transparent);
-  opacity: 0; transition: opacity 0.4s;
-}
-.bento-item:hover::before { opacity: 1; }
-.bento-item:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(240,160,128,0.08); }
-.bento-item.span-2 { grid-column: span 2; }
-.bento-item.span-3 { grid-column: span 3; }
-.bento-item.span-4 { grid-column: span 4; }
-
-.bento-icon { font-size: 1.3rem; margin-bottom: 0.8rem; color: var(--accent3); }
-.bento-number {
-  font-family: 'Space Grotesk', sans-serif; font-size: 2.1rem; font-weight: 700;
-  background: linear-gradient(135deg, var(--accent), var(--accent3));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  line-height: 1; margin-bottom: 0.3rem;
-}
-.bento-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.bento-title { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
-.bento-title i { color: var(--accent3); }
-.bento-text { color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; }
-
-.terminal {
-  background: rgba(5, 3, 12, 0.9);
-  border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
-  position: relative;
-}
-.terminal-header {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.8rem 1rem; background: rgba(255,255,255,0.02);
-  border-bottom: 1px solid var(--border);
-}
-.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
-.terminal-dot.red { background: #ff5f56; } .terminal-dot.yellow { background: #ffbd2e; } .terminal-dot.green { background: #27c93f; }
-.terminal-title { margin-left: 0.5rem; color: var(--text-muted); font-size: 0.72rem; }
-.terminal-body { padding: 1.2rem; line-height: 1.9; }
-.terminal-line { display: block; }
-.terminal-prompt { color: var(--accent2); }
-.terminal-cmd { color: var(--text); }
-.terminal-output { color: var(--text-muted); }
-.terminal-string { color: #86efac; }
-
-/* ============================================================
-   STACK
-   ============================================================ */
-.stack-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.2rem;
-}
-.stack-card {
-  background: rgba(15, 10, 31, 0.72);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.5rem;
-  transition: all 0.4s ease;
-  position: relative;
-}
-.stack-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.stack-head {
-  display: flex; align-items: center; gap: 0.75rem;
-  margin-bottom: 1rem; padding-bottom: 0.8rem;
-  border-bottom: 1px solid var(--border);
-}
-.stack-head i { font-size: 1.1rem; color: var(--accent3); }
-.stack-head h4 { font-size: 0.92rem; font-weight: 600; letter-spacing: 0.2px; }
-.stack-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.stack-tag {
-  background: rgba(209, 163, 255, 0.08);
-  border: 1px solid rgba(209, 163, 255, 0.18);
-  color: #dfc8ff; padding: 0.3rem 0.7rem; border-radius: 8px;
-  font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
-  transition: all 0.3s;
-}
-.stack-tag:hover { background: rgba(240, 160, 128, 0.14); border-color: var(--accent3); color: #ffe0d0; }
-
-/* ============================================================
-   PROJECTS
-   ============================================================ */
-.projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding-bottom: 20vh;
-}
-
-.project-item {
-  position: sticky;
-  top: calc(100px + var(--i, 0) * 16px);
-  z-index: calc(1 + var(--i, 0));
-
-  --mx: 50%;
-  --my: 50%;
-
-  background: linear-gradient(145deg, rgba(15, 10, 31, 0.9) 0%, rgba(12, 8, 25, 0.94) 100%);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 2.5rem; align-items: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
-  transform: none;
-}
-
-.project-item:hover {
-  border-color: var(--border-hover);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(240,160,128,0.1);
-}
-
-.project-item.reveal {
-  opacity: 0;
-  transform: none;
-  transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.4s ease,
-    box-shadow 0.4s ease;
-}
-.project-item.reveal.active { opacity: 1; transform: none; }
-
-.project-item .card-spotlight {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.project-item:hover .card-spotlight { opacity: 1; }
-
-.project-num {
-  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-  color: var(--accent2); letter-spacing: 2px; margin-bottom: 0.8rem;
-}
-.project-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px;
-  line-height: 1.2; margin-bottom: 0.8rem;
-}
-.project-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
-.project-tag {
-  background: rgba(240, 160, 128, 0.08);
-  border: 1px solid rgba(240, 160, 128, 0.22);
-  color: #ffd0b8; padding: 0.2rem 0.65rem; border-radius: 50px;
-  font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
-}
-.project-desc { color: var(--text-muted); font-size: 0.92rem; line-height: 1.75; margin-bottom: 1.4rem; }
-.project-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
-.project-links a {
-  color: var(--accent); text-decoration: none;
-  font-size: 0.85rem; font-weight: 600;
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  transition: all 0.3s;
-}
-.project-links a:hover { color: var(--accent3); gap: 0.7rem; }
-.project-visual {
-  border-radius: var(--radius); overflow: hidden;
-  aspect-ratio: 16/10; background: var(--bg-2);
-  border: 1px solid var(--border); position: relative;
-}
-.project-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; display: block; }
-.project-visual:hover img { transform: scale(1.04); }
-.project-visual::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(209,163,255,0.1), transparent 50%, rgba(240,160,128,0.06));
-  pointer-events: none;
-  z-index: 3;
-}
-
-/* ============================================================
-   PUBLICATIONS
-   ============================================================ */
-.pub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.2rem; }
-.pub-card {
-  background: rgba(15, 10, 31, 0.72);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 1.6rem;
-  transition: all 0.4s ease; position: relative; overflow: hidden;
-}
-.pub-card::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
-  background: linear-gradient(180deg, var(--accent), var(--accent3));
-}
-.pub-card:hover { border-color: var(--border-hover); transform: translateY(-4px); }
-.pub-year { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent3); letter-spacing: 2px; margin-bottom: 0.5rem; }
-.pub-title { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.6rem; }
-.pub-venue { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
-
-/* ============================================================
-   TIMELINE
-   ============================================================ */
-.timeline { position: relative; max-width: 850px; margin: 0 auto; padding-left: 2rem; }
-.timeline::before {
-  content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
-  width: 1px; background: linear-gradient(180deg, var(--accent), var(--accent3), transparent);
-}
-.timeline-item { padding-bottom: 2.5rem; position: relative; }
-.timeline-item::before {
-  content: ''; position: absolute; left: -2rem; top: 6px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--accent3); box-shadow: 0 0 0 4px rgba(240,160,128,0.15), 0 0 15px var(--accent3-glow);
-  margin-left: -4.5px;
-}
-.timeline-date { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent2); margin-bottom: 0.3rem; }
-.timeline-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.15rem; }
-.timeline-org { color: var(--accent3); font-size: 0.88rem; margin-bottom: 0.4rem; }
-.timeline-desc { color: var(--text-muted); font-size: 0.88rem; line-height: 1.7; }
-
-/* ============================================================
-   CONTACT
-   ============================================================ */
-.contact-section { text-align: center; }
-.contact-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 700;
-  letter-spacing: -1px; margin-bottom: 1rem;
-}
-.contact-title em { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--accent3); font-weight: 500; }
-.contact-desc { color: var(--text-muted); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-.contact-email {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  color: var(--accent2); text-decoration: none;
-  font-family: 'JetBrains Mono', monospace; font-size: 0.92rem;
-  padding: 0.85rem 1.6rem; border: 1px solid rgba(34,211,238,0.25);
-  border-radius: 50px; transition: all 0.3s; margin-bottom: 2rem;
-  background: rgba(34, 211, 238, 0.03);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.contact-email:hover { background: rgba(34,211,238,0.08); border-color: var(--accent2); box-shadow: 0 0 30px var(--accent2-glow); }
-.contact-socials { display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap; }
-.contact-socials a {
-  width: 48px; height: 48px; border-radius: 50%;
-  border: 1px solid var(--border); display: flex;
-  align-items: center; justify-content: center;
-  color: var(--text-muted); font-size: 1.05rem; transition: all 0.3s;
-  background: rgba(15, 10, 31, 0.6);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
-.contact-socials a:hover { border-color: var(--accent3); color: var(--accent3); transform: translateY(-3px); box-shadow: 0 10px 30px var(--accent3-glow); }
-
-footer {
-  text-align: center; padding: 2.5rem 0;
-  border-top: 1px solid var(--border);
-  color: var(--text-muted); font-size: 0.8rem;
-  font-family: 'JetBrains Mono', monospace;
-  position: relative; z-index: 5;
-  background: rgba(6, 4, 13, 0.5);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-}
-footer .heart { color: var(--accent3); }
-
-/* ============================================================
-   REVEAL
-   ============================================================ */
-.reveal { opacity: 0; transform: translateY(35px) scale(0.97); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
-.reveal.active { opacity: 1; transform: translateY(0) scale(1); }
-.reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.2s; } .reveal-d3 { transition-delay: 0.3s; }
-
-/* ============================================================
-   COMMAND PALETTE
-   ============================================================ */
-.cmdk-overlay {
-  position: fixed; inset: 0; background: rgba(3, 2, 8, 0.75);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  z-index: 10000;
-  display: none; align-items: flex-start; justify-content: center; padding-top: 15vh;
-}
-.cmdk-overlay.open { display: flex; }
-.cmdk {
-  background: var(--card); border: 1px solid var(--border-hover);
-  border-radius: var(--radius-lg); width: 100%; max-width: 540px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(240,160,128,0.1);
-  overflow: hidden;
-}
-.cmdk-input {
-  width: 100%; padding: 1.1rem 1.4rem; background: transparent;
-  border: none; border-bottom: 1px solid var(--border);
-  color: var(--text); font-size: 0.95rem; font-family: 'JetBrains Mono', monospace; outline: none;
-}
-.cmdk-list { list-style: none; max-height: 380px; overflow-y: auto; padding: 0.5rem; }
-.cmdk-list li {
-  padding: 0.7rem 1rem; border-radius: 8px; cursor: pointer;
-  font-size: 0.88rem; color: var(--text-muted);
-  display: flex; align-items: center; gap: 0.8rem;
-  font-family: 'JetBrains Mono', monospace;
-  transition: all 0.2s;
-}
-.cmdk-list li:hover, .cmdk-list li.selected { background: rgba(240,160,128,0.1); color: var(--text); }
-.cmdk-hint {
-  padding: 0.7rem 1rem; font-size: 0.72rem; color: var(--text-muted);
-  border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace;
-  display: flex; justify-content: space-between;
-}
-
-/* ============================================================
-   CARD FX
-   ============================================================ */
-.card-fx {
-  isolation: isolate;
-  transform-style: preserve-3d;
-  --rx: 0deg;
-  --ry: 0deg;
-  --mx: 50%;
-  --my: 50%;
-  will-change: transform;
-}
-
-.card-fx.card-active {
-  transform:
-    perspective(1100px)
-    rotateX(var(--rx))
-    rotateY(var(--ry))
-    translateY(-6px)
-    scale(1.012);
-  transition:
-    transform 0.1s linear,
-    box-shadow 0.45s ease,
-    border-color 0.4s ease !important;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    0 0 60px rgba(240, 160, 128, 0.12) !important;
-  z-index: 7;
-  border-color: var(--border-hover) !important;
-}
-
-.card-fx:not(.card-active) {
-  transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.5s ease,
-    border-color 0.4s ease;
-}
-
-.card-spotlight {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  background: radial-gradient(
-    circle 340px at var(--mx, 50%) var(--my, 50%),
-    rgba(209, 163, 255, 0.22),
-    rgba(240, 160, 128, 0.1) 40%,
-    transparent 72%
-  );
-}
-.card-fx.card-active .card-spotlight { opacity: 1; }
-
-@keyframes numberPop {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.18); filter: brightness(1.35); }
-  100% { transform: scale(1); filter: brightness(1); }
-}
-.bento-number.popped {
-  animation: numberPop 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes iconFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-4px) rotate(-4deg); }
-}
-.bento-item.card-active .bento-icon {
-  animation: iconFloat 1.8s ease-in-out infinite;
-}
-
-.stack-card .stack-tag {
-  opacity: 0;
-  transform: scale(0.7) translateY(6px);
-  transition:
-    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.3s ease,
-    border-color 0.3s ease;
-}
-.stack-card.active .stack-tag {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-.stack-card.active .stack-tag:nth-child(1) { transition-delay: 0.10s; }
-.stack-card.active .stack-tag:nth-child(2) { transition-delay: 0.16s; }
-.stack-card.active .stack-tag:nth-child(3) { transition-delay: 0.22s; }
-.stack-card.active .stack-tag:nth-child(4) { transition-delay: 0.28s; }
-.stack-card.active .stack-tag:nth-child(5) { transition-delay: 0.34s; }
-.stack-card.active .stack-tag:nth-child(6) { transition-delay: 0.40s; }
-.stack-card.active .stack-tag:nth-child(7) { transition-delay: 0.46s; }
-.stack-card.active .stack-tag:nth-child(8) { transition-delay: 0.52s; }
-
-.project-visual::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.16) 50%,
-    transparent 65%
-  );
-  transform: translateX(-120%);
-  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.project-item:hover .project-visual::before {
-  transform: translateX(120%);
-}
-
-@keyframes dotPulse {
-  0% {
-    box-shadow:
-      0 0 0 4px rgba(240, 160, 128, 0.15),
-      0 0 15px var(--accent3-glow),
-      0 0 0 0 rgba(240, 160, 128, 0.55);
-  }
-  100% {
-    box-shadow:
-      0 0 0 4px rgba(240, 160, 128, 0.15),
-      0 0 15px var(--accent3-glow),
-      0 0 0 26px rgba(240, 160, 128, 0);
-  }
-}
-.timeline-item.active::before {
-  animation: dotPulse 1.9s ease-out 1;
-}
-
-.timeline-item.reveal {
-  opacity: 0;
-  transform: translateX(-30px) translateY(20px);
-}
-.timeline-item.reveal.active {
-  opacity: 1;
-  transform: translateX(0) translateY(0);
-}
-
-@keyframes socialBob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-5px); }
-}
-.contact-socials a:hover {
-  animation: socialBob 0.9s ease-in-out infinite;
-}
-
-.bento-grid > .bento-item { transition-delay: calc(var(--i, 0) * 0.07s); }
-.stack-grid > .stack-card { transition-delay: calc(var(--i, 0) * 0.09s); }
-.pub-grid > .pub-card     { transition-delay: calc(var(--i, 0) * 0.12s); }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 1024px) {
-  .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
-  .hero-desc { margin-left: auto; margin-right: auto; }
-  .hero-btns, .hero-socials { justify-content: center; }
-  .hero-tag { justify-content: center; }
-  .orbit { width: 280px; height: 280px; }
-  .profile-photo { width: 200px; height: 200px; }
-  .bento-grid { grid-template-columns: repeat(2, 1fr); }
-  .bento-item.span-3, .bento-item.span-4 { grid-column: span 2; }
-  .project-item {
-    position: relative;
-    top: 0;
-    grid-template-columns: 1fr;
-    padding: 1.5rem;
-  }
-  .projects-list { padding-bottom: 0; }
-}
-@media (max-width: 768px) {
-  .nav-links {
-    display: none; flex-direction: column;
-    position: absolute; top: 100%; left: 0; width: 100%;
-    background: rgba(6, 4, 13, 0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    padding: 2rem; border-bottom: 1px solid var(--border);
-    gap: 1.2rem; text-align: center;
-  }
-  .nav-links.active { display: flex; }
-  .menu-btn { display: block; }
-  section { padding: 80px 0; }
-  .bento-grid { grid-template-columns: 1fr; }
-  .bento-item.span-2, .bento-item.span-3, .bento-item.span-4 { grid-column: span 1; }
-  .orbit { width: 220px; height: 220px; }
-  .profile-photo { width: 160px; height: 160px; }
-  .orbit-dot { animation: none; }
-  .quote-text { font-size: 1.2rem; padding-left: 1.5rem; }
-  .quote-strip { padding: 1.5rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  .card-fx.card-active { transform: none !important; }
-  .card-spotlight { display: none; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritika Kalia · AI/ML Engineer · Building intelligent solutions for a smarter tomorrow</title>
+    <meta name="description"
+        content="Portfolio of Ritika Kalia — AI/ML Engineer, Researcher, Full-Stack Developer from Chandigarh, India.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<canvas id="webgl"></canvas>
-<div class="vignette"></div>
+    <canvas id="webgl"></canvas>
+    <div class="vignette"></div>
 
-<div class="cursor"></div>
-<div class="cursor-dot"></div>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
 
-<nav>
-  <div class="container nav-inner">
-    <a href="#" class="logo"><span class="logo-mark"></span>Ritika<span>.Kalia</span></a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#stack">Stack</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#deep-learning">Deep Learning</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#journey">Journey</a></li>
-      <li><a href="#contact" class="nav-cta">Get in touch</a></li>
-    </ul>
-    <button class="menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
-  </div>
-</nav>
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo"><span class="logo-mark"></span>Ritika<span>.Kalia</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#under-review">Under Review</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#journey">Journey</a></li>
+                <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+            </ul>
+            <button class="menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
 
-<header class="hero">
-  <div class="container hero-grid">
-    <div class="hero-content reveal">
-      <div class="hero-badge"><span class="dot"></span> Open to AI/ML & Full-Stack roles</div>
-      <h1>Hi, I'm <span class="name">Ritika Kalia</span>
-        <span class="hero-tagline">— engineer with an <em>artist's eye.</em></span>
-      </h1>
-      <div class="hero-tag">
-        <span class="prompt">~$</span>
-        <span class="typed" id="typed"></span>
-        <span class="caret"></span>
-      </div>
-      <p class="hero-desc">
-        B.E. CSE @ CCET, Chandigarh. I build AI systems that solve real problems — multilingual legal assistants, video violence detection, and privacy guardianship for XR metaverses.
-      </p>
-      <div class="hero-btns">
-        <a href="#projects" class="btn btn-primary">See my work <i class="fas fa-arrow-right"></i></a>
-        <a href="resume.pdf" class="btn btn-ghost" download><i class="fas fa-download"></i> Resume</a>
-      </div>
-      <div class="hero-socials">
-        <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i class="fas fa-code"></i></a>
-        <a href="mailto:ritikakalia19@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      </div>
+    <header class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <div class="hero-badge"><span class="dot"></span> Open to AI/ML & Full-Stack roles</div>
+                <h1>Hi, I'm <span class="name">Ritika Kalia</span>
+                    <span class="hero-tagline">— engineer with an <em>artist's eye.</em></span>
+                </h1>
+                <div class="hero-tag">
+                    <span class="prompt">~$</span>
+                    <span class="typed" id="typed"></span>
+                    <span class="caret"></span>
+                </div>
+                <p class="hero-desc">
+                    B.E. CSE @ CCET, Chandigarh. I build AI systems that solve real problems.
+                </p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn btn-primary">See my work <i class="fas fa-arrow-right"></i></a>
+                    <a href="resume.pdf" class="btn btn-ghost" download><i class="fas fa-download"></i> Resume</a>
+                </div>
+                <div class="hero-socials">
+                    <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener"
+                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener"
+                        aria-label="LeetCode"><i class="fas fa-code"></i></a>
+                    <a href="mailto:ritikakalia19@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="hero-visual reveal reveal-d2">
+                <div class="orbit">
+                    <div class="orbit-dot"></div>
+                    <div class="orbit-dot cyan"></div>
+                    <div class="profile-photo">
+                        <div class="fallback">RK</div>
+                        <img src="images/profile.png" alt="Ritika Kalia" onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-label reveal">// About</div>
+            <h2 class="section-title reveal">Building <em>intelligent</em> solutions<br>for a smarter tomorrow.</h2>
+            <p class="section-desc reveal">A snapshot of what drives me, what I've done, and what I care about. Grouped
+                by what they taught me. Code is on GitHub.</p>
+
+            <div class="bento-grid">
+                <div class="bento-item reveal">
+                    <div class="bento-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="bento-number">9.45</div>
+                    <div class="bento-label">CGPA · B.E. CSE</div>
+                </div>
+                <div class="bento-item reveal reveal-d1">
+                    <div class="bento-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="bento-number">46</div>
+                    <div class="bento-label">GitHub Repos</div>
+                </div>
+                <div class="bento-item reveal reveal-d2">
+                    <div class="bento-icon"><i class="fas fa-scroll"></i></div>
+                    <div class="bento-number">1</div>
+                    <div class="bento-label">Publication</div>
+                </div>
+                <div class="bento-item reveal reveal-d3">
+                    <div class="bento-icon"><i class="fas fa-fire"></i></div>
+                    <div class="bento-number">429</div>
+                    <div class="bento-label">Contributions · 2025</div>
+                </div>
+
+                <div class="bento-item span-2 reveal">
+                    <div class="bento-title"><i class="fas fa-flask"></i> Research Interests</div>
+                    <div class="bento-text">Multilingual NLP and hallucination detection in legal QA, video
+                        understanding, explainable ensemble learning for healthcare, medical imaging, federated learning
+                        for intrusion detection, and behavioral analytics for XR privacy.</div>
+                </div>
+
+                <div class="bento-item span-2 reveal reveal-d1">
+                    <div class="bento-title"><i class="fas fa-compass"></i> Currently</div>
+                    <div class="bento-text">Final-year CSE student at CCET and ACM-W chairperson. Building a
+                        multilingual Indian legal QA system with cross-LLM hallucination detection for my final year
+                        project and taking MMVDNet toward deployment, with three papers under review. Looking for AI/ML
+                        and full-stack roles where I can ship fast and learn faster.</div>
+                </div>
+
+                <div class="bento-item span-4 reveal">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">ritika@universe — zsh</span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">whoami</span></span>
+                            <span class="terminal-line terminal-output">AI/ML engineer · full-stack dev ·
+                                researcher</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">cat</span> <span
+                                    class="terminal-string">focus.txt</span></span>
+                            <span class="terminal-line terminal-output">Indic LLMs · RAG · PyTorch · CNNs · VideoMAE ·
+                                XR privacy</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">cat</span> <span
+                                    class="terminal-string">mantra.txt</span></span>
+                            <span class="terminal-line terminal-output">Build things that work. Then make them
+                                beautiful.</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">_</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-strip reveal">
+                <div class="quote-text">In God we trust; all others bring data.</div>
+                <div class="quote-author">— W. Edwards Deming</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stack">
+        <div class="container">
+            <div class="section-label reveal">// Toolkit</div>
+            <h2 class="section-title reveal">The stack I <em>reach for.</em></h2>
+            <p class="section-desc reveal">Tools that turn ideas into shipped products.</p>
+
+            <div class="stack-grid">
+                <div class="stack-card reveal">
+                    <div class="stack-head"><i class="fas fa-terminal"></i>
+                        <h4>Languages</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">Python</span>
+                        <span class="stack-tag">C</span>
+                        <span class="stack-tag">SQL</span>
+                        <span class="stack-tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d1">
+                    <div class="stack-head"><i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">HTML</span>
+                        <span class="stack-tag">CSS</span>
+                        <span class="stack-tag">Django</span>
+                        <span class="stack-tag">Flask</span>
+                        <span class="stack-tag">Bootstrap</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d2">
+                    <div class="stack-head"><i class="fas fa-brain"></i>
+                        <h4>AI / ML</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">PyTorch</span>
+                        <span class="stack-tag">Machine Learning</span>
+                        <span class="stack-tag">Deep Learning</span>
+                        <span class="stack-tag">Neural Networks</span>
+                        <span class="stack-tag">CNN</span>
+                        <span class="stack-tag">Autoencoders</span>
+                        <span class="stack-tag">Hugging Face</span>
+                        <span class="stack-tag">QLoRA</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d3">
+                    <div class="stack-head"><i class="fas fa-wrench"></i>
+                        <h4>Tools & Design</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">Git</span>
+                        <span class="stack-tag">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="container">
+            <div class="section-label reveal">// Research</div>
+            <h2 class="section-title reveal">Published <em>research.</em></h2>
+            <p class="section-desc reveal">Work that went through peer review and came out the other side.</p>
+            <div class="pub-grid pub-grid-single">
+                <div class="pub-card reveal">
+                    <div class="pub-thumb">
+                        <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=900&q=80&auto=format&fit=crop"
+                            alt="VR headset in use" loading="lazy">
+                    </div>
+                    <div class="pub-body">
+                        <div class="pub-year">IEEE ICIR · 2026 · Published</div>
+                        <div class="pub-title">Real-Time Privacy Guardianship in XR Metaverses via AI-Driven Behavioral
+                            Analytics</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">AI/ML</span>
+                            <span class="project-tag">Behavioral Analytics</span>
+                            <span class="project-tag">XR / VR</span>
+                        </div>
+                        <div class="pub-venue">Published and presented as an e-Poster at IEEE ICIR 2026, University of
+                            Pisa, Italy. The AI-driven pipeline achieved 92% accuracy and 0.976 ROC-AUC for detecting
+                            privacy attacks in VR environments.</div>
+                        <div class="project-links">
+                            <a href="https://ieeexplore.ieee.org/document/11628368" target="_blank" rel="noopener">IEEE
+                                Xplore <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Real_Time_Privacy_Guardianship_in_XR_Metaverses_via_AI_Driven_Behavioral_Analytics-"
+                                target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-label reveal">// Selected Work</div>
+            <h2 class="section-title reveal">Things I've <em>built.</em></h2>
+            <p class="section-desc reveal">Grouped by what they taught me. Everything is on GitHub.</p>
+
+            <!-- ===================== WEB DEVELOPMENT ===================== -->
+            <div class="category" id="cat-web">
+                <div class="category-head reveal">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <h3>Web Development</h3>
+                        <p>HTML, CSS, JavaScript and Django applications.</p>
+                    </div>
+                </div>
+                <div class="pub-grid pub-grid-single">
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop"
+                                alt="StellerCart e-commerce" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Django · Full-Stack</div>
+                            <div class="pub-title">StellerCart — Full-Stack E-Commerce</div>
+                            <div class="project-meta">
+                                <span class="project-tag">Django</span>
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Bootstrap</span>
+                                <span class="project-tag">JavaScript</span>
+                            </div>
+                            <div class="pub-venue">Full-stack e-commerce site with Google sign-in, product listings,
+                                cart, and checkout. 7 related models in Django ORM, AJAX cart updates with CSRF
+                                protection, and Razorpay (test mode) with server-side charge calculation and signature
+                                verification.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/Full-Stack-E-Commerce-Platform-StellerCart-"
+                                    target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================== CS & SYSTEMS ===================== -->
+            <div class="category" id="cat-systems">
+                <div class="category-head reveal">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                        <h3>Computer Science &amp; Systems</h3>
+                        <p>Algorithms, data structures, and operating systems concepts.</p>
+                    </div>
+                </div>
+                <div class="pub-grid pub-grid-single">
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80&auto=format&fit=crop"
+                                alt="CPU scheduling simulator" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Operating Systems</div>
+                            <div class="pub-title">CPU Scheduling Simulator</div>
+                            <div class="project-meta">
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Streamlit</span>
+                                <span class="project-tag">Matplotlib</span>
+                                <span class="project-tag">Pandas</span>
+                            </div>
+                            <div class="pub-venue">Interactive simulator with 8 scheduling algorithms (FCFS, SJF, SRTN,
+                                Round Robin, LJF, LRTN, Static/Dynamic Priority). Supports mixed CPU/I/O workloads,
+                                preemption, context switches, and aging-based starvation prevention. Gantt charts plus
+                                waiting, turnaround, response time, utilization, and throughput metrics.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/CPU-Scheduler" target="_blank"
+                                    rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                                <a href="https://cpu-scheduler-ritika.streamlit.app/" target="_blank"
+                                    rel="noopener">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&auto=format&fit=crop"
+                                alt="Graph algorithm visualizer" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Data Structures &amp; Algorithms</div>
+                            <div class="pub-title">Graph Algorithm Visualizer</div>
+                            <div class="project-meta">
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">ES6 Modules</span>
+                            </div>
+                            <div class="pub-venue">Step-by-step BFS and DFS visualization with a modular ES6 frontend
+                                separating graph structures, algorithm logic, and rendering. Live Queue and Stack views
+                                synced to execution, plus edge creation, node drag-and-drop, zoom, pan, and dynamic
+                                boundary expansion.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/Graph-Visualizer" target="_blank"
+                                    rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                                <a href="https://graph-visualizer-mauve.vercel.app/" target="_blank" rel="noopener">Live
+                                    Demo <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================== AI & DEEP LEARNING ===================== -->
+            <div class="category" id="cat-ai">
+                <div class="category-head reveal">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3>AI &amp; Deep Learning</h3>
+                        <p>Deep learning experiments and fundamentals.</p>
+                    </div>
+                </div>
+                <div class="pub-grid">
+
+
+
+
+
+                    <!-- Deep learning experiments -->
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · Regularization</div>
+                        <div class="pub-title">CNN Regularization Explorer</div>
+                        <div class="project-meta">
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">Dropout</span>
+                            <span class="project-tag">BatchNorm</span>
+                        </div>
+                        <div class="pub-venue">L1/L2 regularization, dropout, batch normalization, and data augmentation
+                            against overfitting, with an interactive explorer to compare their effects.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/regularization-explorer" target="_blank"
+                                rel="noopener">Explorer <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Regularization_Methods_in_PyTorch" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Optimization</div>
+                        <div class="pub-title">Second-Order Optimization Methods</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Newton</span>
+                            <span class="project-tag">Hessian</span>
+                            <span class="project-tag">Quasi-Newton</span>
+                        </div>
+                        <div class="pub-venue">Curvature, Newton's method, Hessian computation, quasi-Newton, and
+                            Hessian-free methods. Shows why second-order methods converge fast and why the full Hessian
+                            is impractical for large networks.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/Second-Order-Optimization-Methods" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d2">
+                        <div class="pub-year">PyTorch · Autoencoders</div>
+                        <div class="pub-title">Autoencoders &amp; VAEs</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Autoencoder</span>
+                            <span class="project-tag">Denoising</span>
+                            <span class="project-tag">VAE</span>
+                        </div>
+                        <div class="pub-venue">Standard, denoising, and variational autoencoders on MNIST:
+                            reconstruction, dimensionality reduction, bottleneck effects, denoising, and image
+                            generation.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/Autoencoders" target="_blank" rel="noopener">Code
+                                <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Autoencoders_in_PyTorch" target="_blank"
+                                rel="noopener">Alternative <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · CNN</div>
+                        <div class="pub-title">CNNs &amp; Deep Architectures</div>
+                        <div class="project-meta">
+                            <span class="project-tag">CIFAR-10</span>
+                            <span class="project-tag">ResNet-18</span>
+                            <span class="project-tag">VGG-16</span>
+                        </div>
+                        <div class="pub-venue">CNN practical covering convolution, pooling, backprop through
+                            convolution, parameter counts, and a CIFAR-10 classifier. Plus LeNet-5, AlexNet, VGG-16,
+                            PlacesNet, and ResNet-18.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/CNN" target="_blank" rel="noopener">CNN <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Deep-CNN-Architectures-LeNet-5-AlexNet-VGG-16-PlacesNet-ResNet-18"
+                                target="_blank" rel="noopener">Architectures <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Fundamentals</div>
+                        <div class="pub-title">Perceptron &amp; Backpropagation</div>
+                        <div class="project-meta">
+                            <span class="project-tag">From scratch</span>
+                            <span class="project-tag">Backprop</span>
+                        </div>
+                        <div class="pub-venue">From-scratch implementations of the perceptron learning algorithm and
+                            backpropagation, the building blocks of every neural network.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/mini_project_perceptron" target="_blank"
+                                rel="noopener">Perceptron <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/backpropagation_miniproject" target="_blank"
+                                rel="noopener">Backprop <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d2">
+                        <div class="pub-year">PyTorch · ANN</div>
+                        <div class="pub-title">Artificial Neural Networks</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Feedforward</span>
+                            <span class="project-tag">Optimizers</span>
+                        </div>
+                        <div class="pub-venue">Feedforward networks, activation and loss functions, training loops, and
+                            optimization techniques in PyTorch.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/ANN" target="_blank" rel="noopener">Code <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/optimization_techniques" target="_blank"
+                                rel="noopener">Optimization <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="under-review">
+        <div class="container">
+            <div class="section-label reveal">// Under Review</div>
+            <h2 class="section-title reveal">Submitted, <em>awaiting review.</em></h2>
+            <p class="section-desc reveal">Completed research currently under peer review. Details and code will be
+                shared once published.</p>
+
+            <div class="pub-grid">
+
+                <div class="pub-card reveal">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Healthcare AI</div>
+                    <div class="pub-title">Explainable Ensemble Learning for Heart Disease Prediction</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Ensemble Learning</span>
+                        <span class="project-tag">Explainable AI</span>
+                    </div>
+                    <div class="pub-venue">An interpretable ensemble approach to heart-disease risk prediction, designed
+                        so clinicians can see why a prediction was made.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d1">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Security</div>
+                    <div class="pub-title">Federated Learning for Intrusion Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Federated Learning</span>
+                        <span class="project-tag">Cybersecurity</span>
+                    </div>
+                    <div class="pub-venue">A privacy-preserving approach to network intrusion detection that trains
+                        across distributed clients without centralizing raw data.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d2">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Medical Imaging</div>
+                    <div class="pub-title">Diabetic Retinopathy Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">Deep Learning</span>
+                        <span class="project-tag">Medical Imaging</span>
+                    </div>
+                    <div class="pub-venue">Deep learning for automated detection and grading of diabetic retinopathy
+                        from retinal fundus images.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="in-progress">
+        <div class="container">
+            <div class="section-label reveal">// In Progress</div>
+            <h2 class="section-title reveal">Currently <em>building.</em></h2>
+            <p class="section-desc reveal">Work that's still evolving. Code is on GitHub, but expect things to change.
+            </p>
+
+            <div class="pub-grid">
+
+                <div class="pub-card reveal">
+                    <div class="pub-year"><span class="wip-dot"></span> In Progress · NLP</div>
+                    <div class="pub-title">Multilingual Legal Q&amp;A with Cross-LLM Refinement</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">QLoRA</span>
+                        <span class="project-tag">Qwen2.5-3B</span>
+                        <span class="project-tag">Flask</span>
+                    </div>
+                    <div class="pub-venue">Qwen2.5-3B fine-tuned with QLoRA into 4 language adapters (English, Hindi,
+                        Punjabi, Nepali) for Indian legal Q&amp;A. BGE/LaBSE retrieval, a Qwen2.5-7B critique-and-refine
+                        stage, and an NLI entailment check to catch factual drift.</div>
+                    <div class="project-links">
+                        <a href="https://github.com/RitikaKalia9/Multilingual_Legal_Q-A_Cross-LLM_Hallucination_Detection-Refinement"
+                            target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d1">
+                    <div class="pub-year"><span class="wip-dot"></span> In Progress · Computer Vision</div>
+                    <div class="pub-title">MMVDNet — Video Violence Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">VideoMAE</span>
+                        <span class="project-tag">Flask</span>
+                    </div>
+                    <div class="pub-venue">Fight-scene detection on a Kinetics-pretrained VideoMAE backbone with
+                        multi-clip sampling, 96% accuracy on RWF-2000. Being deployed as a Flask app for video upload or
+                        YouTube Shorts links.</div>
+                    <div class="project-links">
+                        <a href="https://github.com/RitikaKalia9/mvdnet" target="_blank" rel="noopener">Code <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="journey">
+        <div class="container">
+            <div class="section-label reveal">// Journey</div>
+            <h2 class="section-title reveal">Where I've <em>been.</em></h2>
+            <p class="section-desc reveal">Leadership, education, and experience.</p>
+
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2024 — 2027</div>
+                    <div class="timeline-title">B.E. Computer Science & Engineering</div>
+                    <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
+                    <div class="timeline-desc">CGPA: 9.45 (till 6th sem). Active in research, tech fest organizing, and
+                        student leadership.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025 — 2026</div>
+                    <div class="timeline-title">Chairperson — ACM-W Student Chapter</div>
+                    <div class="timeline-org">CCET, Chandigarh</div>
+                    <div class="timeline-desc">Leading initiatives to promote women in computing through workshops,
+                        mentorship, and community events.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025</div>
+                    <div class="timeline-title">Technical Team · APRATIM 2025</div>
+                    <div class="timeline-org">CCET College Tech Fest</div>
+                    <div class="timeline-desc">Managed technical events and logistics for the annual college tech fest.
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025</div>
+                    <div class="timeline-title">Design Contributor · CCET Website Team</div>
+                    <div class="timeline-org">Figma</div>
+                    <div class="timeline-desc">Designed official departmental web pages, improving the college's digital
+                        presence.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2022 — 2024</div>
+                    <div class="timeline-title">Diploma in Computer Science & Engineering</div>
+                    <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
+                    <div class="timeline-desc">Percentage: 86%. Foundational work in programming, systems, and data
+                        structures.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">Industrial Training</div>
+                    <div class="timeline-title">Python Programming</div>
+                    <div class="timeline-org">CS Soft Solutions (I) Pvt. Ltd.</div>
+                    <div class="timeline-desc">Completed industrial training in Python programming fundamentals and
+                        applied scripting.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-label center reveal">// Contact</div>
+            <h2 class="contact-title reveal">Let's build <em>something.</em></h2>
+            <p class="contact-desc reveal">Open to AI/ML Engineer and Full-Stack Developer roles, research
+                collaborations, and interesting problems.</p>
+            <a href="mailto:ritikakalia19@gmail.com" class="contact-email reveal"><i class="fas fa-paper-plane"></i>
+                ritikakalia19@gmail.com</a>
+            <div class="contact-socials reveal">
+                <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener"
+                    aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i
+                        class="fas fa-code"></i></a>
+                <a href="resume.pdf" download aria-label="Resume"><i class="fas fa-file-pdf"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Ritika Kalia · Built with <span class="heart">♥</span> in Chandigarh · Press <kbd>⌘K</kbd> to
+                search</p>
+        </div>
+    </footer>
+
+    <div class="cmdk-overlay" id="cmdk">
+        <div class="cmdk">
+            <input class="cmdk-input" id="cmdkInput" placeholder="Jump to…  try 'projects' or 'github'">
+            <ul class="cmdk-list" id="cmdkList"></ul>
+            <div class="cmdk-hint"><span>↑↓ navigate · ↵ open · esc close</span><span>⌘K</span></div>
+        </div>
     </div>
-    <div class="hero-visual reveal reveal-d2">
-      <div class="orbit">
-        <div class="orbit-dot"></div>
-        <div class="orbit-dot cyan"></div>
-        <div class="profile-photo">
-          <div class="fallback">RK</div>
-          <img src="images/profile.png" alt="Ritika Kalia" onerror="this.style.display='none'">
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
 
-<section id="about">
-  <div class="container">
-    <div class="section-label reveal">// About</div>
-    <h2 class="section-title reveal">Building <em>intelligent</em> solutions<br>for a smarter tomorrow.</h2>
-    <p class="section-desc reveal">A snapshot of what drives me, what I've done, and what I care about.</p>
-
-    <div class="bento-grid">
-      <div class="bento-item reveal">
-        <div class="bento-icon"><i class="fas fa-graduation-cap"></i></div>
-        <div class="bento-number">9.45</div>
-        <div class="bento-label">CGPA · B.E. CSE</div>
-      </div>
-      <div class="bento-item reveal reveal-d1">
-        <div class="bento-icon"><i class="fas fa-code-branch"></i></div>
-        <div class="bento-number">31</div>
-        <div class="bento-label">GitHub Repos</div>
-      </div>
-      <div class="bento-item reveal reveal-d2">
-        <div class="bento-icon"><i class="fas fa-scroll"></i></div>
-        <div class="bento-number">2</div>
-        <div class="bento-label">Publications</div>
-      </div>
-      <div class="bento-item reveal reveal-d3">
-        <div class="bento-icon"><i class="fas fa-fire"></i></div>
-        <div class="bento-number">196</div>
-        <div class="bento-label">Contributions · 2025</div>
-      </div>
-
-      <div class="bento-item span-2 reveal">
-        <div class="bento-title"><i class="fas fa-flask"></i> Research Interests</div>
-        <div class="bento-text">Multilingual NLP, retrieval-augmented generation, video understanding, privacy analytics in XR, and long-term memory for conversational agents.</div>
-      </div>
-      <div class="bento-item span-2 reveal reveal-d1">
-        <div class="bento-title"><i class="fas fa-compass"></i> Currently</div>
-        <div class="bento-text">Fine-tuning LLMs for Indic legal Q&A, building RAG pipelines with cross-model refinement, and shipping hands-on deep learning labs in PyTorch — from CNNs and autoencoders to second-order optimization. Looking for AI/ML and full-stack roles where I can ship fast and learn faster.</div>
-      </div>
-
-      <div class="bento-item span-4 reveal">
-        <div class="terminal">
-          <div class="terminal-header">
-            <span class="terminal-dot red"></span>
-            <span class="terminal-dot yellow"></span>
-            <span class="terminal-dot green"></span>
-            <span class="terminal-title">ritika@universe — zsh</span>
-          </div>
-          <div class="terminal-body">
-            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span class="terminal-cmd">whoami</span></span>
-            <span class="terminal-line terminal-output">AI/ML engineer · full-stack dev · researcher</span>
-            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span class="terminal-cmd">cat</span> <span class="terminal-string">focus.txt</span></span>
-            <span class="terminal-line terminal-output">Indic LLMs · RAG · PyTorch · CNNs · VideoMAE · XR privacy</span>
-            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span class="terminal-cmd">cat</span> <span class="terminal-string">mantra.txt</span></span>
-            <span class="terminal-line terminal-output">Build things that work. Then make them beautiful.</span>
-            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span class="terminal-cmd">_</span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="quote-strip reveal">
-      <div class="quote-text">In God we trust; all others bring data.</div>
-      <div class="quote-author">— W. Edwards Deming</div>
-    </div>
-  </div>
-</section>
-
-<section id="stack">
-  <div class="container">
-    <div class="section-label reveal">// Toolkit</div>
-    <h2 class="section-title reveal">The stack I <em>reach for.</em></h2>
-    <p class="section-desc reveal">Tools that turn ideas into shipped products.</p>
-
-    <div class="stack-grid">
-      <div class="stack-card reveal">
-        <div class="stack-head"><i class="fas fa-terminal"></i><h4>Languages</h4></div>
-        <div class="stack-tags">
-          <span class="stack-tag">Python</span>
-          <span class="stack-tag">C</span>
-          <span class="stack-tag">SQL</span>
-          <span class="stack-tag">JavaScript</span>
-        </div>
-      </div>
-      <div class="stack-card reveal reveal-d1">
-        <div class="stack-head"><i class="fas fa-globe"></i><h4>Web Development</h4></div>
-        <div class="stack-tags">
-          <span class="stack-tag">HTML</span>
-          <span class="stack-tag">CSS</span>
-          <span class="stack-tag">Django</span>
-          <span class="stack-tag">Flask</span>
-          <span class="stack-tag">Bootstrap</span>
-        </div>
-      </div>
-      <div class="stack-card reveal reveal-d2">
-        <div class="stack-head"><i class="fas fa-brain"></i><h4>AI / ML</h4></div>
-        <div class="stack-tags">
-          <span class="stack-tag">PyTorch</span>
-          <span class="stack-tag">Machine Learning</span>
-          <span class="stack-tag">Deep Learning</span>
-          <span class="stack-tag">Neural Networks</span>
-          <span class="stack-tag">CNN</span>
-          <span class="stack-tag">Autoencoders</span>
-          <span class="stack-tag">Hugging Face</span>
-          <span class="stack-tag">QLoRA</span>
-        </div>
-      </div>
-      <div class="stack-card reveal reveal-d3">
-        <div class="stack-head"><i class="fas fa-wrench"></i><h4>Tools & Design</h4></div>
-        <div class="stack-tags">
-          <span class="stack-tag">Git</span>
-          <span class="stack-tag">Figma</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <div class="container">
-    <div class="section-label reveal">// Selected Work</div>
-    <h2 class="section-title reveal">Projects I've <em>shipped.</em></h2>
-    <p class="section-desc reveal">Each one taught me something. Each one is live on GitHub.</p>
-
-    <div class="projects-list">
-      <!-- 01 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">01 / 08</div>
-          <h3 class="project-title">Multilingual Legal Q&A with Cross-LLM Refinement</h3>
-          <div class="project-meta">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">PyTorch</span>
-            <span class="project-tag">QLoRA</span>
-            <span class="project-tag">Qwen2.5-3B</span>
-            <span class="project-tag">Flask</span>
-          </div>
-          <p class="project-desc">Fine-tuned Qwen2.5-3B with QLoRA into 4 language adapters (English, Hindi, Punjabi, Nepali) for Indian legal Q&A. Built retrieval with BGE/LaBSE embeddings and a two-model pipeline where Qwen2.5-7B critiques and refines answers. Added an NLI entailment check to catch factual drift during refinement.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/Multilingual_Legal_Q-A_Cross-LLM_Hallucination_Detection-Refinement" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=900&q=80&auto=format&fit=crop" alt="Law gavel and justice scale" loading="lazy"></div>
-      </div>
-
-      <!-- 02 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">02 / 08</div>
-          <h3 class="project-title">MMVDNet — Video Violence Detection</h3>
-          <div class="project-meta">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">PyTorch</span>
-            <span class="project-tag">VideoMAE</span>
-            <span class="project-tag">Flask</span>
-          </div>
-          <p class="project-desc">Fight-scene detection on a VideoMAE backbone (Kinetics-pretrained) with multi-clip sampling, achieving 96% accuracy on the RWF-2000 benchmark. Deployed as a Flask app where users can upload a video or paste a YouTube Shorts link for real-time detection.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/mvdnet" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=900&q=80&auto=format&fit=crop" alt="Security surveillance camera" loading="lazy"></div>
-      </div>
-
-      <!-- 03 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">03 / 08</div>
-          <h3 class="project-title">CPU Scheduling Simulator</h3>
-          <div class="project-meta">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">Streamlit</span>
-            <span class="project-tag">Matplotlib</span>
-            <span class="project-tag">Pandas</span>
-          </div>
-          <p class="project-desc">An interactive simulator implementing 8 CPU scheduling algorithms including FCFS, SJF, SRTN, Round Robin, LJF, LRTN, and Static/Dynamic Priority. Features CPU and I/O mixed workloads, preemption, context switches, and aging-based starvation prevention. Includes a tick-by-tick scheduling engine with Gantt chart visualization and metrics for waiting time, turnaround time, response time, CPU utilization, and throughput.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/CPU-Scheduler" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-            <a href="https://cpu-scheduler-ritika.streamlit.app/" target="_blank" rel="noopener">Live Demo <i class="fas fa-external-link-alt"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80&auto=format&fit=crop" alt="Server room and data processing" loading="lazy"></div>
-      </div>
-
-      <!-- 04 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">04 / 08</div>
-          <h3 class="project-title">Graph Algorithm Visualizer</h3>
-          <div class="project-meta">
-            <span class="project-tag">JavaScript</span>
-            <span class="project-tag">HTML</span>
-            <span class="project-tag">CSS</span>
-            <span class="project-tag">ES6 Modules</span>
-          </div>
-          <p class="project-desc">An interactive web application to visualize BFS and DFS graph traversal algorithms step by step. Designed a modular frontend separating graph data structures, algorithm logic, and UI rendering using ES6 modules. Implemented real-time Queue and Stack visualizations synchronized with algorithm execution, plus interactive graph features including edge creation, node drag-and-drop, zoom, pan, and dynamic boundary expansion.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/Graph-Visualizer" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-            <a href="https://graph-visualizer-mauve.vercel.app/" target="_blank" rel="noopener">Live Demo <i class="fas fa-external-link-alt"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&auto=format&fit=crop" alt="Data visualization dashboard" loading="lazy"></div>
-      </div>
-
-      <!-- 05 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">05 / 08</div>
-          <h3 class="project-title">StellerCart — Full-Stack E-Commerce</h3>
-          <div class="project-meta">
-            <span class="project-tag">Django</span>
-            <span class="project-tag">Python</span>
-            <span class="project-tag">Bootstrap</span>
-            <span class="project-tag">JavaScript</span>
-          </div>
-          <p class="project-desc">Built a full-stack e-commerce site with Google sign-in, product listings, cart, and checkout. Designed 7 related models with Django ORM, added AJAX cart updates with CSRF protection, and integrated Razorpay (test mode) with server-side charge calculation and signature verification.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/Full-Stack-E-Commerce-Platform-StellerCart-" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop" alt="Online shopping and e-commerce" loading="lazy"></div>
-      </div>
-
-      <!-- 06 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">06 / 08</div>
-          <h3 class="project-title">Real-Time Privacy Guardianship in XR Metaverses</h3>
-          <div class="project-meta">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">AI/ML</span>
-            <span class="project-tag">Behavioral Analytics</span>
-          </div>
-          <p class="project-desc">AI-driven behavioral analytics pipeline achieving 92% accuracy and 0.976 ROC-AUC for detecting VR privacy attacks. Published and presented as an e-Poster at IEEE ICIR 2026, University of Pisa, Italy.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/Real_Time_Privacy_Guardianship_in_XR_Metaverses_via_AI_Driven_Behavioral_Analytics-" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=900&q=80&auto=format&fit=crop" alt="VR headset in use" loading="lazy"></div>
-      </div>
-
-      <!-- 07 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">07 / 08</div>
-          <h3 class="project-title">Dementia Memory Project</h3>
-          <div class="project-meta">
-            <span class="project-tag">JavaScript</span>
-            <span class="project-tag">Web</span>
-          </div>
-          <p class="project-desc">A web platform designed to assist individuals affected by dementia and their caregivers. Includes cognitive games, face tracking, relaxation music, journaling, and event reminders.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/Dementia_memory_project" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80&auto=format&fit=crop" alt="Elderly care and compassion" loading="lazy"></div>
-      </div>
-
-      <!-- 08 -->
-      <div class="project-item reveal">
-        <div>
-          <div class="project-num">08 / 08</div>
-          <h3 class="project-title">MusicBox</h3>
-          <div class="project-meta">
-            <span class="project-tag">JavaScript</span>
-            <span class="project-tag">Web</span>
-          </div>
-          <p class="project-desc">An interactive browser-based music player built from scratch in vanilla JavaScript. Focuses on clean UI, audio controls, and playlist management without any framework.</p>
-          <div class="project-links">
-            <a href="https://github.com/RitikaKalia9/MusicBox" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="project-visual"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=900&q=80&auto=format&fit=crop" alt="Music headphones and audio" loading="lazy"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="deep-learning">
-  <div class="container">
-    <div class="section-label reveal">// Deep Learning Lab</div>
-    <h2 class="section-title reveal">Neural networks & <em>PyTorch.</em></h2>
-    <p class="section-desc reveal">Hands-on implementations — from perceptrons and backpropagation to CNNs, autoencoders, and second-order optimization.</p>
-
-    <div class="pub-grid">
-      <div class="pub-card reveal">
-        <div class="pub-year">PyTorch · Optimization</div>
-        <div class="pub-title">Second-Order Optimization Methods</div>
-        <div class="pub-venue">A hands-on PyTorch lab exploring curvature, Newton's method, Hessian computation, quasi-Newton optimization, and Hessian-free methods. Demonstrates why second-order optimization converges in few iterations, and why forming the full Hessian becomes impractical for large networks.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/Second-Order-Optimization-Methods" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d1">
-        <div class="pub-year">PyTorch · Regularization</div>
-        <div class="pub-title">Regularization Methods in PyTorch</div>
-        <div class="pub-venue">Implementations of L1/L2 regularization, dropout, batch normalization, and data augmentation techniques to combat overfitting in deep feedforward networks. Includes an interactive regularization explorer.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/Regularization_Methods_in_PyTorch" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/regularization-explorer" target="_blank" rel="noopener">Explorer <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d2">
-        <div class="pub-year">PyTorch · Autoencoders</div>
-        <div class="pub-title">Autoencoders & Variational Autoencoders</div>
-        <div class="pub-venue">Implementation of standard Autoencoder, Denoising Autoencoder, and Variational Autoencoder (VAE) on MNIST. Covers image reconstruction, dimensionality reduction, bottleneck effects, denoising, and new image generation via VAE.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/Autoencoders" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/Autoencoders_in_PyTorch" target="_blank" rel="noopener">Alternative <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d3">
-        <div class="pub-year">PyTorch · CNN</div>
-        <div class="pub-title">CNN & Deep Architectures</div>
-        <div class="pub-venue">Step-by-step CNN practical covering convolution, pooling, backpropagation through convolution, parameter counts, and a CIFAR-10 classifier. Also includes deep CNN architecture implementations: LeNet-5, AlexNet, VGG-16, PlacesNet, and ResNet-18.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/CNN" target="_blank" rel="noopener">CNN <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/Deep-CNN-Architectures-LeNet-5-AlexNet-VGG-16-PlacesNet-ResNet-18" target="_blank" rel="noopener">Deep Architectures <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d3">
-        <div class="pub-year">PyTorch · Fundamentals</div>
-        <div class="pub-title">Perceptron & Backpropagation</div>
-        <div class="pub-venue">From-scratch implementations of the perceptron learning algorithm and the backpropagation algorithm — the building blocks of all neural networks.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/mini_project_perceptron" target="_blank" rel="noopener">Perceptron <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/backpropagation_miniproject" target="_blank" rel="noopener">Backprop <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d3">
-        <div class="pub-year">PyTorch · ANN</div>
-        <div class="pub-title">Artificial Neural Networks</div>
-        <div class="pub-venue">Foundational ANN implementations in PyTorch covering feedforward networks, activation functions, loss functions, and training loops.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://github.com/RitikaKalia9/ANN" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/optimization_techniques" target="_blank" rel="noopener">Optimization <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="research">
-  <div class="container">
-    <div class="section-label reveal">// Research</div>
-    <h2 class="section-title reveal">Publications & <em>papers.</em></h2>
-    <p class="section-desc reveal">Work that went through peer review and came out the other side.</p>
-
-    <div class="pub-grid">
-      <div class="pub-card reveal">
-        <div class="pub-year">IEEE ICIR · 2026</div>
-        <div class="pub-title">Real-Time Privacy Guardianship in XR Metaverses via AI-Driven Behavioral Analytics</div>
-        <div class="pub-venue">Published and presented as an e-Poster at IEEE ICIR 2026, University of Pisa, Italy. Pipeline achieved 92% accuracy and 0.976 ROC-AUC.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://ieeexplore.ieee.org/document/11628368" target="_blank" rel="noopener">IEEE Xplore <i class="fas fa-arrow-right"></i></a>
-          <a href="https://github.com/RitikaKalia9/Real_Time_Privacy_Guardianship_in_XR_Metaverses_via_AI_Driven_Behavioral_Analytics-" target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-      <div class="pub-card reveal reveal-d1">
-        <div class="pub-year">Insights2Techinfo · 2025</div>
-        <div class="pub-title">Memory in Conversational AI Agents: The Backbone of Long-Term Intelligence</div>
-        <div class="pub-venue">Published in Insights2Techinfo. Explores how long-term memory shapes coherent, useful conversational agents.</div>
-        <div class="project-links" style="margin-top: 1rem;">
-          <a href="https://insights2techinfo.com/memory-in-conversational-ai-agents-the-backbone-of-long-term-intelligence/" target="_blank" rel="noopener">Read publication <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="journey">
-  <div class="container">
-    <div class="section-label reveal">// Journey</div>
-    <h2 class="section-title reveal">Where I've <em>been.</em></h2>
-    <p class="section-desc reveal">Leadership, education, and experience.</p>
-
-    <div class="timeline">
-      <div class="timeline-item reveal">
-        <div class="timeline-date">2024 — 2027</div>
-        <div class="timeline-title">B.E. Computer Science & Engineering</div>
-        <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
-        <div class="timeline-desc">CGPA: 9.45 (till 6th sem). Active in research, tech fest organizing, and student leadership.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-date">2025 — 2026</div>
-        <div class="timeline-title">Chairperson — ACM-W Student Chapter</div>
-        <div class="timeline-org">CCET, Chandigarh</div>
-        <div class="timeline-desc">Leading initiatives to promote women in computing through workshops, mentorship, and community events.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-date">2025</div>
-        <div class="timeline-title">Technical Team · APRATIM 2025</div>
-        <div class="timeline-org">CCET College Tech Fest</div>
-        <div class="timeline-desc">Managed technical events and logistics for the annual college tech fest.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-date">2025</div>
-        <div class="timeline-title">Design Contributor · CCET Website Team</div>
-        <div class="timeline-org">Figma</div>
-        <div class="timeline-desc">Designed official departmental web pages, improving the college's digital presence.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-date">2022 — 2024</div>
-        <div class="timeline-title">Diploma in Computer Science & Engineering</div>
-        <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
-        <div class="timeline-desc">Percentage: 86%. Foundational work in programming, systems, and data structures.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-date">Industrial Training</div>
-        <div class="timeline-title">Python Programming</div>
-        <div class="timeline-org">CS Soft Solutions (I) Pvt. Ltd.</div>
-        <div class="timeline-desc">Completed industrial training in Python programming fundamentals and applied scripting.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="contact-section">
-  <div class="container">
-    <div class="section-label reveal" style="justify-content: center;">// Contact</div>
-    <h2 class="contact-title reveal">Let's build <em>something.</em></h2>
-    <p class="contact-desc reveal">Open to AI/ML Engineer and Full-Stack Developer roles, research collaborations, and interesting problems.</p>
-    <a href="mailto:ritikakalia19@gmail.com" class="contact-email reveal"><i class="fas fa-paper-plane"></i> ritikakalia19@gmail.com</a>
-    <div class="contact-socials reveal">
-      <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i class="fas fa-code"></i></a>
-      <a href="resume.pdf" download aria-label="Resume"><i class="fas fa-file-pdf"></i></a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p>&copy; 2026 Ritika Kalia · Built with <span class="heart">♥</span> in Chandigarh · Press <kbd style="font-family:'JetBrains Mono'; font-size:0.72rem; padding:2px 8px; border:1px solid var(--border); border-radius:6px;">⌘K</kbd> to search</p>
-  </div>
-</footer>
-
-<div class="cmdk-overlay" id="cmdk">
-  <div class="cmdk">
-    <input class="cmdk-input" id="cmdkInput" placeholder="Jump to…  try 'projects' or 'github'">
-    <ul class="cmdk-list" id="cmdkList"></ul>
-    <div class="cmdk-hint"><span>↑↓ navigate · ↵ open · esc close</span><span>⌘K</span></div>
-  </div>
-</div>
-
-<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/BokehShader.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/BokehPass.js"></script>
-
-<script>
-/* ============================================================
-   PROCEDURAL REALISTIC UNIVERSE
-   ============================================================ */
-(function () {
-  if (typeof THREE === 'undefined') {
-    console.warn('[universe] three.js not loaded.');
-    return;
-  }
-  const canvas = document.getElementById('webgl');
-  if (!canvas) return;
-
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const DPR      = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6);
-
-  let renderer;
-  try {
-    renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: !isMobile,
-      powerPreference: 'high-performance',
-      alpha: false
-    });
-  } catch (e) {
-    console.warn('[universe] WebGL unavailable.', e);
-    return;
-  }
-  renderer.setPixelRatio(DPR);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x04020a, 1);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
-  if (THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
-
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 1, 20000);
-  camera.position.set(0, 0, 900);
-
-  const LIGHT_DIR = new THREE.Vector3(0.36, 0.52, 0.55).normalize();
-
-  const NOISE_GLSL = `
-    vec3 mod289(vec3 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
-    vec4 mod289(vec4 x){ return x - floor(x * (1.0 / 289.0)) * 289.0; }
-    vec4 permute(vec4 x){ return mod289(((x * 34.0) + 1.0) * x); }
-    vec4 taylorInvSqrt(vec4 r){ return 1.79284291400159 - 0.85373472095314 * r; }
-
-    float snoise(vec3 v){
-      const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
-      const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-      vec3 i  = floor(v + dot(v, C.yyy));
-      vec3 x0 = v - i + dot(i, C.xxx);
-      vec3 g = step(x0.yzx, x0.xyz);
-      vec3 l = 1.0 - g;
-      vec3 i1 = min(g.xyz, l.zxy);
-      vec3 i2 = max(g.xyz, l.zxy);
-      vec3 x1 = x0 - i1 + C.xxx;
-      vec3 x2 = x0 - i2 + C.yyy;
-      vec3 x3 = x0 - D.yyy;
-      i = mod289(i);
-      vec4 p = permute(permute(permute(
-                 i.z + vec4(0.0, i1.z, i2.z, 1.0))
-               + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-               + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-      float n_ = 0.142857142857;
-      vec3 ns = n_ * D.wyz - D.xzx;
-      vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-      vec4 x_ = floor(j * ns.z);
-      vec4 y_ = floor(j - 7.0 * x_);
-      vec4 x = x_ * ns.x + ns.yyyy;
-      vec4 y = y_ * ns.x + ns.yyyy;
-      vec4 h = 1.0 - abs(x) - abs(y);
-      vec4 b0 = vec4(x.xy, y.xy);
-      vec4 b1 = vec4(x.zw, y.zw);
-      vec4 s0 = floor(b0) * 2.0 + 1.0;
-      vec4 s1 = floor(b1) * 2.0 + 1.0;
-      vec4 sh = -step(h, vec4(0.0));
-      vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-      vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-      vec3 p0 = vec3(a0.xy, h.x);
-      vec3 p1 = vec3(a0.zw, h.y);
-      vec3 p2 = vec3(a1.xy, h.z);
-      vec3 p3 = vec3(a1.zw, h.w);
-      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
-      p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-      m = m * m;
-      return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
-    }
-
-    float fbm(vec3 p){
-      float v = 0.0;
-      float a = 0.5;
-      for (int i = 0; i < 4; i++) {
-        v += a * snoise(p);
-        p *= 2.03;
-        a *= 0.5;
-      }
-      return v;
-    }
-  `;
-
-  const nebulaVert = `
-    varying vec3 vDir;
-    void main(){
-      vDir = normalize(position);
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-
-  const nebulaFrag = NOISE_GLSL + `
-    uniform float uTime;
-    uniform float uSeed;
-    uniform float uIntensity;
-    uniform vec3  uColA;
-    uniform vec3  uColB;
-    uniform vec3  uColC;
-    varying vec3 vDir;
-
-    void main(){
-      vec3 p = vDir * 2.0;
-      float t = uTime * 0.012;
-
-      vec3 warp = vec3(
-        fbm(p * 1.4 + vec3(t * 0.06, 0.0, 0.0)),
-        fbm(p * 1.4 + vec3(0.0, t * 0.05, 1.7 + uSeed)),
-        fbm(p * 1.4 + vec3(5.2, 1.3, t * 0.04))
-      );
-      vec3 pw = p + warp * 0.62;
-
-      float n1 = fbm(pw * 1.7 + vec3(t, uSeed, -t * 0.7));
-      float n2 = fbm(pw * 3.6 + vec3(-t * 0.9, uSeed * 2.0, t * 1.1));
-      float n3 = fbm(pw * 6.1 + vec3(uSeed * 3.1, -t * 1.4, 2.0));
-
-      float d = smoothstep(-0.10, 0.95, n1 * 1.15) * (0.55 + n2 * 0.6);
-      d = clamp(d, 0.0, 1.0);
-      d = pow(d, 1.85);
-      d *= 0.85 + n3 * 0.35;
-
-      vec3 col = mix(uColA, uColB, clamp(n1 * 0.8 + 0.5, 0.0, 1.0));
-      col = mix(col, uColC, clamp(n2 * 0.7 + 0.5, 0.0, 1.0) * 0.78);
-
-      float hot = pow(clamp(n2 * 0.6 + 0.4, 0.0, 1.0), 6.0);
-      col += vec3(1.0, 0.75, 0.95) * hot * 0.28;
-
-      float a = d * uIntensity;
-      gl_FragColor = vec4(col * a, a);
-    }
-  `;
-
-  const skyLayers = [
-    { r: 3400, seed: 0.0,  intensity: 0.62, a: 0x3b0f6b, b: 0x7c3aed, c: 0x1e3a8a, rot: 0.006 },
-    { r: 3000, seed: 13.7, intensity: 0.42, a: 0x0e7490, b: 0x22d3ee, c: 0x831843, rot: -0.009 }
-  ];
-
-  const skyGroup = new THREE.Group();
-  scene.add(skyGroup);
-
-  skyLayers.forEach((cfg, i) => {
-    const geo = new THREE.SphereGeometry(cfg.r, 64, 40);
-    const mat = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:      { value: 0 },
-        uSeed:      { value: cfg.seed },
-        uIntensity: { value: cfg.intensity },
-        uColA:      { value: new THREE.Color(cfg.a) },
-        uColB:      { value: new THREE.Color(cfg.b) },
-        uColC:      { value: new THREE.Color(cfg.c) }
-      },
-      vertexShader: nebulaVert,
-      fragmentShader: nebulaFrag,
-      side: THREE.BackSide,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      renderOrder: -100 + i
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.userData.rotSpeed = cfg.rot;
-    mesh.userData.mat = mat;
-    skyGroup.add(mesh);
-  });
-
-  const STAR_VERT = `
-    uniform float uTime;
-    uniform float uSize;
-    uniform float uPixelRatio;
-    uniform float uOpacity;
-    attribute vec3  aColor;
-    attribute float aScale;
-    attribute float aTwSpeed;
-    attribute float aTwOffset;
-    attribute float aBright;
-    varying vec3  vColor;
-    varying float vAlpha;
-    varying float vBright;
-
-    void main(){
-      vColor = aColor;
-      vBright = aBright;
-
-      float tw = sin(uTime * aTwSpeed + aTwOffset) * 0.5 + 0.5;
-      vAlpha = (0.20 + tw * 0.80) * uOpacity;
-
-      vec4 mv = modelViewMatrix * vec4(position, 1.0);
-      float dist = max(-mv.z, 1.0);
-
-      float sz = uSize * aScale * uPixelRatio * (900.0 / dist);
-      sz *= 0.55 + tw * 0.85;
-
-      gl_PointSize = clamp(sz, 0.5, 34.0);
-      gl_Position  = projectionMatrix * mv;
-    }
-  `;
-
-  const STAR_FRAG = `
-    varying vec3  vColor;
-    varying float vAlpha;
-    varying float vBright;
-
-    void main(){
-      vec2 p = (gl_PointCoord - 0.5) * 2.0;
-      float d = length(p);
-      if (d > 1.0) discard;
-
-      float core = pow(smoothstep(1.0, 0.0, d), 2.6);
-      float halo = smoothstep(1.0, 0.1, d) * 0.22;
-
-      float spike = 0.0;
-      float spikeMask = smoothstep(0.55, 0.95, vBright);
-      if (spikeMask > 0.001) {
-        float sx = exp(-abs(p.x) * 16.0) * exp(-abs(p.y) * 1.2);
-        float sy = exp(-abs(p.y) * 16.0) * exp(-abs(p.x) * 1.2);
-        float diag = exp(-abs(p.x - p.y) * 11.0) * exp(-abs(p.x + p.y) * 1.6)
-                   + exp(-abs(p.x + p.y) * 11.0) * exp(-abs(p.x - p.y) * 1.6);
-        spike = (sx + sy + diag * 0.55) * smoothstep(1.05, 0.0, d);
-        spike *= spikeMask;
-      }
-
-      float a = clamp((core + halo + spike * 0.75) * vAlpha, 0.0, 1.0);
-      vec3 col = vColor + vec3(core * 0.55) + vec3(spike * 0.6);
-
-      gl_FragColor = vec4(col, a);
-    }
-  `;
-
-  function blackbodyRGB(kelvin) {
-    const t = kelvin / 100;
-    let r, g, b;
-    if (t <= 66) {
-      r = 255;
-      g = 99.4708025861 * Math.log(t) - 161.1195681661;
-    } else {
-      r = 329.698727446 * Math.pow(t - 60, -0.1332047592);
-      g = 288.1221695283 * Math.pow(t - 60, -0.0755148492);
-    }
-    if (t >= 66) b = 255;
-    else if (t <= 19) b = 0;
-    else b = 138.5177312231 * Math.log(t - 10) - 305.0447927307;
-    return [r / 255, g / 255, b / 255].map(v => Math.min(1, Math.max(0, v)));
-  }
-
-  function makeStarLayer(count, rMin, rMax, sizeMul, opacity) {
-    const geo = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    const colors    = new Float32Array(count * 3);
-    const scales    = new Float32Array(count);
-    const speeds    = new Float32Array(count);
-    const offsets   = new Float32Array(count);
-    const brights   = new Float32Array(count);
-
-    for (let i = 0; i < count; i++) {
-      const r  = rMin + Math.random() * (rMax - rMin);
-      const u  = Math.random() * 2 - 1;
-      const th = Math.random() * Math.PI * 2;
-      const s  = Math.sqrt(1 - u * u);
-      positions[i * 3]     = r * s * Math.cos(th);
-      positions[i * 3 + 1] = r * s * Math.sin(th);
-      positions[i * 3 + 2] = r * u;
-
-      const kelvin = 2600 + Math.pow(Math.random(), 2.4) * 27000;
-      const [cr, cg, cb] = blackbodyRGB(kelvin);
-      colors[i * 3]     = cr;
-      colors[i * 3 + 1] = cg;
-      colors[i * 3 + 2] = cb;
-
-      const br = Math.pow(Math.random(), 6);
-      brights[i] = br;
-
-      scales[i]  = (0.24 + br * 3.2 + Math.random() * 0.35) * sizeMul;
-      speeds[i]  = 0.5 + Math.random() * 2.9;
-      offsets[i] = Math.random() * Math.PI * 2;
-    }
-
-    geo.setAttribute('position',  new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('aColor',    new THREE.BufferAttribute(colors, 3));
-    geo.setAttribute('aScale',    new THREE.BufferAttribute(scales, 1));
-    geo.setAttribute('aTwSpeed',  new THREE.BufferAttribute(speeds, 1));
-    geo.setAttribute('aTwOffset', new THREE.BufferAttribute(offsets, 1));
-    geo.setAttribute('aBright',   new THREE.BufferAttribute(brights, 1));
-
-    const mat = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:       { value: 0 },
-        uSize:       { value: 6.5 },
-        uPixelRatio: { value: DPR },
-        uOpacity:    { value: opacity }
-      },
-      vertexShader:   STAR_VERT,
-      fragmentShader: STAR_FRAG,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-
-    const points = new THREE.Points(geo, mat);
-    points.userData.mat = mat;
-    return points;
-  }
-
-  const starGroup = new THREE.Group();
-  scene.add(starGroup);
-
-  const starCounts = isMobile
-    ? [[2400, 900, 2600, 0.85, 0.95], [1600, 2600, 4200, 1.25, 0.7], [800, 4200, 6200, 1.7, 0.5]]
-    : [[7000, 900, 2600, 0.85, 0.95], [4500, 2600, 4200, 1.25, 0.7], [2200, 4200, 6500, 1.75, 0.5]];
-
-  starCounts.forEach(([c, a, b, s, o]) => starGroup.add(makeStarLayer(c, a, b, s, o)));
-
-  const PLANET_VERT = `
-    varying vec3 vObjPos;
-    varying vec3 vWorldNormal;
-    varying vec3 vWorldPos;
-    void main(){
-      vObjPos      = position;
-      vWorldNormal = normalize(mat3(modelMatrix) * normal);
-      vec4 wp      = modelMatrix * vec4(position, 1.0);
-      vWorldPos    = wp.xyz;
-      gl_Position  = projectionMatrix * viewMatrix * wp;
-    }
-  `;
-
-  const PLANET_FRAG = NOISE_GLSL + `
-    uniform float uTime;
-    uniform vec3  uLightDir;
-    uniform vec3  uOcean;
-    uniform vec3  uLandLo;
-    uniform vec3  uLandHi;
-    uniform vec3  uIce;
-    uniform float uSeed;
-    uniform float uCloudAmt;
-
-    uniform float uHasRing;
-    uniform vec3  uRingCenter;
-    uniform vec3  uRingNormal;
-    uniform float uRingInner;
-    uniform float uRingOuter;
-
-    varying vec3  vObjPos;
-    varying vec3  vWorldNormal;
-    varying vec3  vWorldPos;
-
-    void main(){
-      vec3 p = normalize(vObjPos);
-      vec3 q = p * 2.15 + vec3(uSeed);
-
-      float continents = fbm(q + vec3(uTime * 0.004, 0.0, 0.0));
-      float detail     = fbm(q * 3.1);
-      float h          = continents + detail * 0.28;
-
-      float landMask = smoothstep(0.02, 0.20, h);
-      vec3 col = mix(uOcean, uLandLo, landMask);
-      col = mix(col, uLandHi, smoothstep(0.16, 0.44, h));
-
-      float lat = abs(p.y);
-      col = mix(col, uIce, smoothstep(0.76, 0.95, lat));
-
-      float clouds = fbm(p * 3.0 + vec3(uTime * 0.010, uSeed * 0.5, 0.0));
-      float cloudMask = smoothstep(0.18, 0.62, clouds) * uCloudAmt;
-      col = mix(col, vec3(1.0), cloudMask);
-      col *= (1.0 - cloudMask * 0.28);
-
-      vec3  N = normalize(vWorldNormal);
-      vec3  L = normalize(uLightDir);
-      float ndl = dot(N, L);
-
-      float diff = smoothstep(-0.35, 0.55, ndl);
-      vec3  terminatorGlow = vec3(0.85, 0.42, 0.20) * exp(-abs(ndl) * 3.2) * 0.10;
-
-      vec3 lit = col * (0.035 + 1.22 * diff) + terminatorGlow;
-
-      vec3 V = normalize(cameraPosition - vWorldPos);
-      float rim = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.5);
-      lit += vec3(0.10, 0.28, 0.55) * rim * (0.25 + diff * 0.9);
-
-      if (uHasRing > 0.5) {
-        vec3 PtoCenter = vWorldPos - uRingCenter;
-        float denom = dot(L, uRingNormal);
-        if (abs(denom) > 0.001) {
-          float t = -dot(PtoCenter, uRingNormal) / denom;
-          if (t > 0.0) {
-            vec3 hit = vWorldPos + L * t;
-            vec3 localHit = hit - uRingCenter;
-            vec3 inPlane = localHit - uRingNormal * dot(localHit, uRingNormal);
-            float rr = length(inPlane);
-            float inBand = step(uRingInner, rr) * step(rr, uRingOuter);
-            lit *= (1.0 - inBand * 0.55);
-          }
-        }
-      }
-
-      gl_FragColor = vec4(lit, 1.0);
-    }
-  `;
-
-  const ATMO_FRAG = `
-    uniform vec3  uColor;
-    uniform vec3  uLightDir;
-    uniform float uIntensity;
-    varying vec3  vWorldNormal;
-    varying vec3  vWorldPos;
-    void main(){
-      vec3 N = normalize(vWorldNormal);
-      vec3 V = normalize(cameraPosition - vWorldPos);
-      float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0);
-      float lit  = max(dot(N, normalize(uLightDir)), 0.0);
-      float a    = fres * (0.18 + lit * 1.05) * uIntensity;
-      gl_FragColor = vec4(uColor * a, a);
-    }
-  `;
-
-  const CLOUD_FRAG = NOISE_GLSL + `
-    uniform float uTime;
-    uniform vec3  uLightDir;
-    uniform float uAmount;
-    varying vec3  vObjPos;
-    varying vec3  vWorldNormal;
-
-    void main(){
-      vec3 p = normalize(vObjPos);
-      float c = fbm(p * 3.4 + vec3(uTime * 0.014, 0.0, uTime * 0.008));
-      float a = smoothstep(0.10, 0.60, c) * uAmount;
-
-      vec3 N = normalize(vWorldNormal);
-      float lit = smoothstep(-0.25, 0.55, dot(N, normalize(uLightDir)));
-
-      gl_FragColor = vec4(vec3(1.0), a * (0.10 + lit * 0.72));
-    }
-  `;
-
-  function createAtmosphere(radius, color, intensity) {
-    const geo = new THREE.SphereGeometry(radius, 64, 48);
-    const mat = new THREE.ShaderMaterial({
-      uniforms: {
-        uColor:     { value: new THREE.Color(color) },
-        uLightDir:  { value: LIGHT_DIR.clone() },
-        uIntensity: { value: intensity }
-      },
-      vertexShader: PLANET_VERT,
-      fragmentShader: ATMO_FRAG,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-    return new THREE.Mesh(geo, mat);
-  }
-
-  const gasGiant = new THREE.Group();
-  gasGiant.position.set(1420, -560, -2400);
-  gasGiant.rotation.z = 0.24;
-  gasGiant.rotation.x = -0.13;
-  scene.add(gasGiant);
-
-  const ggRadius = 300;
-
-  const ggSurface = new THREE.Mesh(
-    new THREE.SphereGeometry(ggRadius, 96, 72),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:        { value: 0 },
-        uLightDir:    { value: LIGHT_DIR.clone() },
-        uOcean:       { value: new THREE.Color(0x071a3a) },
-        uLandLo:      { value: new THREE.Color(0x1d6b52) },
-        uLandHi:      { value: new THREE.Color(0x8a7a4e) },
-        uIce:         { value: new THREE.Color(0xdcecff) },
-        uSeed:        { value: 4.2 },
-        uCloudAmt:    { value: 0.5 },
-        uHasRing:     { value: 1.0 },
-        uRingCenter:  { value: new THREE.Vector3() },
-        uRingNormal:  { value: new THREE.Vector3(0, 1, 0) },
-        uRingInner:   { value: ggRadius * 1.5 },
-        uRingOuter:   { value: ggRadius * 2.5 }
-      },
-      vertexShader: PLANET_VERT,
-      fragmentShader: PLANET_FRAG
-    })
-  );
-  gasGiant.add(ggSurface);
-
-  const ggClouds = new THREE.Mesh(
-    new THREE.SphereGeometry(ggRadius * 1.012, 64, 48),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:     { value: 0 },
-        uLightDir: { value: LIGHT_DIR.clone() },
-        uAmount:   { value: 0.85 }
-      },
-      vertexShader: PLANET_VERT,
-      fragmentShader: CLOUD_FRAG,
-      transparent: true,
-      depthWrite: false
-    })
-  );
-  gasGiant.add(ggClouds);
-
-  gasGiant.add(createAtmosphere(ggRadius * 1.13, 0x4fb8ff, 1.0));
-
-  const RING_FRAG = `
-    uniform float uTime;
-    uniform vec3  uLightDir;
-    uniform vec3  uPlanetCenter;
-    uniform vec3  uRingNormal;
-    uniform float uPlanetRadius;
-    varying vec2  vUv;
-    varying vec3  vWorldPos;
-
-    void main(){
-      vec2 c = vUv - 0.5;
-      float r = length(c) * 2.0;
-
-      float b1 = sin(r * 130.0) * 0.5 + 0.5;
-      float b2 = sin(r * 47.0 + 1.9) * 0.5 + 0.5;
-      float b3 = sin(r * 19.0 + 4.3) * 0.5 + 0.5;
-      float bands = b1 * 0.5 + b2 * 0.32 + b3 * 0.18;
-
-      float env = smoothstep(0.605, 0.655, r) * (1.0 - smoothstep(0.92, 1.0, r));
-      float a = (0.06 + bands * 0.62) * env;
-      vec3 col = mix(vec3(0.62, 0.55, 0.78), vec3(0.92, 0.86, 0.72), bands);
-
-      vec3 L = normalize(uLightDir);
-      vec3 PtoCenter = vWorldPos - uPlanetCenter;
-      vec3 inPlane = PtoCenter - uRingNormal * dot(PtoCenter, uRingNormal);
-      vec3 perp = normalize(cross(L, uRingNormal));
-      float along = abs(dot(inPlane, perp));
-      float behindLight = step(0.0, dot(PtoCenter, -L));
-      float inShadow = (1.0 - smoothstep(uPlanetRadius * 0.9, uPlanetRadius * 1.15, along));
-      float shadowTerm = inShadow * behindLight;
-      shadowTerm *= smoothstep(0.5, 0.65, r);
-      col *= (1.0 - shadowTerm * 0.7);
-      a *= (1.0 - shadowTerm * 0.35);
-
-      gl_FragColor = vec4(col, a * 0.9);
-    }
-  `;
-
-  const ring = new THREE.Mesh(
-    new THREE.RingGeometry(ggRadius * 1.5, ggRadius * 2.5, 180, 6),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:         { value: 0 },
-        uLightDir:     { value: LIGHT_DIR.clone() },
-        uPlanetCenter: { value: gasGiant.position.clone() },
-        uRingNormal:   { value: new THREE.Vector3(0, 1, 0) },
-        uPlanetRadius: { value: ggRadius }
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vWorldPos;
-        void main(){
-          vUv = uv;
-          vec4 wp = modelMatrix * vec4(position, 1.0);
-          vWorldPos = wp.xyz;
-          gl_Position = projectionMatrix * viewMatrix * wp;
-        }
-      `,
-      fragmentShader: RING_FRAG,
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    })
-  );
-  ring.rotation.x = -Math.PI / 2;
-  gasGiant.add(ring);
-
-  const tealPlanet = new THREE.Mesh(
-    new THREE.SphereGeometry(150, 64, 48),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:        { value: 0 },
-        uLightDir:    { value: LIGHT_DIR.clone() },
-        uOcean:       { value: new THREE.Color(0x04283a) },
-        uLandLo:      { value: new THREE.Color(0x0e7490) },
-        uLandHi:      { value: new THREE.Color(0x67e8f9) },
-        uIce:         { value: new THREE.Color(0xe0f7ff) },
-        uSeed:        { value: 21.5 },
-        uCloudAmt:    { value: 0.35 },
-        uHasRing:     { value: 0.0 },
-        uRingCenter:  { value: new THREE.Vector3() },
-        uRingNormal:  { value: new THREE.Vector3(0, 1, 0) },
-        uRingInner:   { value: 0.0 },
-        uRingOuter:   { value: 0.0 }
-      },
-      vertexShader: PLANET_VERT,
-      fragmentShader: PLANET_FRAG
-    })
-  );
-  tealPlanet.position.set(-1900, 720, -3400);
-  scene.add(tealPlanet);
-
-  const tealAtmo = createAtmosphere(150 * 1.18, 0x22d3ee, 0.9);
-  tealAtmo.position.copy(tealPlanet.position);
-  scene.add(tealAtmo);
-
-  const AURORA_FRAG = NOISE_GLSL + `
-    uniform float uTime;
-    uniform float uIntensity;
-    varying vec2  vUv;
-    void main(){
-      float theta = vUv.x * 6.2831853;
-      float v = vUv.y;
-
-      vec3 p = vec3(cos(theta), v * 6.0, sin(theta)) * 1.6;
-      float n = fbm(p + vec3(0.0, uTime * 0.15, 0.0));
-      float n2 = fbm(p * 2.3 - vec3(0.0, uTime * 0.10, 0.0));
-
-      float curtain = smoothstep(0.0, 0.7, n * 0.6 + n2 * 0.6);
-      float band = smoothstep(0.0, 0.15, v) * (1.0 - smoothstep(0.55, 1.0, v));
-
-      vec3 col = mix(vec3(0.20, 0.95, 0.55), vec3(0.25, 0.55, 1.0), clamp(n2 * 0.6 + 0.5, 0.0, 1.0));
-      float a = curtain * band * uIntensity;
-      gl_FragColor = vec4(col * a, a);
-    }
-  `;
-
-  const aurora = new THREE.Mesh(
-    new THREE.RingGeometry(150 * 0.55, 150 * 1.05, 128, 4),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:      { value: 0 },
-        uIntensity: { value: 0.85 }
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main(){
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: AURORA_FRAG,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    })
-  );
-  aurora.rotation.x = -Math.PI / 2;
-  aurora.position.copy(tealPlanet.position);
-  aurora.position.y += 130;
-  scene.add(aurora);
-
-  const moonPivot = new THREE.Group();
-  moonPivot.position.copy(gasGiant.position);
-  moonPivot.rotation.z = 0.24;
-  moonPivot.rotation.x = -0.13;
-  scene.add(moonPivot);
-
-  const moon = new THREE.Mesh(
-    new THREE.SphereGeometry(52, 48, 32),
-    new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:        { value: 0 },
-        uLightDir:    { value: LIGHT_DIR.clone() },
-        uOcean:       { value: new THREE.Color(0x3a2c14) },
-        uLandLo:      { value: new THREE.Color(0xb45309) },
-        uLandHi:      { value: new THREE.Color(0xfbbf24) },
-        uIce:         { value: new THREE.Color(0xfef3c7) },
-        uSeed:        { value: 88.1 },
-        uCloudAmt:    { value: 0.0 },
-        uHasRing:     { value: 0.0 },
-        uRingCenter:  { value: new THREE.Vector3() },
-        uRingNormal:  { value: new THREE.Vector3(0, 1, 0) },
-        uRingInner:   { value: 0.0 },
-        uRingOuter:   { value: 0.0 }
-      },
-      vertexShader: PLANET_VERT,
-      fragmentShader: PLANET_FRAG
-    })
-  );
-  moon.position.set(760, 120, 0);
-  moonPivot.add(moon);
-
-  scene.updateMatrixWorld(true);
-  const ggQuat = new THREE.Quaternion();
-  gasGiant.getWorldQuaternion(ggQuat);
-  const ringNormalWorld = new THREE.Vector3(0, 1, 0).applyQuaternion(ggQuat).normalize();
-  const ggWorldPos = new THREE.Vector3();
-  gasGiant.getWorldPosition(ggWorldPos);
-  ggSurface.material.uniforms.uRingCenter.value.copy(ggWorldPos);
-  ggSurface.material.uniforms.uRingNormal.value.copy(ringNormalWorld);
-  ring.material.uniforms.uPlanetCenter.value.copy(ggWorldPos);
-  ring.material.uniforms.uRingNormal.value.copy(ringNormalWorld);
-
-  const dustCount = isMobile ? 180 : 420;
-  const dustGeo = new THREE.BufferGeometry();
-  const dustPos = new Float32Array(dustCount * 3);
-  for (let i = 0; i < dustCount; i++) {
-    dustPos[i * 3]     = (Math.random() - 0.5) * 900;
-    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 700;
-    dustPos[i * 3 + 2] = -Math.random() * 500;
-  }
-  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-
-  const dustMat = new THREE.PointsMaterial({
-    size: 1.7,
-    color: 0xa8c4ff,
-    transparent: true,
-    opacity: 0.42,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true
-  });
-  const dust = new THREE.Points(dustGeo, dustMat);
-  scene.add(dust);
-
-  /* ============================================================
-     SPIRAL GALAXY — a real 3D object in the universe
-     Needs in scope: THREE, scene, DPR, isMobile, NOISE_GLSL
-     ============================================================ */
-  const galaxy = (function () {
-    const R        = 3100;                 // galaxy radius (world units)
-    const ARM_B    = 2.1;                  // spiral tightness
-    const ARM_R0   = 0.05;
-    const SPIN     = 0.006;                // rad / second (very slow)
-
-    const root = new THREE.Group();
-    root.position.set(1150, 140, -5900);
-    root.rotation.set(0.74, 0, -0.42, 'ZXY');   // tilted disc, like a real galaxy seen at an angle
-    scene.add(root);
-
-    /* ---------- 1. diffuse arms + dust + glowing core (analytic shader) ---------- */
-    const hazeMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 }, uIntensity: { value: 1.0 } },
-      vertexShader: `
-        varying vec2 vUv;
-        void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
-      `,
-      fragmentShader: NOISE_GLSL + `
-        uniform float uTime;
-        uniform float uIntensity;
-        varying vec2 vUv;
-        const float B  = ${ARM_B.toFixed(3)};
-        const float R0 = ${ARM_R0.toFixed(3)};
-
-        void main(){
-          vec2 p = (vUv - 0.5) * 2.0;
-          float r = length(p);
-          if (r > 1.0) discard;
-
-          float th  = atan(p.y, p.x);
-          float rot = uTime * ${SPIN.toFixed(4)} * (1.4 - 0.5 * r);
-          float c = cos(rot), s = sin(rot);
-          vec2 pr = vec2(c * p.x + s * p.y, -s * p.x + c * p.y);     // noise rides with the arms
-
-          float ph  = th - rot - B * log(max(r, 0.001) / R0);
-          float arm = pow(0.5 + 0.5 * cos(2.0 * ph), 1.5);
-
-          float n  = fbm(vec3(pr * 4.2, 1.7));
-          float n2 = fbm(vec3(pr * 9.0, 5.3));
-          float clump = smoothstep(-0.25, 0.75, n * 0.8 + n2 * 0.5);
-
-          float fall = exp(-r * 2.7);
-          float edge = 1.0 - smoothstep(0.72, 1.0, r);
-          float disk = (0.10 + arm * 0.95) * (0.45 + clump * 0.85) * fall * edge;
-
-          vec3 armCol   = mix(vec3(0.30, 0.24, 0.80), vec3(0.58, 0.34, 0.92), clamp(n * 0.7 + 0.5, 0.0, 1.0));
-          vec3 pinkTint = vec3(0.95, 0.40, 0.72) * smoothstep(0.35, 0.85, n2 * 0.8 + 0.4) * arm * smoothstep(0.2, 0.6, r) * 0.55;
-          vec3 col = armCol * disk * 1.25 + pinkTint * disk * 1.3;
-
-          // dusty lanes lightly pull the glow down between clumps
-          col *= 0.75 + 0.25 * smoothstep(-0.4, 0.5, n2);
-
-          // bulge + nucleus
-          float bulge   = exp(-r * 8.5);
-          float nucleus = exp(-r * 38.0);
-          col += vec3(1.00, 0.80, 0.48) * bulge   * 0.26;
-          col += vec3(1.00, 0.93, 0.78) * nucleus * 0.42;
-
-          gl_FragColor = vec4(col * uIntensity, 1.0);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    });
-
-    const hazePlane = new THREE.Mesh(new THREE.PlaneGeometry(R * 2, R * 2, 1, 1), hazeMat);
-    hazePlane.rotation.x = -Math.PI / 2;           // lie in the disc plane
-    hazePlane.renderOrder = -60;
-    root.add(hazePlane);
-
-    /* ---------- 2. individual stars: arms, bulge, halo, pink HII clusters ---------- */
-    const NARM   = isMobile ? 9000 : 22000;
-    const NBULGE = isMobile ? 2400 : 5200;
-    const NHALO  = isMobile ? 500  : 1400;
-    const NHII   = isMobile ? 90   : 230;
-    const N      = NARM + NBULGE + NHALO + NHII;
-
-    const aR     = new Float32Array(N);
-    const aTheta = new Float32Array(N);
-    const aY     = new Float32Array(N);
-    const aColor = new Float32Array(N * 3);
-    const aSize  = new Float32Array(N);
-    const aTw    = new Float32Array(N * 2);
-    const pos    = new Float32Array(N * 3);          // unused by shader, keeps geometry valid
-
-    const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
-    const pick  = (arr) => arr[(Math.random() * arr.length) | 0];
-
-    const armPal  = [[0.91,0.90,0.96],[0.77,0.71,0.99],[0.80,0.88,1.00],[0.65,0.95,0.99],[1.00,0.91,0.71],[0.98,0.66,0.83]];
-    const coreP   = [[1.00,0.91,0.71],[1.00,0.85,0.54],[1.00,0.95,0.82],[1.00,0.78,0.45]];
-    const haloP   = [[0.80,0.85,1.00],[0.95,0.92,0.85],[1.00,0.88,0.72]];
-    const hiiP    = [[0.98,0.66,0.83],[0.91,0.47,0.98],[0.99,0.55,0.75]];
-
-    let k = 0;
-    function put(r, theta, y, col, size, taper) {
-      aR[k] = r; aTheta[k] = theta; aY[k] = y;
-      aColor[k * 3]     = col[0] * taper;
-      aColor[k * 3 + 1] = col[1] * taper;
-      aColor[k * 3 + 2] = col[2] * taper;
-      aSize[k]   = size;
-      aTw[k * 2] = 0.4 + Math.random() * 2.6;
-      aTw[k * 2 + 1] = Math.random() * 6.2831853;
-      k++;
-    }
-
-    // spiral arm stars (two arms, tightening toward the core, scatter grows outward)
-    for (let i = 0; i < NARM; i++) {
-      const r = ARM_R0 + (1 - ARM_R0) * Math.pow(Math.random(), 1.08);
-      const arm = Math.random() < 0.5 ? 0 : Math.PI;
-      const spread = 0.20 + 0.50 * r;
-      const th = arm + ARM_B * Math.log(r / ARM_R0) + gauss() * spread;
-      const y  = gauss() * 0.018 * (1.2 - r) * R;
-      const taper = 1 - Math.min(1, Math.max(0, (r - 0.62) / 0.38)) * 0.85;
-      const big = Math.random() < 0.035;
-      put(r, th, y, pick(armPal), big ? 22 + Math.random() * 16 : 5 + Math.random() * 9, taper);
-    }
-    // central bulge: dense warm ellipsoid
-    for (let i = 0; i < NBULGE; i++) {
-      const r  = Math.min(0.30, Math.abs(gauss()) * 0.20 + Math.random() * 0.04);
-      const th = Math.random() * 6.2831853;
-      const y  = gauss() * 0.09 * (1 - r * 1.8) * R * 0.45;
-      put(r, th, y, pick(coreP), 5 + Math.random() * 9, 1.0 - r * 0.9);
-    }
-    // faint, thick halo
-    for (let i = 0; i < NHALO; i++) {
-      const r  = 0.1 + Math.random() * 0.95;
-      const th = Math.random() * 6.2831853;
-      const y  = gauss() * 0.16 * R;
-      put(r, th, y, pick(haloP), 4 + Math.random() * 6, 0.45);
-    }
-    // pink star-forming knots sitting on the arms
-    for (let i = 0; i < NHII; i++) {
-      const r   = 0.22 + Math.random() * 0.62;
-      const arm = Math.random() < 0.5 ? 0 : Math.PI;
-      const th  = arm + ARM_B * Math.log(r / ARM_R0) + gauss() * (0.06 + 0.12 * r);
-      put(r, th, gauss() * 0.01 * R, pick(hiiP), 20 + Math.random() * 24, 1.0 - Math.max(0, r - 0.6));
-    }
-
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('aR',     new THREE.BufferAttribute(aR, 1));
-    geo.setAttribute('aTheta', new THREE.BufferAttribute(aTheta, 1));
-    geo.setAttribute('aY',     new THREE.BufferAttribute(aY, 1));
-    geo.setAttribute('aColor', new THREE.BufferAttribute(aColor, 3));
-    geo.setAttribute('aSize',  new THREE.BufferAttribute(aSize, 1));
-    geo.setAttribute('aTw',    new THREE.BufferAttribute(aTw, 2));
-
-    const starMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 }, uPixelRatio: { value: DPR }, uOpacity: { value: 1.0 } },
-      vertexShader: `
-        uniform float uTime;
-        uniform float uPixelRatio;
-        uniform float uOpacity;
-        attribute float aR;
-        attribute float aTheta;
-        attribute float aY;
-        attribute vec3  aColor;
-        attribute float aSize;
-        attribute vec2  aTw;
-        varying vec3  vColor;
-        varying float vAlpha;
-        void main(){
-          float ang = aTheta + uTime * ${SPIN.toFixed(4)} * (1.4 - 0.5 * aR);
-          vec3 p = vec3(cos(ang) * aR * ${R.toFixed(1)}, aY, -sin(ang) * aR * ${R.toFixed(1)});
-          vec4 mv = modelViewMatrix * vec4(p, 1.0);
-          float dist = max(-mv.z, 1.0);
-
-          float tw = sin(uTime * aTw.x + aTw.y) * 0.5 + 0.5;
-          vAlpha = (0.36 + tw * 0.32) * uOpacity;
-          vColor = aColor;
-
-          gl_PointSize = clamp(aSize * uPixelRatio * (900.0 / dist) * (0.8 + tw * 0.35), 0.8, 16.0);
-          gl_Position  = projectionMatrix * mv;
-        }
-      `,
-      fragmentShader: `
-        varying vec3  vColor;
-        varying float vAlpha;
-        void main(){
-          float d = length(gl_PointCoord - 0.5) * 2.0;
-          if (d > 1.0) discard;
-          float core = pow(1.0 - d, 2.2);
-          gl_FragColor = vec4(vColor + vec3(core * 0.25), core * vAlpha);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-
-    const stars = new THREE.Points(geo, starMat);
-    stars.frustumCulled = false;
-    stars.renderOrder = -59;
-    root.add(stars);
-
-    return {
-      update(t) {
-        hazeMat.uniforms.uTime.value = t;
-        starMat.uniforms.uTime.value = t;
-      }
-    };
-  })();
-
-  function makeMeteorTexture() {
-    const c = document.createElement('canvas');
-    c.width = 128; c.height = 512;
-    const g = c.getContext('2d');
-
-    const head = g.createRadialGradient(64, 470, 0, 64, 470, 62);
-    head.addColorStop(0.00, 'rgba(255,255,255,1)');
-    head.addColorStop(0.35, 'rgba(205,228,255,0.65)');
-    head.addColorStop(1.00, 'rgba(150,195,255,0)');
-    g.fillStyle = head;
-    g.fillRect(0, 0, 128, 512);
-
-    const trail = g.createLinearGradient(0, 512, 0, 0);
-    trail.addColorStop(0.00, 'rgba(255,255,255,0.95)');
-    trail.addColorStop(0.12, 'rgba(196,220,255,0.60)');
-    trail.addColorStop(0.45, 'rgba(150,190,255,0.20)');
-    trail.addColorStop(1.00, 'rgba(120,160,255,0.00)');
-    g.globalCompositeOperation = 'lighter';
-    g.fillStyle = trail;
-    g.fillRect(46, 0, 36, 512);
-
-    g.globalCompositeOperation = 'destination-in';
-    const fade = g.createLinearGradient(0, 0, 128, 0);
-    fade.addColorStop(0.00, 'rgba(0,0,0,0)');
-    fade.addColorStop(0.50, 'rgba(0,0,0,1)');
-    fade.addColorStop(1.00, 'rgba(0,0,0,0)');
-    g.fillStyle = fade;
-    g.fillRect(0, 0, 128, 512);
-
-    const tex = new THREE.CanvasTexture(c);
-    tex.minFilter = THREE.LinearFilter;
-    return tex;
-  }
-
-  const meteorTex = makeMeteorTexture();
-  const meteorGeo = new THREE.PlaneGeometry(1, 1);
-  meteorGeo.translate(0, 0.5, 0);
-
-  const meteorTints = [0xffffff, 0xbfd8ff, 0xffe0b8];
-  const meteors = [];
-  let spawnTimer = 1.0;
-  const MAX_METEORS = isMobile ? 3 : 6;
-
-  const _trailDir = new THREE.Vector3();
-  const _viewDir  = new THREE.Vector3();
-  const _xAxis    = new THREE.Vector3();
-  const _zAxis    = new THREE.Vector3();
-  const _basis    = new THREE.Matrix4();
-
-  function spawnMeteor() {
-    const tint = meteorTints[(Math.random() * meteorTints.length) | 0];
-    const mat = new THREE.MeshBasicMaterial({
-      map: meteorTex,
-      color: tint,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-      opacity: 0
-    });
-    const mesh = new THREE.Mesh(meteorGeo, mat);
-    mesh.renderOrder = 20;
-    scene.add(mesh);
-
-    const dir = new THREE.Vector3(
-      (Math.random() < 0.5 ? -1 : 1) * (0.45 + Math.random() * 0.75),
-      -(0.35 + Math.random() * 0.65),
-      (Math.random() - 0.5) * 0.35
-    ).normalize();
-
-    const pos = new THREE.Vector3(
-      (Math.random() - 0.5) * 5200,
-      (Math.random() - 0.3) * 2600,
-      -400 - Math.random() * 4200
-    );
-
-    meteors.push({
-      mesh, mat, pos, dir,
-      speed:   1200 + Math.random() * 2400,
-      length:  380 + Math.random() * 1000,
-      width:   10 + Math.random() * 22,
-      life:    0,
-      maxLife: 1.1 + Math.random() * 1.1
-    });
-  }
-
-  function updateMeteors(dt) {
-    for (let i = meteors.length - 1; i >= 0; i--) {
-      const m = meteors[i];
-      m.life += dt;
-      if (m.life >= m.maxLife) {
-        scene.remove(m.mesh);
-        m.mat.dispose();
-        meteors.splice(i, 1);
-        continue;
-      }
-      m.pos.addScaledVector(m.dir, m.speed * dt);
-      m.mesh.position.copy(m.pos);
-
-      _trailDir.copy(m.dir).negate().normalize();
-      _viewDir.copy(camera.position).sub(m.pos).normalize();
-      _xAxis.crossVectors(_trailDir, _viewDir);
-      if (_xAxis.lengthSq() < 1e-6) _xAxis.set(1, 0, 0);
-      _xAxis.normalize();
-      _zAxis.crossVectors(_xAxis, _trailDir).normalize();
-      _basis.makeBasis(_xAxis, _trailDir, _zAxis);
-      m.mesh.quaternion.setFromRotationMatrix(_basis);
-
-      const t = m.life / m.maxLife;
-      const fadeIn  = Math.min(1, m.life / 0.18);
-      const fadeOut = 1 - Math.pow(t, 2.6);
-      m.mat.opacity = fadeIn * fadeOut * 0.95;
-      m.mesh.scale.set(m.width, m.length * (0.35 + 0.65 * (1 - t)), 1);
-    }
-
-    spawnTimer -= dt;
-    if (spawnTimer <= 0 && meteors.length < MAX_METEORS) {
-      spawnMeteor();
-      spawnTimer = 1.0 + Math.random() * 3.6;
-    }
-  }
-
-  const passes = {};
-  let composer = null;
-
-  try {
-    if (typeof THREE.EffectComposer === 'function' && typeof THREE.RenderPass === 'function') {
-      composer = new THREE.EffectComposer(renderer);
-      composer.setPixelRatio(DPR);
-      composer.setSize(window.innerWidth, window.innerHeight);
-      composer.addPass(new THREE.RenderPass(scene, camera));
-
-      if (typeof THREE.BokehPass === 'function' && !isMobile) {
-        const bokeh = new THREE.BokehPass(scene, camera, {
-          focus: 1400.0,
-          aperture: 0.000012,
-          maxblur: 0.0035
-        });
-        bokeh.renderToScreen = false;
-        composer.addPass(bokeh);
-        passes.bokeh = bokeh;
-      }
-
-      const GodRayShader = {
-        uniforms: {
-          tDiffuse:   { value: null },
-          uLightPos:  { value: new THREE.Vector2(0.72, 0.28) },
-          uIntensity: { value: 0.55 }
-        },
-        vertexShader: `
-          varying vec2 vUv;
-          void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
-        `,
-        fragmentShader: `
-          uniform sampler2D tDiffuse;
-          uniform vec2  uLightPos;
-          uniform float uIntensity;
-          varying vec2  vUv;
-          void main(){
-            const int SAMPLES = 40;
-            vec2 dir = (uLightPos - vUv) / float(SAMPLES);
-            vec2 uv = vUv;
-            vec3 sum = vec3(0.0);
-            float w = 1.0;
-            float total = 0.0;
-            for (int i = 0; i < SAMPLES; i++) {
-              uv += dir;
-              vec3 s = texture2D(tDiffuse, uv).rgb;
-              s *= w;
-              sum += s;
-              total += w;
-              w *= 0.965;
-            }
-            vec3 ray = sum / max(total, 0.0001);
-            vec3 base = texture2D(tDiffuse, vUv).rgb;
-            gl_FragColor = vec4(base + ray * uIntensity * 0.30, 1.0);
-          }
-        `
-      };
-      if (typeof THREE.ShaderPass === 'function') {
-        const godRay = new THREE.ShaderPass(GodRayShader);
-        godRay.renderToScreen = false;
-        composer.addPass(godRay);
-        passes.godRay = godRay;
-      }
-
-      if (typeof THREE.UnrealBloomPass === 'function') {
-        const bloom = new THREE.UnrealBloomPass(
-          new THREE.Vector2(window.innerWidth, window.innerHeight),
-          0.80, 0.72, 0.28
-        );
-        bloom.renderToScreen = false;
-        composer.addPass(bloom);
-        passes.bloom = bloom;
-      }
-
-      const ChromaticAberrationShader = {
-        uniforms: {
-          tDiffuse: { value: null },
-          uAmount:  { value: 0.0018 }
-        },
-        vertexShader: `
-          varying vec2 vUv;
-          void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
-        `,
-        fragmentShader: `
-          uniform sampler2D tDiffuse;
-          uniform float uAmount;
-          varying vec2 vUv;
-          void main(){
-            vec2 dir = vUv - 0.5;
-            float d = dot(dir, dir);
-            float amt = uAmount * (1.0 + d * 3.0);
-            vec2 rUv = vUv + dir * amt;
-            vec2 bUv = vUv - dir * amt;
-            float cr = texture2D(tDiffuse, rUv).r;
-            float cg = texture2D(tDiffuse, vUv).g;
-            float cb = texture2D(tDiffuse, bUv).b;
-            gl_FragColor = vec4(cr, cg, cb, 1.0);
-          }
-        `
-      };
-      if (typeof THREE.ShaderPass === 'function') {
-        const ca = new THREE.ShaderPass(ChromaticAberrationShader);
-        ca.renderToScreen = true;
-        composer.addPass(ca);
-        passes.ca = ca;
-      }
-    }
-  } catch (e) {
-    console.warn('[universe] post-processing unavailable.', e);
-    composer = null;
-  }
-
-  let mouseX = 0, mouseY = 0;
-  let smoothX = 0, smoothY = 0;
-  let scrollN = 0, smoothScroll = 0;
-
-  if (!isMobile) {
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    }, { passive: true });
-  }
-
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    scrollN = max > 0 ? window.scrollY / max : 0;
-  }, { passive: true });
-
-  function onResize() {
-    const w = window.innerWidth, h = window.innerHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-    if (composer) composer.setSize(w, h);
-  }
-  window.addEventListener('resize', onResize);
-
-  const clock = new THREE.Clock();
-  const skyMats  = skyGroup.children.map(c => c.userData.mat);
-  const starMats = starGroup.children.map(c => c.userData.mat);
-  const planetMats = [
-    ggSurface.material,
-    ggClouds.material,
-    ring.material,
-    tealPlanet.material,
-    tealAtmo.material,
-    moon.material,
-    aurora.material
-  ];
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    const dt = Math.min(clock.getDelta(), 0.05);
-    const t  = clock.getElapsedTime();
-
-    skyMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
-    starMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
-    planetMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
-
-    galaxy.update(t);
-
-    smoothX += (mouseX - smoothX) * 0.045;
-    smoothY += (mouseY - smoothY) * 0.045;
-    smoothScroll += (scrollN - smoothScroll) * 0.05;
-
-    if (!reduced) {
-      const drift = Math.sin(t * 0.07) * 0.5 + Math.sin(t * 0.031) * 0.5;
-      const shakeX = (Math.sin(t * 7.3) + Math.sin(t * 13.1) * 0.5) * 0.8;
-      const shakeY = (Math.cos(t * 6.1) + Math.cos(t * 11.7) * 0.5) * 0.8;
-
-      camera.position.x = smoothX * 190 + drift * 40 + shakeX;
-      camera.position.y = -smoothY * 120 + Math.cos(t * 0.05) * 22 - smoothScroll * 260 + shakeY;
-      camera.position.z = 900 - smoothScroll * 1500;
-      camera.lookAt(0, 0, -400 - smoothScroll * 900);
-      camera.rotation.z = smoothX * 0.018 + Math.sin(t * 4.2) * 0.0008;
-    } else {
-      camera.lookAt(0, 0, -400);
-    }
-
-    skyGroup.children.forEach((m, i) => {
-      m.rotation.y += m.userData.rotSpeed * dt;
-      m.rotation.x = Math.sin(t * 0.02 + i) * 0.03;
-    });
-
-    starGroup.rotation.y = t * 0.0045;
-    starGroup.rotation.x = Math.sin(t * 0.03) * 0.012;
-
-    ggSurface.rotation.y += dt * 0.020;
-    ggClouds.rotation.y  += dt * 0.033;
-    tealPlanet.rotation.y += dt * 0.035;
-    moonPivot.rotation.y  += dt * 0.055;
-    aurora.rotation.z     += dt * 0.02;
-
-    dust.position.copy(camera.position);
-    dust.rotation.y = t * 0.01;
-    dust.rotation.x = Math.sin(t * 0.05) * 0.05;
-
-    updateMeteors(dt);
-
-    if (passes.bokeh && passes.bokeh.uniforms) {
-      const f = 1400 - smoothScroll * 900;
-      if (passes.bokeh.uniforms['focus']) passes.bokeh.uniforms['focus'].value = f;
-    }
-
-    if (passes.godRay && passes.godRay.uniforms) {
-      const lx = 0.72 - smoothX * 0.06;
-      const ly = 0.28 - smoothY * 0.05;
-      passes.godRay.uniforms.uLightPos.value.set(lx, ly);
-    }
-
-    if (composer) composer.render(dt);
-    else renderer.render(scene, camera);
-  }
-
-  animate();
-})();
-
-
-/* ============================================================
-   UI BEHAVIOUR
-   ============================================================ */
-(function () {
-  const cursor    = document.querySelector('.cursor');
-  const cursorDot = document.querySelector('.cursor-dot');
-  const isTouch   = 'ontouchstart' in window;
-
-  if (!isTouch && cursor && cursorDot) {
-    let mx = 0, my = 0, cx = 0, cy = 0;
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      cursorDot.style.left = (mx - 2) + 'px';
-      cursorDot.style.top  = (my - 2) + 'px';
-    });
-    (function loop() {
-      cx += (mx - cx) * 0.15;
-      cy += (my - cy) * 0.15;
-      cursor.style.left = (cx - 11) + 'px';
-      cursor.style.top  = (cy - 11) + 'px';
-      requestAnimationFrame(loop);
-    })();
-
-    const hoverables = 'a, button, .bento-item, .project-item, .stack-card, .pub-card, .timeline-item, .cmdk-list li';
-    document.querySelectorAll(hoverables).forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  }
-
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40), { passive: true });
-
-  const menuBtn  = document.querySelector('.menu-btn');
-  const navLinks = document.querySelector('.nav-links');
-  if (menuBtn && navLinks) {
-    menuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      menuBtn.innerHTML = navLinks.classList.contains('active')
-        ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-    });
-    document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-    }));
-  }
-
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('active'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  const phrases = [
-    'whoami',
-    'cat focus.txt',
-    'echo "Building intelligent solutions"',
-    'git push origin future'
-  ];
-  let pi = 0, ci = 0, del = false;
-  const typed = document.getElementById('typed');
-  function type() {
-    if (!typed) return;
-    const p = phrases[pi];
-    typed.textContent = del ? p.substring(0, ci - 1) : p.substring(0, ci + 1);
-    ci = del ? ci - 1 : ci + 1;
-    let speed = del ? 35 : 75;
-    if (!del && ci === p.length) { speed = 1800; del = true; }
-    else if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; speed = 500; }
-    setTimeout(type, speed);
-  }
-  type();
-
-  const cmdkData = [
-    { icon: '◆', label: 'About',              href: '#about' },
-    { icon: '◆', label: 'Tech Stack',         href: '#stack' },
-    { icon: '◆', label: 'Projects',           href: '#projects' },
-    { icon: '◆', label: 'Deep Learning Lab',  href: '#deep-learning' },
-    { icon: '◆', label: 'Research',           href: '#research' },
-    { icon: '◆', label: 'Journey',            href: '#journey' },
-    { icon: '◆', label: 'Contact',            href: '#contact' },
-    { icon: '⌘', label: 'GitHub — RitikaKalia9', href: 'https://github.com/RitikaKalia9', ext: true },
-    { icon: '⌘', label: 'LinkedIn',           href: 'https://www.linkedin.com/in/ritika-kalia-809984330/', ext: true },
-    { icon: '◆', label: 'LeetCode — RitikaKalia9', href: 'https://leetcode.com/u/RitikaKalia9/', ext: true },
-    { icon: '↧', label: 'Download Resume',    href: 'resume.pdf', ext: true },
-    { icon: '✉', label: 'Email — ritikakalia19@gmail.com', href: 'mailto:ritikakalia19@gmail.com', ext: true }
-  ];
-
-  const cmdk      = document.getElementById('cmdk');
-  const cmdkInput = document.getElementById('cmdkInput');
-  const cmdkList  = document.getElementById('cmdkList');
-  let sel = 0;
-
-  function openCmdk() {
-    cmdk.classList.add('open');
-    cmdkInput.value = '';
-    sel = 0;
-    renderCmdk('');
-    cmdkInput.focus();
-  }
-  function closeCmdk() { cmdk.classList.remove('open'); }
-
-  function renderCmdk(q) {
-    const f = cmdkData.filter(i => i.label.toLowerCase().includes(q.toLowerCase()));
-    cmdkList.innerHTML = f.map((i, idx) =>
-      `<li data-idx="${idx}" data-href="${i.href}" data-ext="${i.ext ? '1' : ''}" class="${idx === sel ? 'selected' : ''}">
-        <span style="color:var(--accent)">${i.icon}</span> ${i.label}
-      </li>`
-    ).join('');
-  }
-
-  document.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openCmdk(); }
-    if (e.key === 'Escape') closeCmdk();
-    if (!cmdk.classList.contains('open')) return;
-
-    const items = cmdkList.querySelectorAll('li');
-    if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, items.length - 1); renderCmdk(cmdkInput.value); }
-    if (e.key === 'ArrowUp')   { e.preventDefault(); sel = Math.max(sel - 1, 0); renderCmdk(cmdkInput.value); }
-    if (e.key === 'Enter')     { items[sel] && items[sel].click(); closeCmdk(); }
-  });
-
-  cmdkInput.addEventListener('input', e => { sel = 0; renderCmdk(e.target.value); });
-  cmdk.addEventListener('click', e => { if (e.target === cmdk) closeCmdk(); });
-
-  cmdkList.addEventListener('click', e => {
-    const li = e.target.closest('li');
-    if (!li) return;
-    if (li.dataset.ext) window.open(li.dataset.href, '_blank', 'noopener');
-    else {
-      const target = document.querySelector(li.dataset.href);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    }
-    closeCmdk();
-  });
-
-  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if (href === '#') return;
-    const target = document.querySelector(href);
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth' });
-  }));
-})();
-
-
-/* ============================================================
-   CARD ANIMATION ENGINE
-   ============================================================ */
-(function () {
-  const isTouch = 'ontouchstart' in window;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document
-    .querySelectorAll('.bento-grid, .stack-grid, .pub-grid, .projects-list, .contact-socials')
-    .forEach(grid => {
-      Array.from(grid.children).forEach((child, i) => {
-        child.style.setProperty('--i', i);
-      });
-    });
-
-  function addSpotlight(card) {
-    if (card.querySelector(':scope > .card-spotlight')) return;
-    const sp = document.createElement('div');
-    sp.className = 'card-spotlight';
-    sp.setAttribute('aria-hidden', 'true');
-    card.insertBefore(sp, card.firstChild);
-  }
-
-  if (!isTouch && !reduced) {
-    const TILT_SELECTOR = '.bento-item, .stack-card, .pub-card, .quote-strip, .terminal';
-
-    document.querySelectorAll(TILT_SELECTOR).forEach(card => {
-      if (getComputedStyle(card).position === 'static') {
-        card.style.position = 'relative';
-      }
-      card.classList.add('card-fx');
-      addSpotlight(card);
-
-      const isLarge = card.classList.contains('quote-strip') ||
-                      card.classList.contains('terminal');
-      const TILT = isLarge ? 2.2 : 5.5;
-
-      let raf = 0;
-      let targetRX = 0, targetRY = 0, currRX = 0, currRY = 0;
-      let targetMX = 50, targetMY = 50, currMX = 50, currMY = 50;
-      let hovering = false;
-
-      function loop() {
-        currRX += (targetRX - currRX) * 0.18;
-        currRY += (targetRY - currRY) * 0.18;
-        currMX += (targetMX - currMX) * 0.22;
-        currMY += (targetMY - currMY) * 0.22;
-
-        card.style.setProperty('--rx', currRX.toFixed(3) + 'deg');
-        card.style.setProperty('--ry', currRY.toFixed(3) + 'deg');
-        card.style.setProperty('--mx', currMX.toFixed(2) + '%');
-        card.style.setProperty('--my', currMY.toFixed(2) + '%');
-
-        const settled =
-          Math.abs(targetRX - currRX) < 0.02 &&
-          Math.abs(targetRY - currRY) < 0.02 &&
-          Math.abs(targetMX - currMX) < 0.05 &&
-          Math.abs(targetMY - currMY) < 0.05;
-
-        raf = (hovering || !settled) ? requestAnimationFrame(loop) : 0;
-      }
-
-      card.addEventListener('mouseenter', () => {
-        hovering = true;
-        card.classList.add('card-active');
-        if (!raf) raf = requestAnimationFrame(loop);
-      });
-
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        targetRY = (px - 0.5) * 2 * TILT;
-        targetRX = (0.5 - py) * 2 * TILT;
-        targetMX = px * 100;
-        targetMY = py * 100;
-        if (!raf) raf = requestAnimationFrame(loop);
-      }, { passive: true });
-
-      card.addEventListener('mouseleave', () => {
-        hovering = false;
-        card.classList.remove('card-active');
-        targetRX = targetRY = 0;
-        targetMX = targetMY = 50;
-        if (!raf) raf = requestAnimationFrame(loop);
-      });
-    });
-
-    document.querySelectorAll('.project-item').forEach(card => {
-      addSpotlight(card);
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(2) + '%');
-        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(2) + '%');
-      }, { passive: true });
-    });
-  }
-
-  function animateNumber(el) {
-    const target   = parseFloat(el.dataset.target);
-    const decimals = parseInt(el.dataset.decimals, 10);
-    const duration = 1500;
-    const start    = performance.now();
-
-    function step(now) {
-      const t = Math.min(1, (now - start) / duration);
-      const e = 1 - Math.pow(1 - t, 4);
-      const v = target * e;
-      el.textContent = v.toFixed(decimals);
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        el.textContent = target.toFixed(decimals);
-        el.classList.add('popped');
-        setTimeout(() => el.classList.remove('popped'), 600);
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  const numObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        animateNumber(e.target);
-        numObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.55 });
-
-  document.querySelectorAll('.bento-number').forEach(el => {
-    const raw = el.textContent.trim();
-    const target = parseFloat(raw);
-    if (isNaN(target)) return;
-    const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
-    el.dataset.target = target;
-    el.dataset.decimals = decimals;
-    el.textContent = (0).toFixed(decimals);
-    numObserver.observe(el);
-  });
-
-  const activeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('in-view');
-      else e.target.classList.remove('in-view');
-    });
-  }, { threshold: 0.35, rootMargin: '-10% 0px -10% 0px' });
-
-  document.querySelectorAll('.project-item').forEach(el => activeObserver.observe(el));
-})();
-</script>
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/BokehShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/BokehPass.js"></script>
+
+    <script src="js/universe.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/cards.js"></script>
 </body>
+
 </html>
