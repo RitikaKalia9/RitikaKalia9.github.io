@@ -1,0 +1,66 @@
+/* Explore button + card tornado, layered over the black-hole canvas */
+#explore{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(10px);z-index:21;padding:.95rem 2.6rem;border-radius:99px;border:1px solid rgba(255,214,170,.55);background:radial-gradient(ellipse at 50% 0,rgba(255,170,110,.3),rgba(40,16,80,.6));color:#fff;font:600 1rem 'Space Grotesk',sans-serif;letter-spacing:.3px;cursor:pointer;box-shadow:0 0 44px rgba(255,150,90,.3),0 18px 50px #000a;backdrop-filter:blur(10px);opacity:0;transition:opacity .9s .5s,transform .9s .5s,box-shadow .3s}
+#explore.on{opacity:1;transform:translateX(-50%)}
+#explore:hover{box-shadow:0 0 70px rgba(255,150,90,.55),0 18px 50px #000a}
+#explore:focus-visible,.tchips button:focus-visible,.tback:focus-visible,.tn a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+body.torn #title,body.torn #hint,body.torn #land,body.torn #explore{opacity:0!important;pointer-events:none!important;transition:opacity .5s!important}
+body.torn nav{background:none}
+
+#torn{position:fixed;inset:0;z-index:18;pointer-events:none;visibility:hidden}
+#torn.on{visibility:visible}
+#torn canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#dustB{z-index:1}#dustF{z-index:3}
+.tstage{position:absolute;inset:0;z-index:2;perspective:1400px;perspective-origin:50% 52%}
+.trig{position:absolute;left:50%;top:52%;width:0;height:0;transform-style:preserve-3d;transform:rotateX(-7deg)}
+.tc{--c:#d1a3ff;position:absolute;left:0;top:0;display:none;width:min(330px,76vw);padding:1.15rem 1.25rem 1.1rem;border-radius:16px;overflow:hidden;cursor:pointer;color:#ece6f5;font:400 .8rem/1.55 Inter,sans-serif;background:linear-gradient(180deg,rgba(28,19,52,.92),rgba(10,6,22,.95));border:1px solid color-mix(in srgb,var(--c) 40%,rgba(255,255,255,.08));box-shadow:0 26px 60px #000c,0 0 40px color-mix(in srgb,var(--c) 22%,transparent);will-change:transform,opacity}
+.tc::before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent)}
+.tc.on{cursor:default}
+.tk{font:500 .7rem 'JetBrains Mono',monospace;color:var(--c);margin-bottom:.45rem}
+.tc h3{margin:0 0 .55rem;font:600 1.12rem/1.25 'Space Grotesk',sans-serif;letter-spacing:-.2px;color:#fff}
+.tc p{margin:0 0 .75rem;color:#b9aed0;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.tc.on p{-webkit-line-clamp:unset}
+.tc img{display:block;width:calc(100% + 2.5rem);height:110px;margin:-1.15rem -1.25rem .85rem;object-fit:cover;opacity:.8}
+.tt{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.75rem}
+.tt i{font:normal 500 .68rem Inter,sans-serif;padding:.15rem .55rem;border-radius:99px;border:1px solid rgba(255,255,255,.14);color:#d9cff0}
+.ts{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin:.2rem 0 .3rem}
+.ts div{padding:.55rem .65rem;border-radius:10px;background:rgba(255,255,255,.05)}
+.ts b{display:block;font:600 1.5rem 'Space Grotesk',sans-serif;color:var(--c)}
+.ts span{font-size:.7rem;color:#9a8fb0}
+.tn{display:flex;flex-wrap:wrap;gap:.45rem}
+.tn a{padding:.35rem .85rem;border-radius:99px;border:1px solid var(--c);background:rgba(255,255,255,.04);color:#fff;text-decoration:none;font-weight:500;font-size:.76rem}
+.tn a:hover{background:color-mix(in srgb,var(--c) 30%,transparent)}
+.tl{font-size:.74rem;color:#9a8fb0;font-style:italic}
+
+@media(prefers-reduced-motion:reduce){#explore{transition:opacity .3s}}
+
+/* space.html polish: title yields to movement, labels clear the planets */
+#title h1,#title p{text-wrap:balance}
+#title.moving{opacity:0!important;transition:opacity .35s!important}
+.tag{transform:translate(-50%,-100%);transition:border-color .2s,box-shadow .2s,transform .2s,opacity .35s}
+.tag:hover{transform:translate(-50%,-100%) scale(1.06)}
+
+/* per-world UI: exit, world header, card index, world switcher */
+.tback,.tindex,.tbar{pointer-events:auto}
+.tback{position:fixed;left:24px;top:78px;z-index:5;display:flex;align-items:center;gap:.6rem;padding:.6rem 1.1rem;border-radius:99px;border:1px solid var(--sc,#d1a3ff);background:rgba(10,6,22,.8);color:#fff;font:500 .85rem Inter,sans-serif;cursor:pointer;backdrop-filter:blur(12px);box-shadow:0 0 24px color-mix(in srgb,var(--sc,#d1a3ff) 30%,transparent)}
+.tback b{font-weight:600}.tback:hover{background:color-mix(in srgb,var(--sc,#d1a3ff) 25%,rgba(10,6,22,.8))}
+.tback kbd{padding:.1rem .4rem;border-radius:4px;border:1px solid rgba(255,255,255,.2);font:500 .68rem 'JetBrains Mono',monospace;color:#bbb}
+.thead{position:fixed;top:82px;left:0;right:0;z-index:4;text-align:center;pointer-events:none;text-shadow:0 2px 24px #000}
+.tname{font:600 clamp(1.8rem,4vw,2.8rem) 'Space Grotesk',sans-serif;letter-spacing:-1px;color:#fff;text-shadow:0 0 40px color-mix(in srgb,var(--sc,#d1a3ff) 70%,transparent),0 2px 24px #000}
+.ttxt{margin-top:.25rem;color:#a99fc0;font-size:.9rem}
+.tindex{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:4;width:205px;max-height:58vh;overflow:auto;padding:.45rem;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(10,6,22,.74);backdrop-filter:blur(10px);scrollbar-width:thin}
+.tindex h4{margin:.55rem .55rem .2rem;font:500 .68rem 'JetBrains Mono',monospace;color:var(--sc)}
+.tindex button{display:block;width:100%;padding:.42rem .6rem;border:0;border-radius:8px;background:none;color:#9a8fb0;font:500 .76rem Inter,sans-serif;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.tindex button:hover{color:#fff}.tindex button.on{background:color-mix(in srgb,var(--sc) 24%,transparent);color:#fff}
+.tbar{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:1.1rem}
+.tbar button{padding:.5rem 1.1rem;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(10,6,22,.72);color:#fff;font:500 .78rem Inter,sans-serif;cursor:pointer;backdrop-filter:blur(10px)}
+.tbar button:hover{border-color:var(--sc)}
+.tcount{font:500 .76rem 'JetBrains Mono',monospace;color:#9a8fb0;text-shadow:0 2px 12px #000}
+@media(max-width:900px){.tindex{display:none}}
+@media(max-width:768px){.tback{left:12px;top:64px;padding:.5rem .9rem}.tback kbd{display:none}.thead{top:116px}#explore{bottom:84px;padding:.85rem 2.2rem}.tbar{gap:.6rem}}
+
+/* category decks: "All categories" button sits under the exit button */
+.tcatback{position:fixed;left:24px;top:126px;z-index:5;pointer-events:auto;padding:.5rem 1rem;border-radius:99px;border:1px solid rgba(255,255,255,.2);background:rgba(10,6,22,.8);color:#fff;font:500 .8rem Inter,sans-serif;cursor:pointer;backdrop-filter:blur(12px)}
+.tcatback:hover{border-color:var(--sc)}
+.tcatback[hidden]{display:none}
+.tcatback:focus-visible,.tcat:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:768px){.tcatback{left:12px;top:112px}}
