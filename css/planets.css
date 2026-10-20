@@ -65,3 +65,7 @@
 .pmap-home{position:absolute;top:18px;left:22px;z-index:3;height:40px;padding:0 1.1rem;border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:#fff;font:500 .85rem Inter,sans-serif;cursor:pointer;transition:border-color .2s,box-shadow .2s}
 .pmap-home:hover{border-color:var(--border-hover);box-shadow:0 0 20px rgba(209,163,255,.3)}
 @media(max-width:768px){.pmap-home{top:12px;left:12px;height:36px;padding:0 .9rem;font-size:.78rem}.pmap-x{top:12px;right:12px}}
+
+/* the larger orbit rings sit on top of the smaller ones and were swallowing clicks: let clicks fall through the rings, only the planets catch them */
+.orbit{pointer-events:none}
+.pl{pointer-events:auto}
