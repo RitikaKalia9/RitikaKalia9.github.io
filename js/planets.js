@@ -29,6 +29,7 @@
   map.className = 'pmap';
   map.innerHTML =
     '<button class="pmap-x" aria-label="Close">×</button>' +
+    '<button class="pmap-home" type="button" aria-label="Back to home page">← Back to home</button>' +
     '<div class="pmap-head"><span class="pill">✦ Interactive map</span><h2 class="metal">Pick a planet</h2><p>Each world is a part of my story. Hover to pause, click to land.</p></div>' +
     '<div class="pstage"><div class="bh"></div>' +
     W.map(w => '<div class="orbit" style="--k:' + w.k + ';--a:' + w.a + 'deg;--t:' + w.t + 's"><button class="pl" data-n="' + w.name + '" style="--c:' + w.c + ';--a:' + w.a + 'deg;--t:' + w.t + 's">' +
@@ -82,6 +83,7 @@
   }));
 
   map.querySelector('.pmap-x').onclick = closeMap;
+  map.querySelector('.pmap-home').onclick = () => { closeMap(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   panel.querySelector('.gbar button').onclick = closePanel;
   map.addEventListener('click', e => { if (e.target === map) closeMap(); });
   document.addEventListener('keydown', e => {
