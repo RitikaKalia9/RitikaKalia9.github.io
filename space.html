@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fly through my universe · Ritika Kalia</title>
+<meta name="description" content="An interactive 3D portfolio: six worlds orbiting a black hole. AI/ML engineer, researcher and full-stack developer.">
+<meta name="theme-color" content="#04020a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2306020f'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23d1a3ff'/%3E%3C/svg%3E">
+<meta property="og:type" content="website"><meta property="og:title" content="Fly through my universe · Ritika Kalia"><meta property="og:description" content="An interactive 3D portfolio: six worlds orbiting a black hole. AI/ML engineer, researcher and full-stack developer.">
+<meta property="og:url" content="https://ritikakalia9.github.io/space.html"><meta property="og:image" content="https://ritikakalia9.github.io/images/og-universe.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Fly through my universe · Ritika Kalia"><meta name="twitter:description" content="An interactive 3D portfolio: six worlds orbiting a black hole. AI/ML engineer, researcher and full-stack developer."><meta name="twitter:image" content="https://ritikakalia9.github.io/images/og-universe.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@view-transition{navigation:auto}
+:root{--acc:#d1a3ff;--mut:#9a8fb0;--bg:#04020a}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;background:var(--bg);color:#ece6f5;font:15px/1.5 Inter,sans-serif;overflow:hidden}
+#webgl{position:fixed;inset:0;width:100vw;height:100vh;display:block;cursor:grab;touch-action:none;z-index:1;background:#04020a}
+#webgl:active{cursor:grabbing}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 45%,rgba(4,2,10,.5) 82%,rgba(4,2,10,.9) 100%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:30;padding:1rem 0;background:linear-gradient(180deg,rgba(4,2,10,.85),transparent)}
+.nav-inner{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.35rem;color:#fff;text-decoration:none;letter-spacing:-.5px;display:flex;align-items:center;gap:.5rem}
+.logo span{color:var(--acc)}
+.logo-mark{width:10px;height:10px;border-radius:50%;background:var(--acc);box-shadow:0 0 15px var(--acc);flex-shrink:0}
+.nav-links{display:flex;list-style:none;gap:2rem;align-items:center;margin:0;padding:0}
+.nav-links a{color:var(--mut);text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.5px;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:.5rem 1.2rem;border-radius:99px;border:1px solid rgba(209,163,255,.5);color:#fff!important;background:rgba(147,51,234,.25)}
+.back{position:fixed;top:20px;left:20px;z-index:31;padding:.55rem 1.1rem;color:#fff;text-decoration:none;font-size:.82rem;font-weight:500;display:flex;align-items:center;gap:.5rem;background:rgba(10,6,22,.7);border:1px solid rgba(255,255,255,.12);border-radius:12px;backdrop-filter:blur(12px);transition:all .3s}
+.back:hover{border-color:var(--acc);box-shadow:0 0 20px rgba(209,163,255,.3)}
+.back{display:none}.embed .back{display:flex}
+.embed nav{display:none}
+#title{position:fixed;top:88px;left:0;right:0;text-align:center;pointer-events:none;z-index:20;opacity:0;transform:translateY(8px);transition:opacity 1s .2s,transform 1s .2s}
+#title.on{opacity:1;transform:none}
+#title .kicker{font:500 .72rem 'JetBrains Mono',monospace;color:var(--acc);letter-spacing:3px;text-transform:uppercase;margin-bottom:.6rem}
+#title h1{margin:0;font:600 clamp(1.8rem,4vw,3.2rem) 'Space Grotesk',sans-serif;letter-spacing:-1.2px;background:linear-gradient(180deg,#fff,#a999c8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#title h1 em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;-webkit-text-fill-color:var(--acc);padding-right:4px}
+#title h1,#title p{text-shadow:0 2px 24px #000}
+#title p{margin:.6rem auto 0;max-width:560px;color:var(--mut);font-size:.9rem;line-height:1.6;padding:0 1rem}
+#hint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:20;padding:.7rem 1.4rem;font-size:.78rem;color:var(--mut);text-align:center;max-width:94vw;background:linear-gradient(180deg,rgba(26,18,48,.85),rgba(10,6,22,.92));border:1px solid rgba(255,255,255,.12);border-radius:14px;backdrop-filter:blur(18px);box-shadow:0 20px 60px #0009;opacity:0;transition:opacity .8s .6s}
+#hint.on{opacity:1}
+#hint kbd{background:rgba(255,255,255,.08);padding:.12rem .45rem;border-radius:4px;font:500 .72rem 'JetBrains Mono',monospace;border:1px solid rgba(255,255,255,.15);color:#fff}
+.tag{position:fixed;z-index:15;transform:translate(-50%,-140%);padding:.4rem .95rem .4rem 1rem;border-radius:99px;border:1px solid rgba(255,255,255,.22);background:rgba(10,6,22,.72);color:#fff;font:500 .8rem Inter,sans-serif;cursor:pointer;white-space:nowrap;backdrop-filter:blur(10px);transition:border-color .2s,box-shadow .2s,transform .2s;display:flex;align-items:center;gap:.5rem;letter-spacing:.3px;outline:none}
+.tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--dot,var(--acc));box-shadow:0 0 10px var(--dot,var(--acc));flex-shrink:0}
+.tag:hover{border-color:var(--acc);box-shadow:0 0 22px rgba(209,163,255,.55);transform:translate(-50%,-140%) scale(1.06)}
+#land{position:fixed;right:24px;bottom:24px;width:min(360px,calc(100vw - 48px));padding:1.3rem 1.5rem;z-index:25;opacity:0;pointer-events:none;transform:translateY(16px);transition:opacity .45s,transform .45s;background:linear-gradient(180deg,rgba(26,18,48,.9),rgba(10,6,22,.95));border:1px solid rgba(255,255,255,.14);border-radius:14px;backdrop-filter:blur(18px);box-shadow:0 20px 60px #0009,0 0 50px var(--glow,rgba(147,51,234,.25))}
+#land.on{opacity:1;pointer-events:auto;transform:none}
+#land .lk{font:500 .68rem 'JetBrains Mono',monospace;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent,var(--acc));margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem}
+#land .lk::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent,var(--acc));box-shadow:0 0 12px var(--accent,var(--acc))}
+#land h3{margin:0 0 .5rem;font:600 1.4rem 'Space Grotesk',sans-serif;letter-spacing:-.3px}
+#land p{margin:0 0 1.1rem;color:var(--mut);line-height:1.6;font-size:.88rem}
+#land .btns{display:flex;gap:.5rem;flex-wrap:wrap}
+#land a,#land button{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:99px;font:500 .82rem Inter,sans-serif;cursor:pointer;text-decoration:none;transition:all .25s}
+#land a{background:rgba(147,51,234,.4);border:1px solid var(--accent,var(--acc));color:#fff}
+#land a:hover{background:rgba(147,51,234,.65)}
+#land button{background:none;border:1px solid rgba(255,255,255,.22);color:#ddd}
+#pad{position:fixed;left:20px;bottom:26px;display:flex;flex-direction:column;gap:10px;z-index:20}
+#pad button{width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(10,6,22,.65);color:#fff;font-size:1rem;backdrop-filter:blur(8px);cursor:pointer;outline:none}
+@media(min-width:900px){#pad{display:none}}
+@media(max-width:768px){.nav-links{display:none}#title{top:78px}#title h1{font-size:1.7rem}#title p{font-size:.8rem}#hint{font-size:.7rem;padding:.55rem 1rem;bottom:18px}#land{right:14px;bottom:14px;width:calc(100vw - 28px)}.back{top:12px;left:12px;padding:.4rem .9rem;font-size:.75rem}}
+#err{display:none;position:fixed;inset:0;z-index:99999;background:rgba(20,0,0,.96);color:#ff8080;padding:2rem;font:13px 'JetBrains Mono',monospace;overflow:auto}
+#err h2{color:#fff;margin:0 0 1rem;font-family:'Space Grotesk',sans-serif;font-size:1.1rem}
+#boot{position:fixed;inset:0;z-index:99998;background:#04020a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;color:#a99fc0;font:500 .8rem 'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase;transition:opacity .8s}
+#boot.done{opacity:0;pointer-events:none}
+#boot .bh{width:54px;height:54px;border-radius:50%;background:#000;box-shadow:0 0 0 3px #d1a3ff55,0 0 40px 8px #f0a08088;animation:bootpulse 1.6s ease-in-out infinite}
+@keyframes bootpulse{50%{transform:scale(1.12);box-shadow:0 0 0 3px #d1a3ffaa,0 0 60px 14px #f0a080aa}}
+@media(prefers-reduced-motion:reduce){#boot .bh{animation:none}}
+.nav-home{color:#fff!important;opacity:.85}.nav-home i{margin-right:.35rem;font-size:.75rem}
+</style>
+<link rel="stylesheet" href="css/tornado.css">
+<link rel="stylesheet" href="css/guide.css">
+<link rel="stylesheet" href="css/extras.css">
+<script src="js/pip-warp.js"></script>
+<script src="js/space-fallback.js"></script>
+</head>
+<body>
+<div id="boot" role="status"><div class="bh"></div><span>Entering the universe…</span></div>
+<noscript><meta http-equiv="refresh" content="0;url=classic.html"></noscript>
+<canvas id="webgl"></canvas>
+<div class="vignette"></div>
+<nav><div class="nav-inner">
+  <a href="index.html" class="logo"><span class="logo-mark"></span>Ritika<span>.Kalia</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-home"><i class="fas fa-arrow-left"></i> Portfolio</a></li>
+    <li><a href="index.html#about">About</a></li><li><a href="index.html#stack">Stack</a></li><li><a href="index.html#research">Research</a></li>
+    <li><a href="index.html#under-review">Under Review</a></li><li><a href="index.html#projects">Work</a></li><li><a href="index.html#journey">Journey</a></li>
+    <li><a href="resume.pdf" download>Resume</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Get in touch</a></li>
+  </ul>
+</div></nav>
+<a class="back" id="backlink" href="index.html"><i class="fas fa-arrow-left"></i> Portfolio</a>
+<div id="title"><div class="kicker">// The Universe</div><h1>Fly through <em>my</em> universe</h1><p>Six worlds orbit a supermassive black hole. Each one is a door into a chapter of the work.</p></div>
+<div id="hint"><i class="fas fa-hand-pointer" style="opacity:.5;margin-right:6px"></i>Drag to look · <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> fly · <kbd>Shift</kbd> boost · click a planet to open its cards</div>
+<button id="explore" type="button">Explore</button>
+<div id="pad"><button id="fw" aria-label="Forward"><i class="fas fa-chevron-up"></i></button><button id="bk" aria-label="Back"><i class="fas fa-chevron-down"></i></button></div>
+<div id="land"><div class="lk">Landing</div><h3></h3><p></p><div class="btns"><a id="open" href="#">Open section <i class="fas fa-arrow-right"></i></a><button id="take">Take off</button></div></div>
+<div id="err"><h2>⚠ Something broke</h2><div id="errbody"></div></div>
+
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+requestAnimationFrame(() => { $('title').classList.add('on'); $('hint').classList.add('on'); });
+function fallback(){ if (window.PipBG) window.PipBG.enable(); else if(!/[?&]embed=1/.test(location.search)) location.replace('classic.html'); }   // show the 2D night-sky instead of redirecting
+function showError(m){ $('err').style.display='block'; const d=document.createElement('div'); d.textContent=String(m); $('errbody').appendChild(d); console.error('[space]',m); }
+addEventListener('error', e => showError((e.message||'?')+' @ '+(e.filename||'?')+':'+(e.lineno||'?')));
+if (typeof THREE === 'undefined'){ showError('Three.js failed to load.'); fallback(); return; }
+
+/* ---- embed mode: when shown inside the portfolio, talk to it instead of navigating ---- */
+const EMBED = /[?&]embed=1/.test(location.search), send = m => parent.postMessage(m,'*');
+if (EMBED){
+  document.documentElement.classList.add('embed');
+  $('backlink').addEventListener('click', e => { e.preventDefault(); send({type:'portfolio-close'}); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') send({type:'portfolio-close'}); });
+}
+
+/* ============================================================
+   WORLDS - orbits sit OUTSIDE the accretion disk, speeds follow
+   Kepler's third law (w ~ r^-1.5), small inclinations
+   ============================================================ */
+const WORLDS = [
+  { id:'about',    name:'About',    hex:0xc9a0ff, css:'#c9a0ff', r:1500, R:100, inc: .03, tilt:.40, p:0.4,   icon:'fa-user-astronaut', type:'terran', txt:'Building intelligent solutions for a smarter tomorrow.' },
+  { id:'stack',    name:'Stack',    hex:0x22d3ee, css:'#22d3ee', r:1800, R:72,  inc:-.05, tilt:.20, p:2.87,  icon:'fa-layer-group',    type:'ocean',  txt:'Tools that turn ideas into shipped products.' },
+  { id:'research', name:'Research', hex:0x7aa2ff, css:'#7aa2ff', r:2150, R:140, inc: .06, tilt:.45, p:5.39,  icon:'fa-flask',          type:'ice',    txt:'Published research and work under peer review.' },
+  { id:'projects', name:'Work',     hex:0xf0a080, css:'#f0a080', r:2550, R:155, inc:-.03, tilt:.12, p:0.23,  icon:'fa-code',           type:'lava',   txt:'Things I\u2019ve built, grouped by what they taught me.' },
+  { id:'journey',  name:'Journey',  hex:0xff8fc0, css:'#ff8fc0', r:3000, R:90,  inc: .05, tilt:.55, p:3.26,  icon:'fa-road',           type:'terran', txt:'Leadership, education, and experience.' },
+  { id:'contact',  name:'Contact',  hex:0x8ef0c4, css:'#8ef0c4', r:3500, R:120, inc:-.04, tilt:.30, p:5.82,  icon:'fa-envelope',       type:'gas',    txt:'Let\u2019s build something together.' }
+];
+WORLDS.forEach(w => { w.w = 2324 * Math.pow(w.r, -1.5); });   // Kepler: inner worlds orbit faster
+
+/* ============================================================ */
+const canvas = $('webgl');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias:true }); } catch(e){ showError('WebGL failed: '+e.message); fallback(); return; }
+renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.autoClear = false;
+
+/* two scenes: BG (sky + back of the disk) gets gravitationally lensed; FG (planets,
+   shadow, front of the disk) is drawn on top, un-warped. */
+const sceneBG = new THREE.Scene(); sceneBG.background = new THREE.Color(0x03010a);
+const scene   = new THREE.Scene();
+const camera  = new THREE.PerspectiveCamera(58, innerWidth/innerHeight, 1, 60000);
+camera.rotation.order = 'YXZ';
+/* overview pose: every world in frame, lit side towards us, clear of the black hole ("Back to space" glides here) */
+const HOME = new THREE.Vector3(0, 1182, 3821), HOME_PITCH = -Math.atan2(HOME.y, HOME.z);
+camera.position.copy(HOME);
+let yaw = 0, pitch = HOME_PITCH;
+
+/* ---- gravitational lens: point-mass mapping  beta = theta - thetaE^2 / theta ---- */
+const lensPass = new THREE.ShaderPass({
+  uniforms:{ tDiffuse:{value:null}, uC:{value:new THREE.Vector2(.5,.5)}, uE:{value:.1}, uR:{value:.08}, uAsp:{value:1}, uOn:{value:1} },
+  vertexShader:'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+  fragmentShader:`
+    uniform sampler2D tDiffuse; uniform vec2 uC; uniform float uE,uR,uAsp,uOn; varying vec2 vUv;
+    void main(){
+      vec2 d = (vUv - uC) * vec2(uAsp, 1.0);
+      float th = length(d);
+      if (uOn < 0.5 || th < 1e-5){ gl_FragColor = texture2D(tDiffuse, vUv); return; }
+      float b = th - uE*uE / max(th, uR*0.6) * (1. - smoothstep(2.2*uE, 4.0*uE, th));
+      vec2 uv = uC + d/th * b / vec2(uAsp, 1.0);
+      gl_FragColor = texture2D(tDiffuse, clamp(uv, 0.001, 0.999));
+    }`
+});
+let composer = null;
+try {
+  composer = new THREE.EffectComposer(renderer);
+  composer.addPass(new THREE.RenderPass(sceneBG, camera));
+  composer.addPass(lensPass);
+  const fg = new THREE.RenderPass(scene, camera); fg.clear = false; fg.clearDepth = true;
+  composer.addPass(fg);
+  composer.addPass(new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.65, 0.78));
+} catch(e){ console.warn('[space] post-processing skipped:', e.message); composer = null; }
+
+function resize(){
+  renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  if (composer){ try { composer.setSize(innerWidth, innerHeight); } catch(e){ composer = null; } }
+}
+addEventListener('resize', resize); resize();
+
+/* ============================================================
+   SKY: stars (real colour spread), Milky Way band, faint nebulae, galaxies
+   ============================================================ */
+function makeStars(count, rMin, rMax, size, opacity, band){
+  const pos = new Float32Array(count*3), col = new Float32Array(count*3);
+  for (let i=0;i<count;i++){
+    let x,y,z; const r = rMin + Math.random()*(rMax-rMin);
+    if (band){                                   // dense stripe along a tilted great circle
+      const t = Math.random()*6.283, lat = (Math.random()+Math.random()+Math.random()-1.5)*0.2;
+      const bx = Math.cos(lat)*Math.cos(t), by = Math.sin(lat), bz = Math.cos(lat)*Math.sin(t);
+      x = (bx*Math.cos(.5) - by*Math.sin(.5))*r; y = (bx*Math.sin(.5) + by*Math.cos(.5))*r; z = bz*r;
+    } else { const u=Math.random()*2-1, t=Math.random()*6.283, s=Math.sqrt(1-u*u); x=r*s*Math.cos(t); y=r*u; z=r*s*Math.sin(t); }
+    pos.set([x,y,z], i*3);
+    const k = Math.random(), b = Math.pow(Math.random(), 2.2)*0.85 + 0.15;     // many faint, few bright
+    const c = k<.12 ? [1,.62,.4] : k<.3 ? [1,.85,.65] : k<.7 ? [1,.97,.92] : k<.9 ? [.85,.9,1] : [.65,.78,1];
+    col.set([c[0]*b, c[1]*b, c[2]*b], i*3);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos,3)); g.setAttribute('color', new THREE.BufferAttribute(col,3));
+  return new THREE.Points(g, new THREE.PointsMaterial({ size, sizeAttenuation:false, vertexColors:true, depthWrite:false, transparent:true, opacity }));
+}
+sceneBG.add(makeStars(12000, 20000, 26000, 1.1, .9));
+sceneBG.add(makeStars(2500, 14000, 20000, 1.8, .75));
+sceneBG.add(makeStars(14000, 22000, 26000, 1.0, .55, true));          // Milky Way
+sceneBG.add(makeStars(260, 10000, 16000, 2.8, .9));
+
+function hazeTexture(r,g,b){
+  const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d');
+  for (let i=0;i<14;i++){
+    const cx = 256+(Math.random()-.5)*280, cy = 256+(Math.random()-.5)*280, rad = 50+Math.random()*150, q = x.createRadialGradient(cx,cy,0,cx,cy,rad);
+    q.addColorStop(0,`rgba(${r},${g},${b},.30)`); q.addColorStop(.45,`rgba(${r},${g},${b},.12)`); q.addColorStop(1,`rgba(${r},${g},${b},0)`);
+    x.fillStyle = q; x.fillRect(cx-rad, cy-rad, rad*2, rad*2);
+  }
+  return new THREE.CanvasTexture(c);
+}
+function addHaze(r,g,b,size,px,py,pz,op){
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map:hazeTexture(r,g,b), blending:THREE.AdditiveBlending, depthWrite:false, transparent:true, opacity:op, rotation:Math.random()*6.28 }));
+  s.scale.set(size,size*.8,1); s.position.set(px,py,pz); sceneBG.add(s);
+}
+addHaze(120,60,200, 14000, -9000, 3000, -17000, .30);
+addHaze(60,120,220, 12000,  9000,-2000, -18000, .25);
+addHaze(180,80,200, 10000,  5000, 2500,  16000, .20);
+addHaze(70,180,200, 11000, -9000,-2500,  14000, .22);
+for (let i=0;i<10;i++){ const t=i/10*6.283; addHaze(190,175,210, 9000, Math.cos(t)*19000, Math.sin(t)*Math.sin(.5)*19000, Math.sin(t)*19000, .09); }   // Milky Way glow
+
+function makeSpiralGalaxy(n, radius, arms, thick, cIn, cOut){
+  const pos = new Float32Array(n*3), col = new Float32Array(n*3), sz = new Float32Array(n), a0 = new THREE.Color(cIn), a1 = new THREE.Color(cOut);
+  for (let i=0;i<n;i++){
+    const arm = Math.floor(Math.random()*arms), t = Math.pow(Math.random(),1.6), r = t*radius;
+    const th = (arm/arms)*6.283 + Math.log(1+r/180)*2.4 + (Math.random()-.5)*thick*(.4+.6*t)*.04, rr = r + (Math.random()-.5)*thick*(.4+.6*t)*.5;
+    pos.set([Math.cos(th)*rr, (Math.random()-.5)*30*(1-t*.8), Math.sin(th)*rr], i*3);
+    const c = a0.clone().lerp(a1,t); col.set([c.r,c.g,c.b], i*3); sz[i] = 1.2+Math.random()*2.8;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3)); geo.setAttribute('color', new THREE.BufferAttribute(col,3)); geo.setAttribute('aSize', new THREE.BufferAttribute(sz,1));
+  return new THREE.Points(geo, new THREE.ShaderMaterial({
+    uniforms:{ uTime:{value:0} },
+    vertexShader:`attribute float aSize; varying vec3 vColor; uniform float uTime;
+      void main(){ vColor=color; float a=uTime*.02,c=cos(a),s=sin(a); vec3 p=position; vec3 q=vec3(p.x*c-p.z*s,p.y,p.x*s+p.z*c);
+        vec4 mv=modelViewMatrix*vec4(q,1.0); gl_PointSize=aSize*(300.0/-mv.z); gl_Position=projectionMatrix*mv; }`,
+    fragmentShader:`varying vec3 vColor; void main(){ vec2 uv=gl_PointCoord-.5; float d=length(uv); if(d>.5) discard;
+        float a=pow(smoothstep(.5,0.,d),1.8); gl_FragColor=vec4(vColor+vec3(.25*pow(1.-d*2.,3.)),a); }`,
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, vertexColors:true }));
+}
+const galaxy = makeSpiralGalaxy(20000, 4500, 2, 1200, 0xffe2c8, 0x9f86ff); galaxy.position.set(-9000,-1200,-17000); galaxy.rotation.set(Math.PI*.42,0,.5); sceneBG.add(galaxy);
+const galaxy2 = makeSpiralGalaxy(10000, 2400, 2, 700, 0xffffff, 0x66ddff); galaxy2.position.set(10000,3000,-19000); galaxy2.rotation.set(-Math.PI*.35,0,-.8); sceneBG.add(galaxy2);
+
+/* ============================================================
+   THE BLACK HOLE
+   ============================================================ */
+const HORIZON = 350;
+function glowTex(rgb){
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d'), q = g.createRadialGradient(128,128,0,128,128,128);
+  q.addColorStop(0,`rgba(${rgb},1)`); q.addColorStop(.25,`rgba(${rgb},.35)`); q.addColorStop(1,`rgba(${rgb},0)`); g.fillStyle=q; g.fillRect(0,0,256,256);
+  return new THREE.CanvasTexture(c);
+}
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map:glowTex('255,170,110'), blending:THREE.AdditiveBlending, depthWrite:false, transparent:true, opacity:.55 }));
+glow.scale.set(5200,5200,1); sceneBG.add(glow);
+
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(HORIZON,64,48), new THREE.MeshBasicMaterial({ color:0x000000 })));   // the shadow
+
+// Accretion disk: temperature falls with radius (white-hot -> orange -> dull red), differential
+// rotation (inner gas orbits faster), turbulent filaments, Doppler beaming (approaching side brighter + bluer).
+function diskMat(side){
+  return new THREE.ShaderMaterial({
+    uniforms:{ uTime:{value:0}, uIn:{value:400}, uOut:{value:1250}, uSide:{value:side}, uCam:{value:new THREE.Vector3()}, uGain:{value:1.05} },
+    vertexShader:'varying vec2 vP; varying vec3 vW; void main(){ vP=position.xy; vW=(modelMatrix*vec4(position,1.0)).xyz; gl_Position=projectionMatrix*viewMatrix*vec4(vW,1.0); }',
+    fragmentShader:`
+      uniform float uTime,uIn,uOut,uSide,uGain; uniform vec3 uCam; varying vec2 vP; varying vec3 vW;
+      float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+      float n(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y); }
+      float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*n(p); p*=2.03; a*=.5; } return v; }
+      void main(){
+        float behind = dot(vW, normalize(uCam));
+        float wF = smoothstep(-260., 260., behind);                      // soft hand-off between the lensed back half and the front half
+        float wS = uSide > 0. ? wF : 1. - wF;
+        if (wS < .004) discard;
+        float r = length(vP), t = clamp((r-uIn)/(uOut-uIn),0.,1.), a = atan(vP.y,vP.x);
+        float ang = a - uTime*0.9*pow(uIn/r,1.5);                       // differential rotation
+        float turb = 0.35 + 0.9*(0.7*fbm(vec2(r*.011, ang*3.)) + 0.3*fbm(vec2(r*.05, ang*10.+3.)));
+        float rings = 0.8 + 0.2*sin(r*.08 + fbm(vec2(r*.02,ang))*5.);
+        float heat = pow(1.-t, 1.9);
+        vec3 vel = normalize(cross(vec3(0.,1.,0.), vW)), toCam = normalize(uCam - vW);
+        float D = clamp(1./(1. - .55*sqrt(uIn/r)*dot(vel,toCam)), .55, 2.2);
+        vec3 col = mix(vec3(.42,.09,.04), vec3(1.,.52,.16), smoothstep(0.,.55,heat));
+        col = mix(col, vec3(1.,.93,.82), smoothstep(.45,1.,heat)) * vec3(1./D, 1., D);
+        float al = smoothstep(0.,.03,t) * (1.-smoothstep(.5,1.,t)) * (.2 + heat*1.7) * turb * rings * pow(D,3.) * uGain * wS;
+        gl_FragColor = vec4(col, al);
+      }`,
+    transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending });
+}
+const diskBack  = new THREE.Mesh(new THREE.RingGeometry(400,1250,256,1), diskMat(-1));
+const diskFront = new THREE.Mesh(new THREE.RingGeometry(400,1250,256,1), diskMat( 1));
+[diskBack, diskFront].forEach(d => { d.rotation.x = -Math.PI/2 + .07; });
+sceneBG.add(diskBack); scene.add(diskFront);
+
+const photon = new THREE.Mesh(new THREE.RingGeometry(HORIZON*1.012, HORIZON*1.05, 160, 1),
+  new THREE.MeshBasicMaterial({ color:0xffe6c8, transparent:true, opacity:.55, side:THREE.DoubleSide, blending:THREE.AdditiveBlending, depthWrite:false }));
+scene.add(photon);
+
+/* ============================================================
+   LIGHTING: the disk is the sun. Light falls off with distance; space is dark.
+   ============================================================ */
+scene.add(new THREE.AmbientLight(0x1a1530, 0.35));
+scene.add(new THREE.PointLight(0xffe2c0, 2.0, 7000, 1.2));
+
+/* ============================================================
+   PLANETS
+   ============================================================ */
+function makeSurface(hex, type){
+  const W=1024,H=512, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'), b=new THREE.Color(hex);
+  x.fillStyle=`rgb(${b.r*255|0},${b.g*255|0},${b.b*255|0})`; x.fillRect(0,0,W,H);
+  const blob=(cx,cy,r,light,o)=>{ const g=x.createRadialGradient(cx,cy,0,cx,cy,r), k=light?255:0;
+    g.addColorStop(0,`rgba(${k},${k},${k},${o})`); g.addColorStop(.5,`rgba(${k},${k},${k},${o*.4})`); g.addColorStop(1,`rgba(${k},${k},${k},0)`); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); };
+  const R=Math.random, many=(n,rmin,rv,fl,o)=>{ for(let i=0;i<n;i++) blob(R()*W,R()*H,rmin+R()*rv,fl===null?R()<.5:fl,o); };
+  if (type==='gas'){ for(let y=0;y<H;y+=6+R()*10){ x.fillStyle=R()<.5?`rgba(255,255,255,${.06+R()*.12})`:`rgba(0,0,0,${.06+R()*.12})`; x.fillRect(0,y,W,4+R()*14); } many(60,20,90,null,.12); }
+  else if (type==='lava'){ many(300,20,180,false,.2); many(180,4,18,true,.5); }
+  else if (type==='ice'){ many(200,30,160,true,.1); many(250,4,22,true,.3); }
+  else if (type==='ocean'){ many(120,40,200,false,.22); many(180,8,40,true,.16); }
+  else { many(140,40,180,null,.16); many(200,6,30,null,.2); }
+  const cap=H*.12; let g=x.createLinearGradient(0,0,0,cap); g.addColorStop(0,'rgba(255,255,255,.5)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,W,cap);
+  g=x.createLinearGradient(0,H,0,H-cap); g.addColorStop(0,'rgba(255,255,255,.5)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,H-cap,W,cap);
+  const img=x.getImageData(0,0,W,H), d=img.data; for(let i=0;i<d.length;i+=4){ const n=(R()-.5)*12; d[i]+=n; d[i+1]+=n; d[i+2]+=n; } x.putImageData(img,0,0);
+  const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; t.anisotropy=8; return t;
+}
+function makeClouds(){
+  const W=1024,H=512,c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  for(let i=0;i<240;i++){ const cx=Math.random()*W, cy=Math.random()*H, r=15+Math.random()*90, o=.15+Math.random()*.35, g=x.createRadialGradient(cx,cy,0,cx,cy,r);
+    g.addColorStop(0,`rgba(255,255,255,${o})`); g.addColorStop(.55,`rgba(255,255,255,${o*.4})`); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=THREE.RepeatWrapping; return t;
+}
+// atmosphere glows on the lit side and thins into the night side (uSun = direction to the light)
+function atmoMat(hex){
+  return new THREE.ShaderMaterial({
+    uniforms:{ uColor:{value:new THREE.Color(hex)}, uSun:{value:new THREE.Vector3(1,0,0)} },
+    vertexShader:'varying vec3 vN, vV; void main(){ vec4 w=modelMatrix*vec4(position,1.0); vN=normalize(mat3(modelMatrix)*normal); vV=normalize(cameraPosition-w.xyz); gl_Position=projectionMatrix*viewMatrix*w; }',
+    fragmentShader:'uniform vec3 uColor,uSun; varying vec3 vN,vV; void main(){ float rim=pow(1.-abs(dot(vN,vV)),3.2); float lit=smoothstep(-.25,.55,dot(vN,uSun)); gl_FragColor=vec4(uColor,rim*(.08+.92*lit)); }',
+    transparent:true, depthWrite:false, blending:THREE.AdditiveBlending });
+}
+WORLDS.forEach((w,i) => {
+  const grp = new THREE.Group(), tilt = new THREE.Group(); tilt.rotation.z = w.tilt; grp.add(tilt);
+  const tex = makeSurface(w.hex, w.type);
+  w.surface = new THREE.Mesh(new THREE.SphereGeometry(w.R,64,48), new THREE.MeshStandardMaterial({ map:tex, bumpMap:tex, bumpScale:w.R*.012, roughness:.92, metalness:.02, emissive:w.hex, emissiveIntensity:.03 }));
+  tilt.add(w.surface);
+  w.clouds = new THREE.Mesh(new THREE.SphereGeometry(w.R*1.012,48,32), new THREE.MeshStandardMaterial({ map:makeClouds(), transparent:true, opacity:.7, depthWrite:false, roughness:1 }));
+  tilt.add(w.clouds);
+  w.atmo = atmoMat(w.hex); grp.add(new THREE.Mesh(new THREE.SphereGeometry(w.R*1.14,48,32), w.atmo));
+  if (i===2 || i===3){
+    const ring = new THREE.Mesh(new THREE.RingGeometry(w.R*1.5,w.R*2.4,128,1), new THREE.ShaderMaterial({
+      uniforms:{ uColor:{value:new THREE.Color(w.hex)}, uI:{value:w.R*1.5}, uO:{value:w.R*2.4} },
+      vertexShader:'varying vec2 vPos; void main(){ vPos=position.xy; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+      fragmentShader:'uniform vec3 uColor; uniform float uI,uO; varying vec2 vPos; void main(){ float t=clamp((length(vPos)-uI)/(uO-uI),0.,1.); float b=smoothstep(.35,.8,.5+.5*sin(t*45.)); gl_FragColor=vec4(uColor,(1.-smoothstep(.85,1.,t))*smoothstep(0.,.08,t)*(.35+.5*b)*.8); }',
+      transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.AdditiveBlending }));
+    ring.rotation.x = Math.PI/2 - .35; tilt.add(ring);
+  }
+  scene.add(grp); w.group = grp;
+  const tag = document.createElement('button'); tag.className='tag'; tag.type='button'; tag.style.setProperty('--dot', w.css);
+  tag.innerHTML = '<i class="fas '+w.icon+'" style="opacity:.65;font-size:.72rem"></i>'+w.name; tag.addEventListener('click', () => fly(i)); document.body.appendChild(tag); w.tag = tag;
+});
+/* each world stays parked in its own small patch of orbit: it only drifts gently back and forth (+/- SWING rad) around its home angle */
+const SWING = 0.10;
+function planetPos(w,t){ const th = w.p + SWING*Math.sin(w.w*t*0.8 + w.p*3.0), y = w.r*Math.sin(th); return new THREE.Vector3(w.r*Math.cos(th), y*Math.sin(w.inc), y*Math.cos(w.inc)); }
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+const keys = {}; let drag=false, lx=0, ly=0, held=0, mode='free', cur=-1, ang=0;
+addEventListener('keydown', e => { keys[e.code]=true; if (mode!=='free' && /KeyW|KeyA|KeyS|KeyD|Arrow/.test(e.code)) takeOff(); if (/Arrow|Space/.test(e.code)) e.preventDefault(); });
+addEventListener('keyup', e => { keys[e.code]=false; });
+canvas.addEventListener('pointerdown', e => { drag=true; lx=e.clientX; ly=e.clientY; try{ canvas.setPointerCapture(e.pointerId); }catch(_){} if (mode==='fly'||mode==='land'||mode==='home') takeOff(); });
+canvas.addEventListener('pointerup', () => { drag=false; });
+canvas.addEventListener('pointermove', e => { if(!drag||mode==='land') return; yaw -= (e.clientX-lx)*.004; pitch = Math.max(-1.5, Math.min(1.5, pitch-(e.clientY-ly)*.004)); lx=e.clientX; ly=e.clientY; });
+function hold(id,v){ const b=$(id); b.addEventListener('pointerdown',()=>{ held=v; if(mode!=='free') takeOff(); }); ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>{ held=0; })); }
+hold('fw',1); hold('bk',-1);
+const landEl=$('land'), hintEl=$('hint');
+function fly(i){ cur=i; mode='fly'; ang=0; landEl.classList.remove('on'); hintEl.classList.remove('on'); const w=WORLDS[i];
+  landEl.style.setProperty('--accent', w.css); landEl.style.setProperty('--glow', `rgba(${(w.hex>>16)&255},${(w.hex>>8)&255},${w.hex&255},.28)`); }
+function takeOff(){ if(mode==='torn') return; const e=new THREE.Euler().setFromQuaternion(camera.quaternion,'YXZ'); yaw=e.y; pitch=e.x; mode='free'; landEl.classList.remove('on'); hintEl.classList.add('on'); }
+$('take').addEventListener('click', takeOff);
+/* hooks for js/tornado.js: the card tornado reuses this same scene as its backdrop */
+window.__space = {
+  enter(i){ if(i!=null) cur=i; mode='torn'; landEl.classList.remove('on'); hintEl.classList.remove('on'); },
+  exit(){ mode='home'; vel.set(0,0,0); hintEl.classList.add('on'); }                // glide back to the overview
+};
+$('open').addEventListener('click', e => { if (EMBED){ e.preventDefault(); send({type:'portfolio-goto', id:WORLDS[cur].id}); } });
+
+/* ============================================================
+   LOOP
+   ============================================================ */
+const lookM=new THREE.Matrix4(), lookQ=new THREE.Quaternion(), upV=new THREE.Vector3(0,1,0);
+const vel=new THREE.Vector3(), fwd=new THREE.Vector3(), side=new THREE.Vector3(), tp=new THREE.Vector3(), pp=new THREE.Vector3(), o3=new THREE.Vector3();
+const tornE=new THREE.Euler(0,0,0,'YXZ'), tornQ=new THREE.Quaternion(), homeE=new THREE.Euler(HOME_PITCH,0,0,'YXZ'), homeQ=new THREE.Quaternion().setFromEuler(homeE);
+const titleEl = $('title'); let idle = 1.2, titleBottom = 0;
+const measure = () => { titleBottom = titleEl.getBoundingClientRect().bottom; };
+addEventListener('resize', measure); measure(); if (document.fonts) document.fonts.ready.then(measure);
+const MIN_CAM = 560, clock = new THREE.Clock(); let T = 0;
+
+/* Closeups: the planet's lit side faces the black hole, so a camera straight "outside" the planet sees only its night side.
+   Park the camera ~45deg around the planet (lit planet, black hole glowing off to one side, no glare), swaying gently,
+   and add a soft headlight so the surface always reads clearly. */
+const camAng = a => 0.8 + 0.25*Math.sin(a*1.2);
+const headlight = new THREE.DirectionalLight(0xfff0e0, 0); scene.add(headlight, headlight.target);
+
+function loop(){
+  requestAnimationFrame(loop);
+  { const b=document.getElementById('boot'); if(b && !b.dataset.d){ b.dataset.d=1; setTimeout(()=>{ b.classList.add('done'); setTimeout(()=>b.remove(),900); },350); } }
+  const dt = Math.min(clock.getDelta(), .05); T += dt;
+  window.__pipCam = { d: camera.position.length(), mode: mode };   // read by js/pip-extras.js (Pip reacts near the black hole)
+
+  WORLDS.forEach(w => {
+    w.group.position.copy(planetPos(w,T));
+    w.surface.rotation.y += dt*.10; w.clouds.rotation.y += dt*.13;
+    w.atmo.uniforms.uSun.value.copy(w.group.position).negate().normalize();
+  });
+  [diskBack, diskFront].forEach(d => { d.material.uniforms.uTime.value = T; d.material.uniforms.uCam.value.copy(camera.position); });
+  photon.quaternion.copy(camera.quaternion);
+  galaxy.material.uniforms.uTime.value = T; galaxy2.material.uniforms.uTime.value = T;
+
+  if (mode==='free'){
+    camera.rotation.set(pitch,yaw,0); camera.getWorldDirection(fwd); side.crossVectors(fwd,upV).normalize();
+    const sp = (keys.ShiftLeft||keys.ShiftRight) ? 1600 : 520;
+    const z = (keys.KeyW||keys.ArrowUp?1:0) - (keys.KeyS||keys.ArrowDown?1:0) + held, x = (keys.KeyD||keys.ArrowRight?1:0) - (keys.KeyA||keys.ArrowLeft?1:0);
+    tp.set(0,0,0).addScaledVector(fwd,z).addScaledVector(side,x).multiplyScalar(sp);
+    vel.lerp(tp, 1-Math.exp(-dt*3)); camera.position.addScaledVector(vel,dt);
+    if (camera.position.length() < MIN_CAM) camera.position.setLength(MIN_CAM);
+  } else if (mode==='torn'){
+    // the opened world stays in frame, low on screen under the funnel, with the black hole glowing behind it
+    const w = WORLDS[cur]; pp.copy(w.group.position); ang += dt*.10;
+    const dd = w.R*7.5;
+    tp.copy(pp).add(pp.clone().normalize().multiplyScalar(dd).applyAxisAngle(upV, camAng(ang))); tp.y += w.R*.5;
+    if (tp.length() < MIN_CAM) tp.setLength(MIN_CAM);
+    camera.position.lerp(tp, 1-Math.exp(-dt*1.6));
+    o3.copy(pp); o3.y += dd*.25;
+    lookM.lookAt(camera.position, o3, upV); lookQ.setFromRotationMatrix(lookM); camera.quaternion.slerp(lookQ, 1-Math.exp(-dt*2.2));
+  } else if (mode==='home'){
+    // back from a world: glide to the overview pose so every world is laid out in view again
+    camera.position.lerp(HOME, 1-Math.exp(-dt*1.6)); camera.quaternion.slerp(homeQ, 1-Math.exp(-dt*2.4));
+    if (camera.position.distanceTo(HOME) < 25){ camera.position.copy(HOME); yaw=0; pitch=HOME_PITCH; mode='free'; }
+  } else {
+    const w = WORLDS[cur]; pp.copy(w.group.position); if (mode==='land') ang += dt*.10;
+    tp.copy(pp).add(pp.clone().normalize().multiplyScalar(w.R*4.0).applyAxisAngle(upV, camAng(ang))); tp.y += w.R*.6;
+    if (tp.length() < MIN_CAM) tp.setLength(MIN_CAM);
+    camera.position.lerp(tp, 1-Math.exp(-dt*(mode==='fly'?1.4:3.5)));
+    lookM.lookAt(camera.position, pp, upV); lookQ.setFromRotationMatrix(lookM); camera.quaternion.slerp(lookQ, 1-Math.exp(-dt*3));
+    if (mode==='fly' && camera.position.distanceTo(tp) < w.R*1.2){
+      mode='land'; landEl.querySelector('h3').textContent=w.name; landEl.querySelector('p').textContent=w.txt; $('open').href='index.html#'+w.id; if (window.__space.onLand) window.__space.onLand(w.id); else landEl.classList.add('on');
+    }
+  }
+
+  { const close = (mode==='torn'||mode==='fly'||mode==='land') && cur>=0; headlight.intensity += ((close?0.9:0) - headlight.intensity) * (1-Math.exp(-dt*2.5));
+    headlight.position.copy(camera.position); if (cur>=0) headlight.target.position.copy(WORLDS[cur].group.position); headlight.target.updateMatrixWorld(); }
+
+  { const still = mode==='free' && !drag && vel.lengthSq()<400; idle = still ? idle+dt : 0; titleEl.classList.toggle('moving', idle<1.2); }
+
+  // aim the lens at the black hole's position on screen; Einstein radius a bit outside the shadow
+  camera.updateMatrixWorld(); const dist = camera.position.length();
+  o3.set(0,0,0).project(camera);
+  const rH = (HORIZON/Math.sqrt(Math.max(dist*dist-HORIZON*HORIZON,1))) / Math.tan(camera.fov*Math.PI/360) * .5;
+  const u = lensPass.uniforms; u.uC.value.set(o3.x*.5+.5, o3.y*.5+.5); u.uE.value = rH*1.3; u.uR.value = rH; u.uAsp.value = camera.aspect; u.uOn.value = o3.z<1 ? 1 : 0;
+
+  WORLDS.forEach(w => {
+    const v = w.group.position.clone().project(camera);
+    const vis = v.z<1 && Math.abs(v.x)<1.1 && Math.abs(v.y)<1.1 && mode!=='torn' && !(mode==='land' && WORLDS[cur]===w);
+    w.tag.style.display = vis ? 'flex' : 'none';
+    if (vis){
+      const rpx = Math.min(w.R*1.12/Math.max(camera.position.distanceTo(w.group.position),1) * (innerHeight/2)/Math.tan(camera.fov*Math.PI/360), innerHeight*.45);
+      const ty = (-v.y*.5+.5)*innerHeight - rpx - 8, fade = idle>=1.2 ? Math.min(1,Math.max(0,(ty-titleBottom)/30)) : 1;
+      w.tag.style.left = ((v.x*.5+.5)*innerWidth)+'px'; w.tag.style.top = ty+'px'; w.tag.style.opacity = fade; w.tag.style.pointerEvents = fade>.3 ? 'auto' : 'none';
+    }
+  });
+
+  if (composer){ try { composer.render(); return; } catch(e){ composer = null; } }
+  renderer.clear(); renderer.render(sceneBG,camera); renderer.clearDepth(); renderer.render(scene,camera);
+}
+loop();
+})();
+</script>
+<script src="js/cards-data.js"></script>
+<script src="js/tornado.js"></script>
+<script src="js/guide.js"></script>
+<script src="js/pip-sound.js"></script>
+<script src="js/pip-extras.js"></script>
+</body>
+</html>
