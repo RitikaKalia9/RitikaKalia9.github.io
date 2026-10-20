@@ -1,0 +1,56 @@
+/* Pip extras: chips, tour + quick-view modals, sound button, star trail, black-hole glow, phone polish */
+#pipstars{position:fixed;inset:0;z-index:24;pointer-events:none}
+#pip .bub .chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.6rem}
+#pip .bub .chips button{border:1px solid rgba(209,163,255,.45);background:rgba(147,51,234,.2);color:#fff;font:500 .7rem Inter,sans-serif;padding:.3rem .65rem;border-radius:99px;cursor:pointer;text-decoration:none}
+#pip .bub .chips button:hover,#pip .bub .chips button:focus-visible{background:rgba(147,51,234,.5);outline:none}
+#pip.hot .pf{filter:drop-shadow(0 0 12px rgba(255,170,90,.95)) drop-shadow(0 0 28px rgba(255,110,60,.6))}
+
+#pipSound{position:fixed;top:78px;right:16px;z-index:27;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(10,6,22,.72);color:#c9bfe0;cursor:pointer;backdrop-filter:blur(10px);font-size:.85rem}
+#pipSound:hover,#pipSound:focus-visible{color:#fff;border-color:#d1a3ff;outline:none}
+#pipSound[aria-pressed="true"]{color:#fff;border-color:#d1a3ff;box-shadow:0 0 14px rgba(209,163,255,.4)}
+
+/* modals */
+.pipm{position:fixed;inset:0;z-index:99990;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(4,2,12,.78);backdrop-filter:blur(8px);opacity:0;transition:opacity .25s}
+.pipm[hidden]{display:none}.pipm.on{opacity:1}
+.pipm-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:1.6rem 1.7rem 1.4rem;border-radius:18px;border:1px solid rgba(209,163,255,.35);background:linear-gradient(180deg,rgba(30,20,56,.97),rgba(10,6,22,.98));color:#e6def5;font:400 .92rem/1.6 Inter,sans-serif;box-shadow:0 20px 80px rgba(0,0,0,.6),0 0 60px rgba(147,51,234,.18);outline:none;transform:translateY(10px) scale(.98);transition:transform .25s}
+.pipm.on .pipm-card{transform:none}
+.pipm-quick .pipm-card{width:min(860px,100%)}
+.pipm-x{position:absolute;top:10px;right:12px;width:38px;height:38px;border:0;border-radius:50%;background:none;color:#a99fc0;font-size:1rem;cursor:pointer}
+.pipm-x:hover,.pipm-x:focus-visible{color:#fff;background:rgba(255,255,255,.08);outline:none}
+.pipm-eye{font:500 .66rem 'JetBrains Mono',monospace;letter-spacing:2px;text-transform:uppercase;color:#d1a3ff;margin-bottom:.8rem}
+.pipm-say{display:flex;gap:.55rem;align-items:center;margin-bottom:.9rem;color:#fff;font-weight:500}
+.pipm-dot{flex:none;width:10px;height:10px;border-radius:50%;background:#f4eeff;box-shadow:0 0 10px #b98cff,0 0 20px #22d3ee}
+.pipm-kick{font:500 .68rem 'JetBrains Mono',monospace;color:#f0a080;letter-spacing:1px;text-transform:uppercase}
+.pipm h3{margin:.2rem 0 .5rem;font:600 1.45rem/1.25 'Space Grotesk',sans-serif;color:#fff;letter-spacing:-.3px}
+.pipm h4{margin:0 0 .4rem;font:600 .7rem 'JetBrains Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:#d1a3ff}
+.pipm p{margin:.2rem 0 .8rem;color:#b9aed0}.pipm-lead{color:#e6def5!important}
+.pipm-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .9rem}.pipm-tags i{font-style:normal;font-size:.7rem;padding:.2rem .6rem;border-radius:99px;border:1px solid rgba(255,255,255,.15);color:#cfc5e6}
+.pipm-row{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0 1rem}
+.pipm-b{display:inline-flex;align-items:center;gap:.4rem;min-height:40px;padding:.45rem 1rem;border-radius:99px;border:1px solid rgba(209,163,255,.45);background:rgba(255,255,255,.04);color:#fff!important;font:500 .8rem Inter,sans-serif;text-decoration:none;cursor:pointer}
+.pipm-b:hover,.pipm-b:focus-visible{background:rgba(147,51,234,.4);outline:none}.pipm-b.pri{background:rgba(147,51,234,.45)}.pipm-b[disabled]{opacity:.35;pointer-events:none}
+.pipm-nav{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.6rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.08)}
+.pipm-dots{display:flex;gap:.4rem}.pipm-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2)}.pipm-dots i.on{background:#d1a3ff;box-shadow:0 0 8px #d1a3ff}
+.pipm-body.pipm-in{animation:pipmin .35s ease}@keyframes pipmin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.pipm-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem 1.8rem}.pipm-cols section{break-inside:avoid}
+.pipm-cols ul{margin:0;padding:0;list-style:none}.pipm-cols li{margin:.25rem 0;font-size:.84rem;color:#cfc5e6}.pipm-cols li b{color:#fff;font-weight:600}.pipm-cols li span{color:#9a8fb0;font-size:.78rem}.pipm-cols a{color:#d1a3ff}
+html.pipm-lock{overflow:hidden}
+@media(max-width:700px){.pipm-cols{grid-template-columns:1fr}.pipm-card{padding:1.3rem 1.1rem 1.1rem}}
+@media print{body>*:not(#pipQuick){display:none!important}#pipQuick{position:static;background:#fff;opacity:1}#pipQuick .pipm-card{box-shadow:none;border:0;background:#fff;color:#000;max-height:none;overflow:visible}#pipQuick *{color:#000!important}.pipm-x,.pipm-b{display:none!important}}
+
+/* phone polish: bigger tap targets, safe areas, a menu for space.html */
+#pipMenu,#pipSheet{display:none}
+@media(max-width:768px){
+  #pipMenu{display:flex;position:fixed;top:12px;right:12px;z-index:32;width:44px;height:44px;align-items:center;justify-content:center;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(10,6,22,.78);color:#fff;font-size:1rem;backdrop-filter:blur(10px)}
+  #pipSheet:not([hidden]){display:flex;flex-direction:column;position:fixed;top:64px;right:12px;z-index:32;min-width:200px;padding:.5rem;border-radius:14px;border:1px solid rgba(209,163,255,.35);background:rgba(10,6,22,.94);backdrop-filter:blur(12px)}
+  #pipSheet button{min-height:44px;padding:.5rem .9rem;border:0;border-radius:10px;background:none;color:#e6def5;font:500 .9rem Inter,sans-serif;text-align:left}
+  #pipSheet button:active{background:rgba(147,51,234,.35)}
+  #pipSound{top:68px;right:14px}
+}
+@media(pointer:coarse),(max-width:899px){
+  .tag{padding:.6rem 1rem!important;min-height:44px}
+  .tbar button,#land .btns a,#land .btns button,.tback,.tcatback{min-height:44px}
+  #hint{bottom:calc(18px + env(safe-area-inset-bottom))!important}
+  #pad{bottom:calc(26px + env(safe-area-inset-bottom))}
+  .pipm-b{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){.pipm,.pipm-card,.pipm-body.pipm-in{transition:none;animation:none}}
