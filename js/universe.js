@@ -186,6 +186,46 @@
     skyGroup.add(mesh);
   });
 
+  /* ---------- Dark dust lanes: real nebulae also ABSORB light ---------- */
+  const dustFrag = NOISE_GLSL + `
+    uniform float uTime;
+    uniform float uSeed;
+    varying vec3 vDir;
+    void main(){
+      vec3 p = vDir * 2.0;
+      float t = uTime * 0.012;
+      vec3 w = vec3(
+        fbm(p * 1.3 + vec3(t * 0.05, 0.0, 0.0)),
+        fbm(p * 1.3 + vec3(0.0, 1.7, t * 0.04)),
+        fbm(p * 1.3 + vec3(5.2, 1.3, 0.0))
+      );
+      vec3 pw = p + w * 0.6;
+      // thin filaments = where the noise field crosses zero
+      float ridge = 1.0 - abs(fbm(pw * 2.2 + vec3(uSeed)));
+      ridge = pow(clamp(ridge, 0.0, 1.0), 6.0);
+      // dust only exists in some regions of the sky
+      float region = smoothstep(0.02, 0.50, fbm(p * 0.9 + vec3(uSeed * 1.7)));
+      float fine  = 0.55 + 0.45 * fbm(pw * 7.0);
+      float a = clamp(ridge * region * fine * 1.7, 0.0, 0.80);
+      gl_FragColor = vec4(0.0, 0.0, 0.01, a);
+    }
+  `;
+  (function () {
+    const mat = new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 }, uSeed: { value: 41.3 } },
+      vertexShader: nebulaVert,
+      fragmentShader: dustFrag,
+      side: THREE.BackSide,
+      transparent: true,
+      depthWrite: false
+    });
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(3250, 64, 40), mat);
+    mesh.renderOrder = -1;           // after nebulae + stars, before planets
+    mesh.userData.rotSpeed = 0.006;  // co-moves with the first nebula layer
+    mesh.userData.mat = mat;
+    skyGroup.add(mesh);
+  })();
+
   const STAR_VERT = `
     uniform float uTime;
     uniform float uSize;
@@ -331,6 +371,215 @@
     : [[7000, 900, 2600, 0.85, 0.95], [4500, 2600, 4200, 1.25, 0.7], [2200, 4200, 6500, 1.75, 0.5]];
 
   starCounts.forEach(([c, a, b, s, o]) => starGroup.add(makeStarLayer(c, a, b, s, o)));
+  starGroup.children.forEach(c => { c.renderOrder = -2; });   // stars sit under the dust lanes
+
+  /* ---------- helper: build N camera-facing quads ---------- */
+  function makeQuadGeometry(n, perStar) {
+    // perStar(i) -> { pos:[x,y,z], attrs:{name:[...floats]} }  (attrs repeated on all 4 corners)
+    const corners = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+    const geo = new THREE.BufferGeometry();
+    const position = new Float32Array(n * 12);
+    const corner = new Float32Array(n * 8);
+    const index = new Uint16Array(n * 6);
+    const attrBuf = {};
+    const attrSize = {};
+    for (let i = 0; i < n; i++) {
+      const d = perStar(i);
+      for (const k in d.attrs) {
+        const v = d.attrs[k];
+        if (!attrBuf[k]) { attrSize[k] = v.length; attrBuf[k] = new Float32Array(n * 4 * v.length); }
+      }
+      for (let c = 0; c < 4; c++) {
+        const o = i * 4 + c;
+        position.set(d.pos, o * 3);
+        corner.set(corners[c], o * 2);
+        for (const k in d.attrs) attrBuf[k].set(d.attrs[k], o * attrSize[k]);
+      }
+      const b = i * 4;
+      index.set([b, b + 1, b + 2, b, b + 2, b + 3], i * 6);
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(position, 3));
+    geo.setAttribute('aCorner', new THREE.BufferAttribute(corner, 2));
+    for (const k in attrBuf) geo.setAttribute(k, new THREE.BufferAttribute(attrBuf[k], attrSize[k]));
+    geo.setIndex(new THREE.BufferAttribute(index, 1));
+    return geo;
+  }
+
+  /* ---------- Telescope-style diffraction spikes on a few bright stars ---------- */
+  // Real images show spikes because of the telescope's mirror struts, so every
+  // star gets the SAME pattern (JWST: 6 long spikes + 2 short horizontal ones).
+  const heroMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+    },
+    vertexShader: `
+      uniform float uTime;
+      uniform vec2  uRes;
+      attribute vec2  aCorner;
+      attribute vec3  aColor;
+      attribute float aSizePx;
+      attribute vec2  aTw;
+      varying vec2  vP;
+      varying vec3  vCol;
+      varying float vTw;
+      void main(){
+        vP = aCorner;
+        vCol = aColor;
+        vTw = 0.9 + 0.1 * sin(uTime * aTw.x + aTw.y);
+        vec4 clip = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        clip.xy += aCorner * aSizePx * 2.0 / uRes * clip.w;
+        gl_Position = clip;
+      }
+    `,
+    fragmentShader: `
+      varying vec2  vP;
+      varying vec3  vCol;
+      varying float vTw;
+      float spike(vec2 p, float ang, float sharp, float fall){
+        vec2 d = vec2(cos(ang), sin(ang));
+        float along = abs(dot(p, d));
+        float perp  = abs(dot(p, vec2(-d.y, d.x)));
+        return exp(-perp * sharp) * pow(max(1.0 - along, 0.0), fall);
+      }
+      void main(){
+        float d = length(vP);
+        float core = exp(-d * d * 1800.0);
+        float halo = exp(-d * 16.0) * 0.30;
+        float sp = spike(vP, 1.5708, 110.0, 3.2)
+                 + spike(vP, 0.5236, 110.0, 3.2) * 0.85
+                 + spike(vP, 2.6180, 110.0, 3.2) * 0.85
+                 + spike(vP, 0.0,    140.0, 9.0) * 0.45;
+        float I = core * 1.3 + halo + sp * 0.50;
+        vec3 col = mix(vCol, vec3(1.0), clamp(core * 0.9 + sp * 0.15, 0.0, 1.0));
+        gl_FragColor = vec4(col, clamp(I, 0.0, 1.0) * vTw);
+      }
+    `,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  (function () {
+    const N = isMobile ? 9 : 20;
+    const geo = makeQuadGeometry(N, (i) => {
+      // spread all the way around Y (the star group slowly rotates), near the equator
+      const az = Math.random() * Math.PI * 2;
+      const el = (Math.random() - 0.5) * 1.1;
+      const r = 4800;
+      const [cr, cg, cb] = blackbodyRGB(3600 + Math.pow(Math.random(), 1.7) * 14000);
+      const big = i < (isMobile ? 2 : 4);
+      return {
+        pos: [r * Math.cos(el) * Math.sin(az), r * Math.sin(el), -r * Math.cos(el) * Math.cos(az)],
+        attrs: {
+          aColor: [cr, cg, cb],
+          aSizePx: [big ? 110 + Math.random() * 50 : 38 + Math.random() * 40],
+          aTw: [0.4 + Math.random() * 1.2, Math.random() * 6.28]
+        }
+      };
+    });
+    const hero = new THREE.Mesh(geo, heroMat);
+    hero.frustumCulled = false;
+    hero.renderOrder = -3;
+    hero.userData.mat = heroMat;
+    starGroup.add(hero);
+  })();
+
+  /* ---------- Distant background galaxies (Hubble Deep Field look) ---------- */
+  const farGalaxyMat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 } },
+    vertexShader: `
+      attribute vec2  aCorner;
+      attribute float aSize;
+      attribute vec4  aShape;   // x = rotation, y = axis ratio, z = type, w = seed
+      attribute vec4  aTint;    // rgb = disk tint, a = brightness
+      varying vec2  vUv;
+      varying vec4  vShape;
+      varying vec4  vTint;
+      void main(){
+        vUv = aCorner;
+        vShape = aShape;
+        vTint = aTint;
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        mv.xy += aCorner * aSize;
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader: `
+      varying vec2 vUv;
+      varying vec4 vShape;
+      varying vec4 vTint;
+      void main(){
+        float c = cos(vShape.x), s = sin(vShape.x);
+        vec2 q = vec2(c * vUv.x + s * vUv.y, -s * vUv.x + c * vUv.y);
+        q.y /= vShape.y;
+        float r = length(q);
+        if (r > 1.0) discard;
+
+        float type = vShape.z;
+        vec3 warm = vec3(1.0, 0.84, 0.64);
+        float I;
+        vec3 col;
+
+        if (type < 0.5) {
+          // elliptical: smooth, warm, old stars
+          I = exp(-pow(r * 7.5, 0.55)) * 1.4;
+          col = warm;
+        } else {
+          float bulge = exp(-r * 12.0);
+          float disk  = exp(-r * 3.4);
+          float arm = 1.0;
+          if (type < 1.5) {
+            float ang = atan(q.y, q.x);
+            float a = 0.5 + 0.5 * cos(2.0 * ang - 7.5 * log(r + 0.08) + vShape.w * 6.28);
+            arm = mix(1.0, 0.30 + 0.70 * pow(a, 1.6), smoothstep(0.08, 0.35, r));
+          } else {
+            // edge-on: dark dust lane along the disk
+            float lane = exp(-q.y * q.y * 40.0) * smoothstep(0.08, 0.30, abs(q.x));
+            arm = 1.0 - 0.75 * lane;
+          }
+          I = bulge * 1.15 + disk * 0.55 * arm;
+          col = mix(warm, vTint.rgb, smoothstep(0.05, 0.5, r));
+        }
+        I *= smoothstep(1.0, 0.65, r);
+        gl_FragColor = vec4(col, I * vTint.a);
+      }
+    `,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  (function () {
+    const N = isMobile ? 110 : 260;
+    const tints = [[0.62, 0.78, 1.0], [0.75, 0.85, 1.0], [1.0, 0.9, 0.78], [0.9, 0.78, 1.0]];
+    const geo = makeQuadGeometry(N, () => {
+      const u = Math.random() * 2 - 1;
+      const th = Math.random() * Math.PI * 2;
+      const sq = Math.sqrt(1 - u * u);
+      const r = 5000 + Math.random() * 1200;
+      const roll = Math.random();
+      const type = roll < 0.40 ? 0 : (roll < 0.85 ? 1 : 2);
+      const ratio = type === 0 ? 0.5 + Math.random() * 0.45
+                  : type === 1 ? 0.35 + Math.random() * 0.65
+                  : 0.10 + Math.random() * 0.08;
+      const size = 75 + Math.pow(Math.random(), 3.0) * 250;   // mostly tiny, a few larger
+      const tint = tints[(Math.random() * tints.length) | 0];
+      return {
+        pos: [r * sq * Math.cos(th), r * u, r * sq * Math.sin(th)],
+        attrs: {
+          aSize: [size],
+          aShape: [Math.random() * Math.PI, ratio, type, Math.random()],
+          aTint: [tint[0], tint[1], tint[2], 0.32 + Math.random() * 0.45]
+        }
+      };
+    });
+    const mesh = new THREE.Mesh(geo, farGalaxyMat);
+    mesh.frustumCulled = false;
+    mesh.renderOrder = -4;
+    mesh.userData.mat = farGalaxyMat;
+    starGroup.add(mesh);
+  })();
 
   const PLANET_VERT = `
     varying vec3 vObjPos;
@@ -715,7 +964,21 @@
   }
   dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
 
+  // round, soft particle sprite (a PointsMaterial without a map draws hard squares)
+  const dustSprite = (function () {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const g = c.getContext('2d');
+    const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grd.addColorStop(0.0, 'rgba(255,255,255,1)');
+    grd.addColorStop(0.35, 'rgba(255,255,255,0.35)');
+    grd.addColorStop(1.0, 'rgba(255,255,255,0)');
+    g.fillStyle = grd;
+    g.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+  })();
   const dustMat = new THREE.PointsMaterial({
+    map: dustSprite,
     size: 1.7,
     color: 0xa8c4ff,
     transparent: true,
@@ -1058,6 +1321,134 @@
     }
   }
 
+  /* ============================================================
+     VOLUMETRIC CLOUD LAYER (soft sprites at many depths)
+     The shader nebulae are infinitely far away, so they never show
+     parallax. These puffs sit at real 3D positions, so when the camera
+     moves (mouse + scroll flight) near clouds slide past far ones.
+     Textures are generated in code - no image files needed.
+     ============================================================ */
+  const cloudLayer = (function () {
+    // --- 1. procedural smoke textures (3 variants) ---
+    function makePuffTexture(seed) {
+      const S = 256;
+      const c = document.createElement('canvas');
+      c.width = c.height = S;
+      const g = c.getContext('2d');
+      let rs = seed * 9301 + 49297;
+      const rnd = () => { rs = (rs * 9301 + 49297) % 233280; return rs / 233280; };
+
+      g.globalCompositeOperation = 'lighter';
+      // many overlapping faint blobs, clustered around the centre = irregular billow
+      for (let i = 0; i < 70; i++) {
+        const a = rnd() * Math.PI * 2;
+        const d = Math.pow(rnd(), 0.8) * S * 0.30;
+        const x = S / 2 + Math.cos(a) * d * (1.0 + 0.5 * Math.sin(seed));
+        const y = S / 2 + Math.sin(a) * d * 0.8;
+        const r = 18 + rnd() * 52;
+        const al = 0.035 + rnd() * 0.07;
+        const grd = g.createRadialGradient(x, y, 0, x, y, r);
+        grd.addColorStop(0.0, 'rgba(255,255,255,' + al + ')');
+        grd.addColorStop(1.0, 'rgba(255,255,255,0)');
+        g.fillStyle = grd;
+        g.fillRect(0, 0, S, S);
+      }
+      // fade to nothing at the edges so no square outline ever shows
+      g.globalCompositeOperation = 'destination-in';
+      const mask = g.createRadialGradient(S / 2, S / 2, S * 0.10, S / 2, S / 2, S / 2);
+      mask.addColorStop(0.0, 'rgba(0,0,0,1)');
+      mask.addColorStop(0.65, 'rgba(0,0,0,0.55)');
+      mask.addColorStop(1.0, 'rgba(0,0,0,0)');
+      g.fillStyle = mask;
+      g.fillRect(0, 0, S, S);
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      return tex;
+    }
+    const puffs = [makePuffTexture(1), makePuffTexture(2), makePuffTexture(3)];
+
+    // emission-nebula palette: mostly violet/blue, some H-alpha magenta, a little teal + warm
+    const palette = [
+      0x6d3fd6, 0x5b3bc4, 0x3b4fd1, 0x2a44a8,      // violet / blue
+      0xb02fa8, 0xd0407f,                           // magenta / pink (H-alpha)
+      0x1ea7b8,                                      // teal (OIII)
+      0xd97a4a                                       // warm dust glow
+    ];
+    const pick = () => {
+      const r = Math.random();
+      if (r < 0.50) return palette[(Math.random() * 4) | 0];
+      if (r < 0.75) return palette[4 + ((Math.random() * 2) | 0)];
+      if (r < 0.92) return palette[6];
+      return palette[7];
+    };
+
+    // keep puffs from smearing over the planets (project onto the same view rays)
+    const CAM_Z = 900;
+    const keepOut = [
+      { x: 1420, y: -560, z: -2400, r: 700 },   // gas giant + rings
+      { x: -1900, y: 720, z: -3400, r: 520 },   // teal planet
+      { x: 760,  y: 120,  z: 0,     r: 260 }    // moon
+    ];
+    function overlapsPlanet(x, y, z, size) {
+      const dc = CAM_Z - z;
+      for (const p of keepOut) {
+        if (z <= p.z) continue;                  // cloud is behind the planet: planet occludes it
+        const dp = CAM_Z - p.z;
+        const dx = x / dc - p.x / dp;
+        const dy = y / dc - p.y / dp;
+        if (Math.hypot(dx, dy) < p.r / dp + size * 0.5 / dc) return true;
+      }
+      return false;
+    }
+
+    const N = isMobile ? 14 : 34;
+    const items = [];
+    let guard = 0;
+    while (items.length < N && guard++ < 600) {
+      const depth = Math.random();                       // 0 = near band, 1 = far band
+      const z = -1700 - depth * 3600;                    // -1700 .. -5300 (camera never gets closer than ~1100)
+      const spread = 1500 + depth * 2600;
+      const x = (Math.random() - 0.5) * 2 * spread;
+      const y = (Math.random() - 0.5) * 2 * spread * 0.55;
+      const size = 700 + Math.random() * 1000 + depth * 900;
+      if (overlapsPlanet(x, y, z, size)) continue;
+
+      const mat = new THREE.SpriteMaterial({
+        map: puffs[(Math.random() * puffs.length) | 0],
+        color: pick(),
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        rotation: Math.random() * Math.PI * 2
+      });
+      const sp = new THREE.Sprite(mat);
+      sp.position.set(x, y, z);
+      sp.scale.set(size, size * (0.7 + Math.random() * 0.5), 1);
+      sp.renderOrder = -5;               // after the sky nebulae, before the dust lanes
+      sp.frustumCulled = false;
+      scene.add(sp);
+      items.push({
+        sp, mat,
+        base: 0.045 + Math.random() * 0.085,            // faint: they add up where they overlap
+        spin: (Math.random() < 0.5 ? -1 : 1) * (0.004 + Math.random() * 0.012),
+        phase: Math.random() * 6.28,
+        breathe: 0.05 + Math.random() * 0.08
+      });
+    }
+
+    return {
+      update(t, dt) {
+        for (const it of items) {
+          if (!reduced) it.mat.rotation += it.spin * dt;
+          it.mat.opacity = it.base * (0.85 + 0.15 * Math.sin(t * it.breathe + it.phase));
+        }
+      }
+    };
+  })();
+
   const passes = {};
   let composer = null;
 
@@ -1125,7 +1516,7 @@
       if (typeof THREE.UnrealBloomPass === 'function') {
         const bloom = new THREE.UnrealBloomPass(
           new THREE.Vector2(window.innerWidth, window.innerHeight),
-          0.80, 0.72, 0.28
+          0.50, 0.65, 0.30
         );
         bloom.renderToScreen = false;
         composer.addPass(bloom);
@@ -1135,7 +1526,7 @@
       const ChromaticAberrationShader = {
         uniforms: {
           tDiffuse: { value: null },
-          uAmount: { value: 0.0018 }
+          uAmount: { value: 0.0004 }
         },
         vertexShader: `
           varying vec2 vUv;
@@ -1192,6 +1583,7 @@
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
     if (composer) composer.setSize(w, h);
+    heroMat.uniforms.uRes.value.set(w, h);
   }
   window.addEventListener('resize', onResize);
 
@@ -1219,6 +1611,7 @@
     planetMats.forEach(m => { if (m.uniforms.uTime) m.uniforms.uTime.value = t; });
 
     galaxy.update(t);
+    cloudLayer.update(t, dt);
 
     smoothX += (mouseX - smoothX) * 0.045;
     smoothY += (mouseY - smoothY) * 0.045;
@@ -1226,14 +1619,14 @@
 
     if (!reduced) {
       const drift = Math.sin(t * 0.07) * 0.5 + Math.sin(t * 0.031) * 0.5;
-      const shakeX = (Math.sin(t * 7.3) + Math.sin(t * 13.1) * 0.5) * 0.8;
-      const shakeY = (Math.cos(t * 6.1) + Math.cos(t * 11.7) * 0.5) * 0.8;
+      const shakeX = 0;   // no handheld shake in space
+      const shakeY = 0;
 
       camera.position.x = smoothX * 190 + drift * 40 + shakeX;
       camera.position.y = -smoothY * 120 + Math.cos(t * 0.05) * 22 - smoothScroll * 260 + shakeY;
       camera.position.z = 900 - smoothScroll * 1500;
       camera.lookAt(0, 0, -400 - smoothScroll * 900);
-      camera.rotation.z = smoothX * 0.018 + Math.sin(t * 4.2) * 0.0008;
+      camera.rotation.z = smoothX * 0.018;
     } else {
       camera.lookAt(0, 0, -400);
     }
