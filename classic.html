@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritika Kalia · AI/ML Engineer · Building intelligent solutions for a smarter tomorrow</title>
+    <meta name="description"
+        content="Portfolio of Ritika Kalia — AI/ML Engineer, Researcher, Full-Stack Developer from Chandigarh, India.">
+    <meta name="theme-color" content="#04020a">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2306020f'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23d1a3ff'/%3E%3C/svg%3E">
+    <meta property="og:type" content="website"><meta property="og:title" content="Ritika Kalia · AI/ML Engineer"><meta property="og:description" content="Portfolio of Ritika Kalia — AI/ML Engineer, Researcher, Full-Stack Developer from Chandigarh, India.">
+    <meta property="og:url" content="https://ritikakalia9.github.io/classic.html"><meta property="og:image" content="https://ritikakalia9.github.io/images/og-universe.jpg">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ritika Kalia · AI/ML Engineer"><meta name="twitter:description" content="Portfolio of Ritika Kalia — AI/ML Engineer, Researcher, Full-Stack Developer from Chandigarh, India."><meta name="twitter:image" content="https://ritikakalia9.github.io/images/og-universe.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/planets.css">
+    <link rel="stylesheet" href="css/guide.css">
+<link rel="stylesheet" href="css/extras.css">
+<script src="js/pip-warp.js"></script>
+<script src="js/space-fallback.js"></script>
+</head>
+
+<body>
+
+    <canvas id="webgl"></canvas>
+    <div class="vignette"></div>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <nav>
+        <div class="container nav-inner">
+            <a href="#" class="logo"><span class="logo-mark"></span>Ritika<span>.Kalia</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#under-review">Under Review</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#journey">Journey</a></li>
+                <li><a href="#contact" class="nav-cta">Get in touch</a></li>
+            </ul>
+            <button class="menu-btn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content reveal">
+                <div class="hero-badge"><span class="dot"></span> Open to AI/ML & Full-Stack roles</div>
+                <h1>Hi, I'm <span class="name">Ritika Kalia</span>
+                    <span class="hero-tagline">— engineer with an <em>artist's eye. <br> This is My Universe.</em></span>
+                </h1>
+                <div class="hero-tag">
+                    <span class="prompt">~$</span>
+                    <span class="typed" id="typed"></span>
+                    <span class="caret"></span>
+                </div>
+                <p class="hero-desc">
+                    B.E. CSE @ CCET, Chandigarh. I build AI systems that solve real problems.
+                </p>
+                <div class="hero-btns">
+                    <a href="#projects" class="btn btn-primary">See my work <i class="fas fa-arrow-right"></i></a>
+                    <a href="resume.pdf" class="btn btn-ghost" download><i class="fas fa-download"></i> Resume</a>
+                </div>
+                <div class="hero-socials">
+                    <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i
+                            class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener"
+                        aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener"
+                        aria-label="LeetCode"><i class="fas fa-code"></i></a>
+                    <a href="mailto:ritikakalia19@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="hero-visual reveal reveal-d2">
+                <div class="orbit">
+                    <div class="orbit-dot"></div>
+                    <div class="orbit-dot cyan"></div>
+                    <div class="profile-photo">
+                        <div class="fallback">RK</div>
+                        <img src="images/profile.webp" alt="Ritika Kalia" width="400" height="400" decoding="async" onerror="this.onerror=function(){this.style.display='none'};this.src='images/profile.png'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-label reveal">// About</div>
+            <h2 class="section-title reveal">Building <em>intelligent</em> solutions<br>for a smarter tomorrow.</h2>
+            <p class="section-desc reveal">A snapshot of what drives me, what I've done, and what I care about. Grouped
+                by what they taught me. Code is on GitHub.</p>
+
+            <div class="bento-grid">
+                <div class="bento-item reveal">
+                    <div class="bento-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="bento-number">9.45</div>
+                    <div class="bento-label">CGPA · B.E. CSE</div>
+                </div>
+                <div class="bento-item reveal reveal-d1">
+                    <div class="bento-icon"><i class="fas fa-code-branch"></i></div>
+                    <div class="bento-number">46</div>
+                    <div class="bento-label">GitHub Repos</div>
+                </div>
+                <div class="bento-item reveal reveal-d2">
+                    <div class="bento-icon"><i class="fas fa-scroll"></i></div>
+                    <div class="bento-number">1</div>
+                    <div class="bento-label">Publication</div>
+                </div>
+                <div class="bento-item reveal reveal-d3">
+                    <div class="bento-icon"><i class="fas fa-fire"></i></div>
+                    <div class="bento-number">429</div>
+                    <div class="bento-label">Contributions · 2025</div>
+                </div>
+
+                <div class="bento-item span-2 reveal">
+                    <div class="bento-title"><i class="fas fa-flask"></i> Research Interests</div>
+                    <div class="bento-text">Multilingual NLP and hallucination detection in legal QA, video
+                        understanding, explainable ensemble learning for healthcare, medical imaging, federated learning
+                        for intrusion detection, and behavioral analytics for XR privacy.</div>
+                </div>
+
+                <div class="bento-item span-2 reveal reveal-d1">
+                    <div class="bento-title"><i class="fas fa-compass"></i> Currently</div>
+                    <div class="bento-text">Final-year CSE student at CCET and ACM-W chairperson. Building a
+                        multilingual Indian legal QA system with cross-LLM hallucination detection for my final year
+                        project and taking MMVDNet toward deployment, with three papers under review. Looking for AI/ML
+                        and full-stack roles where I can ship fast and learn faster.</div>
+                </div>
+
+                <div class="bento-item span-4 reveal">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                            <span class="terminal-title">ritika@universe — zsh</span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">whoami</span></span>
+                            <span class="terminal-line terminal-output">AI/ML engineer · full-stack dev ·
+                                researcher</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">cat</span> <span
+                                    class="terminal-string">focus.txt</span></span>
+                            <span class="terminal-line terminal-output">Indic LLMs · RAG · PyTorch · CNNs · VideoMAE ·
+                                XR privacy</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">cat</span> <span
+                                    class="terminal-string">mantra.txt</span></span>
+                            <span class="terminal-line terminal-output">Build things that work. Then make them
+                                beautiful.</span>
+                            <span class="terminal-line"><span class="terminal-prompt">ritika@universe:~$</span> <span
+                                    class="terminal-cmd">_</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-strip reveal">
+                <div class="quote-text">In God we trust; all others bring data.</div>
+                <div class="quote-author">— W. Edwards Deming</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stack">
+        <div class="container">
+            <div class="section-label reveal">// Toolkit</div>
+            <h2 class="section-title reveal">The stack I <em>reach for.</em></h2>
+            <p class="section-desc reveal">Tools that turn ideas into shipped products.</p>
+
+            <div class="stack-grid">
+                <div class="stack-card reveal">
+                    <div class="stack-head"><i class="fas fa-terminal"></i>
+                        <h4>Languages</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">Python</span>
+                        <span class="stack-tag">C</span>
+                        <span class="stack-tag">SQL</span>
+                        <span class="stack-tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d1">
+                    <div class="stack-head"><i class="fas fa-globe"></i>
+                        <h4>Web Development</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">HTML</span>
+                        <span class="stack-tag">CSS</span>
+                        <span class="stack-tag">Django</span>
+                        <span class="stack-tag">Flask</span>
+                        <span class="stack-tag">Bootstrap</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d2">
+                    <div class="stack-head"><i class="fas fa-brain"></i>
+                        <h4>AI / ML</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">PyTorch</span>
+                        <span class="stack-tag">Machine Learning</span>
+                        <span class="stack-tag">Deep Learning</span>
+                        <span class="stack-tag">Neural Networks</span>
+                        <span class="stack-tag">CNN</span>
+                        <span class="stack-tag">Autoencoders</span>
+                        <span class="stack-tag">Hugging Face</span>
+                        <span class="stack-tag">QLoRA</span>
+                    </div>
+                </div>
+                <div class="stack-card reveal reveal-d3">
+                    <div class="stack-head"><i class="fas fa-wrench"></i>
+                        <h4>Tools & Design</h4>
+                    </div>
+                    <div class="stack-tags">
+                        <span class="stack-tag">Git</span>
+                        <span class="stack-tag">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="container">
+            <div class="section-label reveal">// Research</div>
+            <h2 class="section-title reveal">Published <em>research.</em></h2>
+            <p class="section-desc reveal">Work that went through peer review and came out the other side.</p>
+            <div class="pub-grid pub-grid-single">
+                <div class="pub-card reveal">
+                    <div class="pub-thumb">
+                        <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=900&q=80&auto=format&fit=crop"
+                            alt="VR headset in use" loading="lazy">
+                    </div>
+                    <div class="pub-body">
+                        <div class="pub-year">IEEE ICIR · 2026 · Published</div>
+                        <div class="pub-title">Real-Time Privacy Guardianship in XR Metaverses via AI-Driven Behavioral
+                            Analytics</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">AI/ML</span>
+                            <span class="project-tag">Behavioral Analytics</span>
+                            <span class="project-tag">XR / VR</span>
+                        </div>
+                        <div class="pub-venue">Published and presented as an e-Poster at IEEE ICIR 2026, University of
+                            Pisa, Italy. The AI-driven pipeline achieved 92% accuracy and 0.976 ROC-AUC for detecting
+                            privacy attacks in VR environments.</div>
+                        <div class="project-links">
+                            <a href="https://ieeexplore.ieee.org/document/11628368" target="_blank" rel="noopener">IEEE
+                                Xplore <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Real_Time_Privacy_Guardianship_in_XR_Metaverses_via_AI_Driven_Behavioral_Analytics-"
+                                target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-label reveal">// Selected Work</div>
+            <h2 class="section-title reveal">Things I've <em>built.</em></h2>
+            <p class="section-desc reveal">Grouped by what they taught me. Everything is on GitHub.</p>
+
+            <!-- ===================== WEB DEVELOPMENT ===================== -->
+            <div class="category" id="cat-web">
+                <div class="category-head reveal">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <h3>Web Development</h3>
+                        <p>HTML, CSS, JavaScript and Django applications.</p>
+                    </div>
+                </div>
+                <div class="pub-grid pub-grid-single">
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop"
+                                alt="StellerCart e-commerce" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Django · Full-Stack</div>
+                            <div class="pub-title">StellerCart — Full-Stack E-Commerce</div>
+                            <div class="project-meta">
+                                <span class="project-tag">Django</span>
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Bootstrap</span>
+                                <span class="project-tag">JavaScript</span>
+                            </div>
+                            <div class="pub-venue">Full-stack e-commerce site with Google sign-in, product listings,
+                                cart, and checkout. 7 related models in Django ORM, AJAX cart updates with CSRF
+                                protection, and Razorpay (test mode) with server-side charge calculation and signature
+                                verification.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/Full-Stack-E-Commerce-Platform-StellerCart-"
+                                    target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================== CS & SYSTEMS ===================== -->
+            <div class="category" id="cat-systems">
+                <div class="category-head reveal">
+                    <i class="fas fa-microchip"></i>
+                    <div>
+                        <h3>Computer Science &amp; Systems</h3>
+                        <p>Algorithms, data structures, and operating systems concepts.</p>
+                    </div>
+                </div>
+                <div class="pub-grid pub-grid-single">
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=80&auto=format&fit=crop"
+                                alt="CPU scheduling simulator" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Operating Systems</div>
+                            <div class="pub-title">CPU Scheduling Simulator</div>
+                            <div class="project-meta">
+                                <span class="project-tag">Python</span>
+                                <span class="project-tag">Streamlit</span>
+                                <span class="project-tag">Matplotlib</span>
+                                <span class="project-tag">Pandas</span>
+                            </div>
+                            <div class="pub-venue">Interactive simulator with 8 scheduling algorithms (FCFS, SJF, SRTN,
+                                Round Robin, LJF, LRTN, Static/Dynamic Priority). Supports mixed CPU/I/O workloads,
+                                preemption, context switches, and aging-based starvation prevention. Gantt charts plus
+                                waiting, turnaround, response time, utilization, and throughput metrics.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/CPU-Scheduler" target="_blank"
+                                    rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                                <a href="https://cpu-scheduler-ritika.streamlit.app/" target="_blank"
+                                    rel="noopener">Live Demo <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="pub-card reveal">
+                        <div class="pub-thumb">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&auto=format&fit=crop"
+                                alt="Graph algorithm visualizer" loading="lazy">
+                        </div>
+                        <div class="pub-body">
+                            <div class="pub-year">Data Structures &amp; Algorithms</div>
+                            <div class="pub-title">Graph Algorithm Visualizer</div>
+                            <div class="project-meta">
+                                <span class="project-tag">JavaScript</span>
+                                <span class="project-tag">HTML</span>
+                                <span class="project-tag">CSS</span>
+                                <span class="project-tag">ES6 Modules</span>
+                            </div>
+                            <div class="pub-venue">Step-by-step BFS and DFS visualization with a modular ES6 frontend
+                                separating graph structures, algorithm logic, and rendering. Live Queue and Stack views
+                                synced to execution, plus edge creation, node drag-and-drop, zoom, pan, and dynamic
+                                boundary expansion.</div>
+                            <div class="project-links">
+                                <a href="https://github.com/RitikaKalia9/Graph-Visualizer" target="_blank"
+                                    rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                                <a href="https://graph-visualizer-mauve.vercel.app/" target="_blank" rel="noopener">Live
+                                    Demo <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===================== AI & DEEP LEARNING ===================== -->
+            <div class="category" id="cat-ai">
+                <div class="category-head reveal">
+                    <i class="fas fa-brain"></i>
+                    <div>
+                        <h3>AI &amp; Deep Learning</h3>
+                        <p>Deep learning experiments and fundamentals.</p>
+                    </div>
+                </div>
+                <div class="pub-grid">
+
+
+
+
+
+                    <!-- Deep learning experiments -->
+                     
+                    
+                    
+
+             
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · Deep Learning · Computer Vision</div>
+                        <div class="pub-title">Deep CNN Architectures for Garbage Classification</div>
+                        <div class="project-meta">
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">CNN</span>
+                            <span class="project-tag">ResNet-18</span>
+                            <span class="project-tag">VGG-16</span>
+                        </div>
+                        <div class="pub-venue">
+                            Compared five CNN architectures—LeNet-5, AlexNet-lite, VGG-16-lite,
+                            PlacesNet-lite, and ResNet-18-lite—on a six-class garbage
+                            classification dataset. Evaluated test accuracy across three random
+                            seeds and developed a Tkinter application for image prediction and
+                            majority voting across models. VGG-16-lite achieved the highest mean
+                            test accuracy of 59.0%.
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/waste_classification_deep_cnn_architectures"
+                                target="_blank" rel="noopener">
+                                Code <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    
+                    
+
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · CNN</div>
+                        <div class="pub-title">CNNs &amp; Deep Architectures</div>
+                        <div class="project-meta">
+                            <span class="project-tag">CIFAR-10</span>
+                            <span class="project-tag">ResNet-18</span>
+                            <span class="project-tag">VGG-16</span>
+                        </div>
+                        <div class="pub-venue">CNN practical covering convolution, pooling, backprop through
+                            convolution, parameter counts, and a CIFAR-10 classifier. Plus LeNet-5, AlexNet, VGG-16,
+                            PlacesNet, and ResNet-18.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/CNN" target="_blank" rel="noopener">CNN <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/Deep-CNN-Architectures-LeNet-5-AlexNet-VGG-16-PlacesNet-ResNet-18"
+                                target="_blank" rel="noopener">Architectures <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Optimization</div>
+                        <div class="pub-title">Second-Order Optimization Methods</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Newton</span>
+                            <span class="project-tag">Hessian</span>
+                            <span class="project-tag">Quasi-Newton</span>
+                        </div>
+                        <div class="pub-venue">Curvature, Newton's method, Hessian computation, quasi-Newton, and
+                            Hessian-free methods. Shows why second-order methods converge fast and why the full Hessian
+                            is impractical for large networks.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/Second-Order-Optimization-Methods" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="pub-card reveal reveal-d1">
+                    <div class="pub-year">PyTorch · Deep Learning Optimization</div>
+                    <div class="pub-title">Optimization for Training Deep Neural Networks</div>
+                    <div class="project-meta">
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">Gradient Descent</span>
+                        <span class="project-tag">Adam</span>
+                        <span class="project-tag">RMSProp</span>
+                    </div>
+                    <div class="pub-venue">Implemented gradient descent variants, AdaGrad, RMSProp, and Adam from scratch in PyTorch and validated them against built-in optimizers. Explored vanishing gradients, optimizer convergence, learning-rate sensitivity, and performance on nonlinear classification tasks.</div>
+                    <div class="project-links">
+                        <a href="https://github.com/RitikaKalia9/optimization_techniques" target="_blank"
+                            rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    </div>
+
+
+
+                    <div class="pub-card reveal reveal-d2">
+                        <div class="pub-year">PyTorch · Autoencoders</div>
+                        <div class="pub-title">Autoencoders &amp; VAEs</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Autoencoder</span>
+                            <span class="project-tag">Denoising</span>
+                            <span class="project-tag">VAE</span>
+                        </div>
+                        <div class="pub-venue">Standard, denoising, and variational autoencoders on MNIST:
+                            reconstruction, dimensionality reduction, bottleneck effects, denoising, and image
+                            generation.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/Autoencoders_in_PyTorch" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · Regularization</div>
+                        <div class="pub-title">Regularization Explorer: Mini Project</div>
+                        <div class="project-meta">
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">Dropout</span>
+                            <span class="project-tag">BatchNorm</span>
+                        </div>
+                        <div class="pub-venue">L1/L2 regularization, dropout, batch normalization, and data augmentation
+                            against overfitting, with an interactive explorer to compare their effects.</div>
+                        <div class="project-links">
+                            <a href="https://regularization-explorer-mwxbxonjxpn55wgmjvfixf.streamlit.app/" target="_blank" rel="noopener">Explorer <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/regularization-explorer" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="pub-card reveal">
+                        <div class="pub-year">PyTorch · Regularization</div>
+                        <div class="pub-title">Regularization Methods</div>
+                        <div class="project-meta">
+                            <span class="project-tag">PyTorch</span>
+                            <span class="project-tag">Dropout</span>
+                            <span class="project-tag">BatchNorm</span>
+                        </div>
+                        <div class="pub-venue">L1/L2 regularization, dropout, batch normalization, and data augmentation
+                            against overfitting.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/Regularization_Methods_in_PyTorch" target="_blank"
+                                rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Fundamentals</div>
+                        <div class="pub-title">Backpropagation: Mini Project</div>
+                        <div class="project-meta">
+                            <span class="project-tag">From scratch</span>
+                            <span class="project-tag">Backprop</span>
+                        </div>
+                        <div class="pub-venue">From-scratch implementations of the Single layer perceptron learning algorithm and
+                            backpropagation, the building blocks of every neural network.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/mini_project_perceptron" target="_blank"
+                                rel="noopener">Backprop <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/backpropagation_miniproject" target="_blank"
+                                rel="noopener">Live Demo <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Fundamentals</div>
+                        <div class="pub-title">Perceptron: Mini Project </div>
+                        <div class="project-meta">
+                            <span class="project-tag">From scratch</span>
+                            <span class="project-tag">Backprop</span>
+                        </div>
+                        <div class="pub-venue">From-scratch implementations of the Single layer perceptron learning algorithm: AND, OR, NAND, NOR.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/mini_project_perceptron" target="_blank"
+                                rel="noopener">Perceptron <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://rys78ut2ej2rjnb4m6mem4.streamlit.app/" target="_blank"
+                                rel="noopener">Live Demo <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+
+                    
+                    <div class="pub-card reveal reveal-d1">
+                        <div class="pub-year">PyTorch · Fundamentals</div>
+                        <div class="pub-title">Perceptron &amp; Backpropagation</div>
+                        <div class="project-meta">
+                            <span class="project-tag">From scratch</span>
+                            <span class="project-tag">Backprop</span>
+                        </div>
+                        <div class="pub-venue">From-scratch implementations of the Single layer perceptron learning algorithm and
+                            backpropagation, the building blocks of every neural network.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/mini_project_perceptron" target="_blank"
+                                rel="noopener">Perceptron <i class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/backpropagation_miniproject" target="_blank"
+                                rel="noopener">Backprop <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="pub-card reveal reveal-d2">
+                        <div class="pub-year">PyTorch · ANN</div>
+                        <div class="pub-title">Artificial Neural Networks</div>
+                        <div class="project-meta">
+                            <span class="project-tag">Feedforward</span>
+                            <span class="project-tag">Optimizers</span>
+                        </div>
+                        <div class="pub-venue">Feedforward networks, activation and loss functions, training loops, and
+                            optimization techniques in PyTorch.</div>
+                        <div class="project-links">
+                            <a href="https://github.com/RitikaKalia9/ANN" target="_blank" rel="noopener">Code <i
+                                    class="fas fa-arrow-right"></i></a>
+                            <a href="https://github.com/RitikaKalia9/optimization_techniques" target="_blank"
+                                rel="noopener">Optimization <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="under-review">
+        <div class="container">
+            <div class="section-label reveal">// Under Review</div>
+            <h2 class="section-title reveal">Submitted, <em>awaiting review.</em></h2>
+            <p class="section-desc reveal">Completed research currently under peer review. Details and code will be
+                shared once published.</p>
+
+            <div class="pub-grid">
+
+                <div class="pub-card reveal">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Healthcare AI</div>
+                    <div class="pub-title">Explainable Ensemble Learning for Heart Disease Prediction</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Ensemble Learning</span>
+                        <span class="project-tag">Explainable AI</span>
+                    </div>
+                    <div class="pub-venue">An interpretable ensemble approach to heart-disease risk prediction, designed
+                        so clinicians can see why a prediction was made.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d1">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Security</div>
+                    <div class="pub-title">Federated Learning for Intrusion Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">Federated Learning</span>
+                        <span class="project-tag">Cybersecurity</span>
+                    </div>
+                    <div class="pub-venue">A privacy-preserving approach to network intrusion detection that trains
+                        across distributed clients without centralizing raw data.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d2">
+                    <div class="pub-year"><span class="wip-dot"></span> Under Review · Medical Imaging</div>
+                    <div class="pub-title">Diabetic Retinopathy Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">Deep Learning</span>
+                        <span class="project-tag">Medical Imaging</span>
+                    </div>
+                    <div class="pub-venue">Deep learning for automated detection and grading of diabetic retinopathy
+                        from retinal fundus images.</div>
+                    <div class="project-links">
+                        <span class="locked"><i class="fas fa-lock"></i> Available after publication</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="in-progress">
+        <div class="container">
+            <div class="section-label reveal">// In Progress</div>
+            <h2 class="section-title reveal">Currently <em>building.</em></h2>
+            <p class="section-desc reveal">Work that's still evolving. Code is on GitHub, but expect things to change.
+            </p>
+
+            <div class="pub-grid">
+
+                <div class="pub-card reveal">
+                    <div class="pub-year"><span class="wip-dot"></span> In Progress · NLP</div>
+                    <div class="pub-title">Multilingual Legal Q&amp;A with Cross-LLM Refinement</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">QLoRA</span>
+                        <span class="project-tag">Qwen2.5-3B</span>
+                        <span class="project-tag">Flask</span>
+                    </div>
+                    <div class="pub-venue">Qwen2.5-3B fine-tuned with QLoRA into 4 language adapters (English, Hindi,
+                        Punjabi, Nepali) for Indian legal Q&amp;A. BGE/LaBSE retrieval, a Qwen2.5-7B critique-and-refine
+                        stage, and an NLI entailment check to catch factual drift.</div>
+                    <div class="project-links">
+                        <a href="https://github.com/RitikaKalia9/Multilingual_Legal_Q-A_Cross-LLM_Hallucination_Detection-Refinement"
+                            target="_blank" rel="noopener">Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="pub-card reveal reveal-d1">
+                    <div class="pub-year"><span class="wip-dot"></span> In Progress · Computer Vision</div>
+                    <div class="pub-title">MMVDNet — Video Violence Detection</div>
+                    <div class="project-meta">
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">PyTorch</span>
+                        <span class="project-tag">VideoMAE</span>
+                        <span class="project-tag">Flask</span>
+                    </div>
+                    <div class="pub-venue">Fight-scene detection on a Kinetics-pretrained VideoMAE backbone with
+                        multi-clip sampling, 96% accuracy on RWF-2000. Being deployed as a Flask app for video upload or
+                        YouTube Shorts links.</div>
+                    <div class="project-links">
+                        <a href="https://github.com/RitikaKalia9/mvdnet" target="_blank" rel="noopener">Code <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="journey">
+        <div class="container">
+            <div class="section-label reveal">// Journey</div>
+            <h2 class="section-title reveal">Where I've <em>been.</em></h2>
+            <p class="section-desc reveal">Leadership, education, and experience.</p>
+
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2024 — 2027</div>
+                    <div class="timeline-title">B.E. Computer Science & Engineering</div>
+                    <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
+                    <div class="timeline-desc">CGPA: 9.45 (till 6th sem). Active in research, tech fest organizing, and
+                        student leadership.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025 — 2026</div>
+                    <div class="timeline-title">Chairperson — ACM-W Student Chapter</div>
+                    <div class="timeline-org">CCET, Chandigarh</div>
+                    <div class="timeline-desc">Leading initiatives to promote women in computing through workshops,
+                        mentorship, and community events.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025</div>
+                    <div class="timeline-title">Technical Team · APRATIM 2025</div>
+                    <div class="timeline-org">CCET College Tech Fest</div>
+                    <div class="timeline-desc">Managed technical events and logistics for the annual college tech fest.
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2025</div>
+                    <div class="timeline-title">Design Contributor · CCET Website Team</div>
+                    <div class="timeline-org">Figma</div>
+                    <div class="timeline-desc">Designed official departmental web pages, improving the college's digital
+                        presence.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">2022 — 2024</div>
+                    <div class="timeline-title">Diploma in Computer Science & Engineering</div>
+                    <div class="timeline-org">Chandigarh College of Engineering & Technology</div>
+                    <div class="timeline-desc">Percentage: 86%. Foundational work in programming, systems, and data
+                        structures.</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-date">Industrial Training</div>
+                    <div class="timeline-title">Python Programming</div>
+                    <div class="timeline-org">CS Soft Solutions (I) Pvt. Ltd.</div>
+                    <div class="timeline-desc">Completed industrial training in Python programming fundamentals and
+                        applied scripting.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-label center reveal">// Contact</div>
+            <h2 class="contact-title reveal">Let's build <em>something.</em></h2>
+            <p class="contact-desc reveal">Open to AI/ML Engineer and Full-Stack Developer roles, research
+                collaborations, and interesting problems.</p>
+            <a href="mailto:ritikakalia19@gmail.com" class="contact-email reveal"><i class="fas fa-paper-plane"></i>
+                ritikakalia19@gmail.com</a>
+            <div class="contact-socials reveal">
+                <a href="https://github.com/RitikaKalia9" target="_blank" rel="noopener" aria-label="GitHub"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/ritika-kalia-809984330/" target="_blank" rel="noopener"
+                    aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://leetcode.com/u/RitikaKalia9/" target="_blank" rel="noopener" aria-label="LeetCode"><i
+                        class="fas fa-code"></i></a>
+                <a href="resume.pdf" download aria-label="Resume"><i class="fas fa-file-pdf"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Ritika Kalia · Built with <span class="heart">♥</span> in Chandigarh · Press <kbd>⌘K</kbd> to
+                search</p>
+        </div>
+    </footer>
+
+    <div class="cmdk-overlay" id="cmdk">
+        <div class="cmdk">
+            <input class="cmdk-input" id="cmdkInput" placeholder="Jump to…  try 'projects' or 'github'">
+            <ul class="cmdk-list" id="cmdkList"></ul>
+            <div class="cmdk-hint"><span>↑↓ navigate · ↵ open · esc close</span><span>⌘K</span></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/BokehShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/BokehPass.js"></script>
+
+    <script src="js/universe.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/card.js"></script>
+    <script src="js/planets.js"></script>
+    <script src="js/pip-home.js"></script>
+<script src="js/pip-sound.js"></script>
+<script src="js/pip-extras.js"></script>
+</body>
+
+</html>
