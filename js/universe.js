@@ -11,13 +11,16 @@
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6);
+  const PERF = window.__perf || { level: 0, set() {}, onChange() {} };
+  const lite = isMobile || PERF.start >= 1;   // fewer stars/particles, no MSAA/bokeh (phones + weak devices only)
+  const BASE_DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6);
+  const DPR = PERF.start >= 2 ? Math.min(BASE_DPR, 0.85) : PERF.start >= 1 ? Math.min(BASE_DPR, 1) : BASE_DPR;
 
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: !isMobile,
+      antialias: !lite,
       powerPreference: 'high-performance',
       alpha: false
     });
@@ -366,7 +369,7 @@
   const starGroup = new THREE.Group();
   scene.add(starGroup);
 
-  const starCounts = isMobile
+  const starCounts = lite
     ? [[2400, 900, 2600, 0.85, 0.95], [1600, 2600, 4200, 1.25, 0.7], [800, 4200, 6200, 1.7, 0.5]]
     : [[7000, 900, 2600, 0.85, 0.95], [4500, 2600, 4200, 1.25, 0.7], [2200, 4200, 6500, 1.75, 0.5]];
 
@@ -461,14 +464,14 @@
   });
 
   (function () {
-    const N = isMobile ? 9 : 20;
+    const N = lite ? 9 : 20;
     const geo = makeQuadGeometry(N, (i) => {
       // spread all the way around Y (the star group slowly rotates), near the equator
       const az = Math.random() * Math.PI * 2;
       const el = (Math.random() - 0.5) * 1.1;
       const r = 4800;
       const [cr, cg, cb] = blackbodyRGB(3600 + Math.pow(Math.random(), 1.7) * 14000);
-      const big = i < (isMobile ? 2 : 4);
+      const big = i < (lite ? 2 : 4);
       return {
         pos: [r * Math.cos(el) * Math.sin(az), r * Math.sin(el), -r * Math.cos(el) * Math.cos(az)],
         attrs: {
@@ -551,7 +554,7 @@
   });
 
   (function () {
-    const N = isMobile ? 110 : 260;
+    const N = lite ? 110 : 260;
     const tints = [[0.62, 0.78, 1.0], [0.75, 0.85, 1.0], [1.0, 0.9, 0.78], [0.9, 0.78, 1.0]];
     const geo = makeQuadGeometry(N, () => {
       const u = Math.random() * 2 - 1;
@@ -954,7 +957,7 @@
   ring.material.uniforms.uPlanetCenter.value.copy(ggWorldPos);
   ring.material.uniforms.uRingNormal.value.copy(ringNormalWorld);
 
-  const dustCount = isMobile ? 180 : 420;
+  const dustCount = lite ? 180 : 420;
   const dustGeo = new THREE.BufferGeometry();
   const dustPos = new Float32Array(dustCount * 3);
   for (let i = 0; i < dustCount; i++) {
@@ -1067,10 +1070,10 @@
     root.add(hazePlane);
 
     /* ---------- 2. individual stars: arms, bulge, halo, pink HII clusters ---------- */
-    const NARM = isMobile ? 9000 : 22000;
-    const NBULGE = isMobile ? 2400 : 5200;
-    const NHALO = isMobile ? 500 : 1400;
-    const NHII = isMobile ? 90 : 230;
+    const NARM = lite ? 9000 : 22000;
+    const NBULGE = lite ? 2400 : 5200;
+    const NHALO = lite ? 500 : 1400;
+    const NHII = lite ? 90 : 230;
     const N = NARM + NBULGE + NHALO + NHII;
 
     const aR = new Float32Array(N);
@@ -1240,7 +1243,7 @@
   const meteorTints = [0xffffff, 0xbfd8ff, 0xffe0b8];
   const meteors = [];
   let spawnTimer = 1.0;
-  const MAX_METEORS = isMobile ? 3 : 6;
+  const MAX_METEORS = lite ? 3 : 6;
 
   const _trailDir = new THREE.Vector3();
   const _viewDir = new THREE.Vector3();
@@ -1403,7 +1406,7 @@
       return false;
     }
 
-    const N = isMobile ? 14 : 34;
+    const N = lite ? 14 : 34;
     const items = [];
     let guard = 0;
     while (items.length < N && guard++ < 600) {
@@ -1459,7 +1462,7 @@
       composer.setSize(window.innerWidth, window.innerHeight);
       composer.addPass(new THREE.RenderPass(scene, camera));
 
-      if (typeof THREE.BokehPass === 'function' && !isMobile) {
+      if (typeof THREE.BokehPass === 'function' && !lite) {
         const bokeh = new THREE.BokehPass(scene, camera, {
           focus: 1400.0,
           aperture: 0.000012,
@@ -1600,8 +1603,55 @@
     aurora.material
   ];
 
-  function animate() {
+  /* ---------- Adaptive quality ----------
+     Level 0 = untouched. Weak devices start at 1/2 (see js/perf.js); any device that measurably
+     can't hold ~38 fps is stepped down at runtime. Only runtime-cheap knobs are used (no shader
+     recompiles): skip expensive passes, hide the heaviest noise layers, lower pixel ratio. */
+  const dustLayer = skyGroup.children[skyGroup.children.length - 1];   // dust lanes: 6 fbm per pixel
+  let appliedLevel = 0;
+  function applyLevel(l) {
+    if (l <= appliedLevel) return;
+    appliedLevel = l;
+    if (passes.godRay) passes.godRay.enabled = false;      // 40 texture reads per pixel
+    if (passes.bokeh) passes.bokeh.enabled = false;
+    dustLayer.visible = false;                             // heaviest full-screen shader
+    if (l >= 2) {
+      if (passes.bloom) passes.bloom.enabled = false;
+      if (skyGroup.children[1] !== dustLayer) skyGroup.children[1].visible = false;   // 2nd nebula layer
+    }
+    const dpr = l >= 2 ? Math.min(BASE_DPR, 0.85) : Math.min(BASE_DPR, 1);
+    if (dpr < renderer.getPixelRatio()) {
+      renderer.setPixelRatio(dpr);
+      if (composer) { composer.setPixelRatio(dpr); composer.setSize(window.innerWidth, window.innerHeight); }
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+  }
+  PERF.onChange(applyLevel);
+  applyLevel(PERF.start);
+
+  // frame-time watchdog: skip warm-up (first ~4 s: shader compile), then judge the MEDIAN frame time of
+  // each window (60 frames, or ~5 s on very slow devices). Median ignores one-off hitches; a hidden tab
+  // resets the window so the gap while hidden is never counted.
+  let perfT0 = 0, perfLast = 0, perfWinT0 = 0, perfBuf = [];
+  document.addEventListener('visibilitychange', () => { perfLast = 0; perfBuf.length = 0; perfWinT0 = 0; });
+  function watchPerf(now) {
+    if (PERF.forced || appliedLevel >= 2) return;
+    if (!perfT0) perfT0 = now;
+    const dtMs = perfLast ? now - perfLast : 0;
+    perfLast = now;
+    if (document.hidden || dtMs <= 0 || now - perfT0 < 4000) return;
+    if (!perfWinT0) perfWinT0 = now;
+    perfBuf.push(Math.min(dtMs, 1000));
+    if (perfBuf.length < 60 && !(perfBuf.length >= 8 && now - perfWinT0 > 5000)) return;
+    perfBuf.sort((x, y) => x - y);
+    const median = perfBuf[perfBuf.length >> 1];
+    perfBuf.length = 0; perfWinT0 = 0;
+    if (median > 26) { PERF.set(appliedLevel + 1); perfT0 = now - 2500; }   // < ~38 fps -> step down, re-check after ~1.5 s
+  }
+
+  function animate(now) {
     requestAnimationFrame(animate);
+    watchPerf(now || performance.now());
 
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.getElapsedTime();
