@@ -54,3 +54,38 @@ html.pipm-lock{overflow:hidden}
   .pipm-b{min-height:44px}
 }
 @media(prefers-reduced-motion:reduce){.pipm,.pipm-card,.pipm-body.pipm-in{transition:none;animation:none}}
+
+/* Weak devices (class set by js/perf.js): backdrop-filter re-blurs the live WebGL canvas every frame.
+ Drop it and use a slightly more opaque tint so text stays readable. No effect at level 0. */
+.lowfx :is(
+  nav.scrolled,
+  .hero-badge,
+  .btn-ghost,
+  .quote-strip,
+  .bento-item,
+  .stack-card,
+  .project-item,
+  .pub-card,
+  .contact-email,
+  .contact-socials a,
+  footer,
+  .cmdk-overlay,
+  .nav-links,
+  #explore,
+  .tback,
+  .tindex,
+  .tbar button,
+  .tcatback,
+  .pmap,
+  .gpanel,
+  #pip .bub,
+  #noglCard,
+  #pipSound,
+  .pipm,
+  #pipMenu,
+  #pipSheet:not([hidden])
+){
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background-color: rgba(8, 5, 20, .82);
+}
