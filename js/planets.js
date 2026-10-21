@@ -66,6 +66,26 @@
   const closePanel = () => panel.classList.remove('open');
   const closeMap = () => { closePanel(); map.classList.remove('open'); document.body.style.overflow = ''; };
 
+  // The cloned About section keeps its zeroed stat counters (card.js only animates the originals), so
+  // count them up here. Uses the data-target/data-decimals card.js stored; falls back to the number
+  // it can read if those are missing, and never leaves a counter at 0 if anything goes wrong.
+  function countUp(root) {
+    root.querySelectorAll('.bento-number').forEach(el => {
+      const target = parseFloat(el.dataset.target);
+      if (isNaN(target)) return;
+      const dec = parseInt(el.dataset.decimals, 10) || 0;
+      const final = target.toFixed(dec);
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = final; return; }
+      const t0 = performance.now(), dur = 1200;
+      el.textContent = (0).toFixed(dec);
+      (function step(now) {
+        const t = Math.min(1, (now - t0) / dur);
+        el.textContent = t < 1 ? (target * (1 - Math.pow(1 - t, 4))).toFixed(dec) : final;
+        if (t < 1 && el.isConnected) requestAnimationFrame(step); else el.textContent = final;
+      })(t0);
+    });
+  }
+
   map.querySelectorAll('.pl').forEach((el, i) => el.addEventListener('click', () => {
     const w = W[i];
     body.innerHTML = '';
@@ -77,6 +97,7 @@
       c.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
       body.appendChild(c);
     });
+    countUp(body);   // cloned stat numbers are still at their "0" placeholder: animate them to the real value
     title.textContent = w.name.toLowerCase() + '.app';
     body.scrollTop = 0;
     panel.classList.add('open');
