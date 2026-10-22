@@ -223,7 +223,7 @@
       depthWrite: false
     });
     const mesh = new THREE.Mesh(new THREE.SphereGeometry(3250, 64, 40), mat);
-    mesh.renderOrder = -1;           // after nebulae + stars, before planets
+    mesh.renderOrder = -61;          // after the sky nebulae but BEFORE the galaxy/clouds/stars, so the drifting dust lanes never dim the galaxy
     mesh.userData.rotSpeed = 0.006;  // co-moves with the first nebula layer
     mesh.userData.mat = mat;
     skyGroup.add(mesh);
@@ -1651,7 +1651,7 @@
 
   function animate(now) {
     requestAnimationFrame(animate);
-    watchPerf(now || performance.now());
+    // watchPerf(now || performance.now());   // runtime quality drop disabled: it removed layers + lowered resolution after a few seconds, making the scene look different
 
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.getElapsedTime();
