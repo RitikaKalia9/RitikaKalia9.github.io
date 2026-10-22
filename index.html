@@ -2038,21 +2038,7 @@ footer .heart { color: var(--accent3); }
   }
   dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
 
-  // round, soft particle sprite (a PointsMaterial without a map draws hard squares)
-  const dustSprite = (function () {
-    const c = document.createElement('canvas');
-    c.width = c.height = 64;
-    const g = c.getContext('2d');
-    const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    grd.addColorStop(0.0, 'rgba(255,255,255,1)');
-    grd.addColorStop(0.35, 'rgba(255,255,255,0.35)');
-    grd.addColorStop(1.0, 'rgba(255,255,255,0)');
-    g.fillStyle = grd;
-    g.fillRect(0, 0, 64, 64);
-    return new THREE.CanvasTexture(c);
-  })();
   const dustMat = new THREE.PointsMaterial({
-    map: dustSprite,
     size: 1.7,
     color: 0xa8c4ff,
     transparent: true,
@@ -2463,7 +2449,7 @@ footer .heart { color: var(--accent3); }
       if (typeof THREE.UnrealBloomPass === 'function') {
         const bloom = new THREE.UnrealBloomPass(
           new THREE.Vector2(window.innerWidth, window.innerHeight),
-          0.50, 0.65, 0.30
+          0.80, 0.72, 0.28
         );
         bloom.renderToScreen = false;
         composer.addPass(bloom);
@@ -2473,7 +2459,7 @@ footer .heart { color: var(--accent3); }
       const ChromaticAberrationShader = {
         uniforms: {
           tDiffuse: { value: null },
-          uAmount:  { value: 0.0004 }
+          uAmount:  { value: 0.0018 }
         },
         vertexShader: `
           varying vec2 vUv;
@@ -2564,14 +2550,14 @@ footer .heart { color: var(--accent3); }
 
     if (!reduced) {
       const drift = Math.sin(t * 0.07) * 0.5 + Math.sin(t * 0.031) * 0.5;
-      const shakeX = 0;   // no handheld shake in space
-      const shakeY = 0;
+      const shakeX = (Math.sin(t * 7.3) + Math.sin(t * 13.1) * 0.5) * 0.8;
+      const shakeY = (Math.cos(t * 6.1) + Math.cos(t * 11.7) * 0.5) * 0.8;
 
       camera.position.x = smoothX * 190 + drift * 40 + shakeX;
       camera.position.y = -smoothY * 120 + Math.cos(t * 0.05) * 22 - smoothScroll * 260 + shakeY;
       camera.position.z = 900 - smoothScroll * 1500;
       camera.lookAt(0, 0, -400 - smoothScroll * 900);
-      camera.rotation.z = smoothX * 0.018;
+      camera.rotation.z = smoothX * 0.018 + Math.sin(t * 4.2) * 0.0008;
     } else {
       camera.lookAt(0, 0, -400);
     }
