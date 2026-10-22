@@ -485,7 +485,7 @@
     hero.frustumCulled = false;
     hero.renderOrder = -3;
     hero.userData.mat = heroMat;
-    starGroup.add(hero);
+    // starGroup.add(hero);   // diffraction-spike stars disabled: too glittery
   })();
 
   /* ---------- Distant background galaxies (Hubble Deep Field look) ---------- */
@@ -581,7 +581,7 @@
     mesh.frustumCulled = false;
     mesh.renderOrder = -4;
     mesh.userData.mat = farGalaxyMat;
-    starGroup.add(mesh);
+    // starGroup.add(mesh);   // far background galaxies disabled: too glittery
   })();
 
   const PLANET_VERT = `
