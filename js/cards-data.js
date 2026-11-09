@@ -17,7 +17,7 @@ window.CARDS=[
 "l": "CGPA · B.E. CSE"
 },
 {
-"n": "46",
+"n": "55",
 "l": "GitHub Repos"
 },
 {
@@ -488,6 +488,69 @@ window.CARDS=[
 },
 {
 "sec": "projects",
+"sub": "Work",
+"kicker": "PyTorch · LLM Fine-Tuning · PEFT",
+"title": "LoRA vs. Full Fine-Tuning of BERT",
+"tags": [
+"BERT",
+"LoRA",
+"PEFT",
+"AG News"
+],
+"desc": "Comparative study of Full Fine-Tuning and LoRA-based PEFT on BERT for AG News classification, evaluating accuracy, F1-score, training time, and parameter efficiency.",
+"links": [
+{
+"t": "Code",
+"h": "https://github.com/RitikaKalia9/LoRA-vs.-Full-Fine-Tuning-of-BERT"
+}
+],
+"locked": false,
+"img": ""
+},
+{
+"sec": "projects",
+"sub": "Work",
+"kicker": "NLP · Generative AI · Embeddings",
+"title": "Text Generation & Semantic Search",
+"tags": [
+"DistilGPT-2",
+"Sentence Transformers",
+"Cosine Similarity"
+],
+"desc": "Exploring LLM text generation with DistilGPT-2 and semantic search using Sentence Transformers, embeddings, and cosine similarity for meaning-based information retrieval.",
+"links": [
+{
+"t": "Code",
+"h": "https://github.com/RitikaKalia9/Text-Generation-Semantic-Search"
+}
+],
+"locked": false,
+"img": ""
+},
+{
+"sec": "projects",
+"sub": "Work",
+"kicker": "PyTorch · Sequence Models",
+"title": "Recurrent Networks from First Principles",
+"tags": [
+"RNN",
+"BPTT",
+"LSTM",
+"GRU",
+"BiLSTM"
+],
+"desc": "From-scratch exploration of RNN, BPTT, LSTM, GRU, and BiLSTM in PyTorch, covering gradient analysis, memory tasks, vanishing/exploding gradients, and autograd verification.",
+"links": [
+{
+"t": "Code",
+"h": "https://github.com/RitikaKalia9/Recurrent-Networks-from-First-Principles-BPTT-LSTM-GRU-BiLSTM-in-PyTorch."
+}
+],
+"locked": false,
+"img": ""
+},
+{
+"sec": "projects",
 "sub": "In progress",
 "kicker": "In Progress · NLP",
 "title": "Multilingual Legal Q&A with Cross-LLM Refinement",
@@ -526,6 +589,22 @@ window.CARDS=[
 "h": "https://github.com/RitikaKalia9/mvdnet"
 }
 ],
+"locked": false,
+"img": ""
+},
+{
+"sec": "projects",
+"sub": "In progress",
+"kicker": "In Progress · Full-Stack",
+"title": "Bharat Antariksh Explorer",
+"tags": [
+"Three.js",
+"Django",
+"JavaScript",
+"RAG"
+],
+"desc": "3D interactive simulator of India's space missions using Three.js and Django, featuring gamified learning, verifiable certificates, community chat, and a citation-based RAG AI Space Assistant.",
+"links": [],
 "locked": false,
 "img": ""
 },
@@ -622,10 +701,22 @@ window.CARDS=[
 (function () {
   const WEB = ['StellerCart \u2014 Full-Stack E-Commerce'];
   const SYS = ['CPU Scheduling Simulator', 'Graph Algorithm Visualizer'];
+  const DL = {
+    ann: ['Perceptron: Mini Project', 'Backpropagation: Mini Project', 'Perceptron & Backpropagation', 'Artificial Neural Networks', 'Autoencoders & VAEs'],
+    train: ['Optimization for Training Deep Neural Networks', 'Second-Order Optimization Methods', 'Regularization Explorer: Mini Project', 'Regularization Methods'],
+    cnn: ['CNNs & Deep Architectures', 'Deep CNN Architectures for Garbage Classification'],
+    rnn: ['Recurrent Networks from First Principles'],
+    apps: ['LoRA vs. Full Fine-Tuning of BERT', 'Text Generation & Semantic Search']
+  };
+  const inDL = c => Object.keys(DL).some(k => DL[k].indexOf(c.title) >= 0);
   window.GROUPS = {
     projects: [
       { id: 'web', title: 'Web Development', noun: 'project', desc: 'HTML, CSS, JavaScript and Django applications.', test: c => c.sub === 'Work' && WEB.indexOf(c.title) >= 0 },
-      { id: 'dl', title: 'AI & Deep Learning', noun: 'projects', desc: 'Deep learning experiments and fundamentals.', test: c => c.sub === 'Work' && WEB.indexOf(c.title) < 0 && SYS.indexOf(c.title) < 0 },
+      { id: 'ann', title: 'Neural Network Foundations', noun: 'projects', desc: 'Perceptrons, feedforward networks, backpropagation and autoencoders, built from the ground up.', test: c => c.sub === 'Work' && DL.ann.indexOf(c.title) >= 0 },
+      { id: 'train', title: 'Training Deep Networks', noun: 'projects', desc: 'Optimizers, second-order methods and regularization: what makes deep networks trainable.', test: c => c.sub === 'Work' && DL.train.indexOf(c.title) >= 0 },
+      { id: 'cnn', title: 'Convolutional Neural Networks', noun: 'projects', desc: 'Convolution, pooling and deep CNN architectures from LeNet to ResNet.', test: c => c.sub === 'Work' && DL.cnn.indexOf(c.title) >= 0 },
+      { id: 'rnn', title: 'Recurrent Networks', noun: 'project', desc: 'Sequence modeling with RNNs, BPTT, LSTM, GRU and BiLSTM.', test: c => c.sub === 'Work' && DL.rnn.indexOf(c.title) >= 0 },
+      { id: 'apps', title: 'Applications: Vision & NLP', noun: 'projects', desc: 'Putting the fundamentals to work on real language and classification tasks.', test: c => c.sub === 'Work' && WEB.indexOf(c.title) < 0 && SYS.indexOf(c.title) < 0 && (DL.apps.indexOf(c.title) >= 0 || !inDL(c)) },
       { id: 'sys', title: 'Computer Systems', noun: 'projects', desc: 'Algorithms, data structures, and operating systems concepts.', test: c => c.sub === 'Work' && SYS.indexOf(c.title) >= 0 },
       { id: 'wip', title: 'In Progress', noun: 'projects', desc: 'Still evolving: expect things to change.', test: c => c.sub === 'In progress' }
     ],
